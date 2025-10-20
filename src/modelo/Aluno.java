@@ -1,89 +1,49 @@
 package modelo;
 
-public class Aluno {
+public class Aluno extends Usuario {
+    String situacao;
+    String nomeResponsavel;
+    int telefoneResponsavel;
+    String emailResponsavel;
 
-    String nome;
-    String cpf;
-    String rg;
-    String matricula;
-    int diaNasc;
-    int mesNasc;
-    int anoNasc;
-    String sitaucao;
-
-    public Aluno(String nome, String cpf, String rg, String matricula, int diaNasc, int mesNasc, int anoNasc, String situacao){
-        this.nome = nome;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.matricula = matricula;
-        this.diaNasc = diaNasc;
-        this.mesNasc = mesNasc;
-        this.anoNasc = anoNasc;
-        this.sitaucao = situacao;
+    public Aluno(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone, String situacao, String nomeResponsavel, int telefoneResponsavel, String emailResponsavel){
+        super(nomeResponsavel, cpf, rg, matricula, emailResponsavel, diaNasc, mesNasc, anoNasc, nomeRua, nomeBairro, nomeCidade, numeroCasa, complemento, numeroTelefone);
+        this.situacao = situacao;
+        this.nomeResponsavel = nomeResponsavel;
+        this.telefoneResponsavel = telefoneResponsavel;
+        this.emailResponsavel = emailResponsavel;
     }
 
-    public String getNome() {
-        return nome;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getNomeResponsavel() {
+        return nomeResponsavel;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setNomeResponsavel(String nomeResponsavel) {
+        this.nomeResponsavel = nomeResponsavel;
     }
 
-    public String getRg() {
-        return rg;
+    public int getTelefoneResponsavel() {
+        return telefoneResponsavel;
     }
 
-    public void setRg(String rg) {
-        this.rg = rg;
+    public void setTelefoneResponsavel(int telefoneResponsavel) {
+        this.telefoneResponsavel = telefoneResponsavel;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getEmailResponsavel() {
+        return emailResponsavel;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public int getDiaNasc() {
-        return diaNasc;
-    }
-
-    public void setDiaNasc(int diaNasc) {
-        this.diaNasc = diaNasc;
-    }
-
-    public int getMesNasc() {
-        return mesNasc;
-    }
-
-    public void setMesNasc(int mesNasc) {
-        this.mesNasc = mesNasc;
-    }
-
-    public int getAnoNasc() {
-        return anoNasc;
-    }
-
-    public void setAnoNasc(int anoNasc) {
-        this.anoNasc = anoNasc;
-    }
-
-    public String getSitaucao() {
-        return sitaucao;
-    }
-
-    public void setSitaucao(String sitaucao) {
-        this.sitaucao = sitaucao;
+    public void setEmailResponsavel(String emailResponsavel) {
+        this.emailResponsavel = emailResponsavel;
     }
     
 }
