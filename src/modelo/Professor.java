@@ -6,8 +6,8 @@ public class Professor extends Usuario{
     String formacaoAcademica;
     ArrayList<Disciplina>disciplinasLeciona = new ArrayList<>();
 
-    public Professor(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone, String formacaoAcademica, ArrayList<Disciplina>disciplinasLeciona){
-        super(nome, cpf, rg, matricula, email, diaNasc, mesNasc, anoNasc, nomeRua, nomeBairro, nomeCidade, numeroCasa, complemento, numeroTelefone);
+    public Professor(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone, String senha, String formacaoAcademica, ArrayList<Disciplina>disciplinasLeciona){
+        super(nome, cpf, rg, matricula, email, diaNasc, mesNasc, anoNasc, nomeRua, nomeBairro, nomeCidade, numeroCasa, complemento, numeroTelefone, senha);
         this.formacaoAcademica = formacaoAcademica;
         this.disciplinasLeciona = disciplinasLeciona;
     }

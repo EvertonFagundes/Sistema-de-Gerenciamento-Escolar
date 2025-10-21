@@ -15,8 +15,9 @@ public class Usuario {
     int numeroCasa;
     String complemento;
     int numeroTelefone;
+    String senha;
 
-    public Usuario(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone){
+    public Usuario(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone, String senha){
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
@@ -31,6 +32,7 @@ public class Usuario {
         this.numeroCasa = numeroCasa;
         this.complemento = complemento;
         this.numeroTelefone = numeroTelefone;
+        this.senha = senha;
     }
     
     public String getNome() {
@@ -143,6 +145,14 @@ public class Usuario {
 
     public void setNumeroTelefone(int numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
 }
