@@ -3,15 +3,15 @@ package modelo;
 import java.util.ArrayList;
 
 public class Boletim extends AnoEscolar{
-    double frequenciaAluno;
-    double mediaAluno;
-    ArrayList<Double> notas = new ArrayList<>();
+    private double frequenciaAluno;
+    private double mediaAluno;
+    private ArrayList<Double> notas = new ArrayList<>();
 
     public Boletim(int ano, String periodoLetivo, double frequenciaAluno, double mediaAluno, ArrayList<Double> notas){
         super(ano, periodoLetivo);
         this.frequenciaAluno = frequenciaAluno;
         this.mediaAluno = mediaAluno;
-        this.notas = new ArrayList<>();
+        this.notas = notas;
     }
 
     public double getFrequenciaAluno() {

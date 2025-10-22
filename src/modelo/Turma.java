@@ -3,8 +3,8 @@ package modelo;
 import java.util.ArrayList;
 
 public class Turma extends AnoEscolar{
-    String nome; //ex: 1A, 3C etc
-    ArrayList<Aluno>alunosTurma = new ArrayList<>();
+    private String nome; //ex: 1A, 3C etc
+    private ArrayList<Aluno>alunosTurma = new ArrayList<>();
 
     public Turma(int ano, String nome){
         super(ano);
@@ -13,7 +13,7 @@ public class Turma extends AnoEscolar{
 
     public Turma(int ano, ArrayList<Aluno>alunosTurma, String nome){
         super(ano);
-        this.alunosTurma = new ArrayList<>(); 
+        this.alunosTurma = alunosTurma; 
         this.nome = nome;
     }
 

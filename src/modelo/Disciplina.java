@@ -1,10 +1,10 @@
 package modelo;
 
 public class Disciplina {
-    String nome;
-    String codigo;
-    String descricao;
-    int cargaHoraria;
+    private String nome;
+    private String codigo;
+    private String descricao;
+    private int cargaHoraria;
 
     public Disciplina(String nome, String codigo, String descricao, int cargaHoraria){
         this.nome = nome;
@@ -43,6 +43,11 @@ public class Disciplina {
 
     public void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 
 }

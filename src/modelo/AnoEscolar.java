@@ -1,8 +1,8 @@
 package modelo;
 
 public class AnoEscolar {
-    int ano; //1,2 ou 3
-    String periodoLetivo; //bimestres,trimestres,semestres
+    private int ano; //1,2 ou 3
+    private String periodoLetivo; //bimestres,trimestres,semestres
     
     public AnoEscolar(int ano, String periodoLetivo){
         this.ano = ano;

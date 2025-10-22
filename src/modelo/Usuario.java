@@ -1,23 +1,23 @@
 package modelo;
 
 public class Usuario {
-    String nome;
-    String cpf;
-    String rg;
-    String matricula;
-    String email;
-    int diaNasc;
-    int mesNasc;
-    int anoNasc;
-    String nomeRua;
-    String nomeBairro;
-    String nomeCidade;
-    int numeroCasa;
-    String complemento;
-    int numeroTelefone;
-    String senha;
+    private String nome;
+    private String cpf;
+    private String rg;
+    private String matricula;
+    private String email;
+    private int diaNasc;
+    private int mesNasc;
+    private int anoNasc;
+    private String nomeRua;
+    private String nomeBairro;
+    private String nomeCidade;
+    private int numeroCasa;
+    private String complemento;
+    private String numeroTelefone;
+    private String senha;
 
-    public Usuario(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, int numeroTelefone, String senha){
+    public Usuario(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, String numeroTelefone, String senha){
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
@@ -139,11 +139,11 @@ public class Usuario {
         this.complemento = complemento;
     }
 
-    public int getNumeroTelefone() {
+    public String getNumeroTelefone() {
         return numeroTelefone;
     }
 
-    public void setNumeroTelefone(int numeroTelefone) {
+    public void setNumeroTelefone(String numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
     }
 

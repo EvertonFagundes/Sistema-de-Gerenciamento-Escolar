@@ -3,15 +3,15 @@ package modelo;
 import java.util.ArrayList;
 
 public class Serie extends AnoEscolar{
-    ArrayList<Turma>turmas1Ano = new ArrayList<>();
-    ArrayList<Turma>turmas2Ano = new ArrayList<>();
-    ArrayList<Turma>turmas3Ano = new ArrayList<>();
+    private ArrayList<Turma>turmas1Ano = new ArrayList<>();
+    private ArrayList<Turma>turmas2Ano = new ArrayList<>();
+    private ArrayList<Turma>turmas3Ano = new ArrayList<>();
 
     public Serie(int ano, ArrayList<Turma>turmas1ano, ArrayList<Turma>turmas2Ano, ArrayList<Turma>turmas3Ano){
         super(ano);
-        this.turmas1Ano = new ArrayList<>();
-        this.turmas2Ano = new ArrayList<>();
-        this.turmas3Ano = new ArrayList<>();
+        this.turmas1Ano = turmas1ano;
+        this.turmas2Ano = turmas2Ano;
+        this.turmas3Ano = turmas3Ano;
     }
 
     public ArrayList<Turma> getTurmas1Ano() {
