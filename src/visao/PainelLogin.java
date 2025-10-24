@@ -25,7 +25,6 @@ public class PainelLogin extends JPanel {
 		painelInterno.setBackground(getBackground()); 
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		//                                       (topo, esquerda, baixo, direita)
 		gbc.insets = new Insets(15, 15, 15, 15); 
 
 		JLabel lblSistemaColégio = new JLabel("Sistema - Colégio");
