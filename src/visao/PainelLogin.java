@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
+//painel
 public class PainelLogin extends JPanel {
 
 	private static final long serialVersionUID = 1L;

@@ -9,7 +9,7 @@ public class JanelaLogin extends JFrame {
 		JanelaLogin janela = new JanelaLogin();
 		janela.setVisible(true);
 	}
-
+//a
 	public JanelaLogin() {
 		setTitle("Login - Sistema Colégio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
