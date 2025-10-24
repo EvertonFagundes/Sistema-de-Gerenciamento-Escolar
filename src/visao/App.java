@@ -16,11 +16,19 @@ public class App {
         disciplinas.add(d1);
         disciplinas.add(d2);
         
-        /*Professor p1 = new Professor("Givanildo", "092.804.412-54", "069565415465656", "20115013", "2011@colegio.edu.br", 12, 5, 1980, "Rua XXX", "Jequiezinho", "Jequié", 55, "Casa com muro branco e portão cinza", "73988659423", "Givanildo123", "Docente", disciplinas);*/
+        /*Professor p1 = new Professor("Givanildo", "092.804.412-54", "069565415465656", "20115013", "2011@colegio.edu.br", 12, 5, 1980, "Rua XXX", "Jequiezinho", "Jequié", 55, "Casa com muro branco e portão cinza", "73988659423", "Givanildo123", "Docente", disciplinas);
 
-        //pDAO.cadastrarProfessor(p1);
-
+        pDAO.cadastrarProfessor(p1);*/
         
+        // pDAO.listarProfessores();
+       
+        // System.out.println(pDAO.buscarPorNome("Givanildo"));
+
+        Professor p2 = new Professor("Everton", "092.804.412-54", "069565415465656", "20115013", "2011@colegio.edu.br", 12, 5, 1980, "Rua XXX", "Jequiezinho", "Jequié", 55, "Casa com muro branco e portão cinza", "73988659423", "Givanildo123", "Docente", disciplinas);
+
+
+        pDAO.editarProfessor(p2, "20115014");
+
 
 
     }

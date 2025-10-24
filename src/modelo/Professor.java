@@ -27,5 +27,10 @@ public class Professor extends Usuario{
     public void setDisciplinasLeciona(ArrayList<Disciplina> disciplinasLeciona) {
         this.disciplinasLeciona = disciplinasLeciona;
     }
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
     
 }
