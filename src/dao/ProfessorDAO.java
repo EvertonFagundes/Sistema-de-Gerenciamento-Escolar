@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-// import java.util.List;
 import java.util.ArrayList;
 
 import modelo.Disciplina;
@@ -79,10 +78,10 @@ public ArrayList<Professor> lerArquivo() {
     }
 
     public void editarProfessor(Professor novoProfessor, String matricula){
-        ArrayList<Professor> professores = lerArquivo();
+        listaProfessores = lerArquivo();
         boolean encontrado = false;
 
-        for (Professor p : professores) {
+        for (Professor p : listaProfessores) {
             if (p.getMatricula().equals(matricula)) {
                 // Atualiza os dados
                 p.setNome(novoProfessor.getNome());
@@ -107,7 +106,7 @@ public ArrayList<Professor> lerArquivo() {
         }
 
         if (encontrado) {
-            sobrescreverArquivo(professores); // sobrescreve o arquivo atualizado
+            sobrescreverArquivo(); // sobrescreve o arquivo atualizado
             System.out.println("Professor atualizado com sucesso!");
         } else {
             System.out.println("Professor não encontrado.");
@@ -115,24 +114,23 @@ public ArrayList<Professor> lerArquivo() {
     }
 
     public void listarProfessores(){
-        String linha;
-        StringBuilder conteudo = new StringBuilder(); 
-        try{
-            BufferedReader leitor = new BufferedReader(new FileReader("professores.txt"));
-            while((linha = leitor.readLine()) != null){
-                conteudo.append(linha).append("\n");
-                String[] professores = linha.split(";");
-                System.out.println(professores[0]);                
-                // System.out.println(conteudo);
-            }
-            leitor.close();
-        }catch(IOException e){
-            System.err.println("Erro ao imprimir os professores" + e.getMessage());
+        listaProfessores = lerArquivo();
+        for(Professor professor : listaProfessores){
+            System.out.println(professor.getNome());
         }
     }
 
-    public void sobrescreverArquivo(ArrayList<Professor> lista){
-
+    public void sobrescreverArquivo(){
+        try{
+            FileWriter escritor = new FileWriter("professores.txt", false);
+            for(Professor professor : listaProfessores){
+                escritor.write(professor.getNome() + ";" + professor.getCpf() + ";" + professor.getRg() + ";" + professor.getMatricula() + ";" + professor.getEmail() + ";" + professor.getDiaNasc() + ";" + professor.getMesNasc() + ";" + professor.getAnoNasc() + ";" + professor.getNomeRua() + ";" + professor.getNomeBairro() + ";" + professor.getNomeCidade() + ";" + professor.getNumeroCasa() + ";" + professor.getComplemento() + ";" + professor.getNumeroTelefone() + ";" + professor.getSenha() + ";" + professor.getFormacaoAcademica() + ";" + professor.getDisciplinasLeciona() + "\n");
+            }
+            System.out.println("Arquivo sobrescrito!");
+            escritor.close();
+        }catch(IOException e){
+            System.err.println("Erro ao sobrescrever arquivo" + e.getMessage());
+        }
     }
 
     public boolean buscarPorNome(String nome){
@@ -143,6 +141,34 @@ public ArrayList<Professor> lerArquivo() {
             String nomeUpper = professor.getNome().toUpperCase();
             if(nomeUpper.equals(nome.toUpperCase())){
                 resp = true;
+            }
+        }
+        return resp;
+    }
+
+    public boolean buscarPorCpf(String cpf){
+        listaProfessores = lerArquivo();
+        boolean resp = false;
+
+        for (Professor professor : listaProfessores) {
+            if(professor.getCpf().equals(cpf)){
+                resp = true;
+            }
+        }
+        return resp;
+    }
+
+    public boolean buscarPorDisciplina(String nomeDisciplina, String matricula){
+        listaProfessores = lerArquivo();
+        boolean resp = false;
+        for(Professor professor : listaProfessores){
+            if(professor.getMatricula().equals(matricula)){
+                for(Disciplina disciplina : professor.getDisciplinasLeciona()){
+                    if(disciplina.getNome().equals(nomeDisciplina)){
+                        // System.out.println(disciplina.getNome());
+                        resp = true;
+                    }
+                }
             }
         }
         return resp;
