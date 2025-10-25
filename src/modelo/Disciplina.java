@@ -13,6 +13,10 @@ public class Disciplina {
         this.cargaHoraria = cargaHoraria;
     }
 
+    public Disciplina(String nome){
+        this.nome = nome;
+    }
+
     public String getNome() {
         return nome;
     }
