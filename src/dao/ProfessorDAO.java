@@ -11,7 +11,7 @@ import modelo.Professor;
 
 public class ProfessorDAO {
 
-    ArrayList<Professor> listaProfessores = new ArrayList<>();
+    private ArrayList<Professor> listaProfessores = new ArrayList<>();
 
 public ArrayList<Professor> lerArquivo() {
 
