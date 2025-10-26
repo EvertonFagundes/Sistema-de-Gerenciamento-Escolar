@@ -16,6 +16,7 @@ public class Usuario {
     private String complemento;
     private String numeroTelefone;
     private String senha;
+    private String perfil;// "ADMIN", "PROFESSOR", "ALUNO"
 
     public Usuario(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, String numeroTelefone, String senha){
         this.nome = nome;
@@ -153,6 +154,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
 }
