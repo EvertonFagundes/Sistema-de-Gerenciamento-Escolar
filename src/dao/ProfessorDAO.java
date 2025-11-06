@@ -5,74 +5,58 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Map;
 import modelo.Disciplina;
 import modelo.Professor;
 import modelo.Turma;
+import dao.Services;
 
 public class ProfessorDAO {
 
     private ArrayList<Professor> professores = new ArrayList<>();
-
+    //FALTA CONCERTAR ESSA PARTE DE PEGAR O NOME E ANO DAS TURMAS
     public Professor getProfessor(String matricula) {
-        professores.clear();
-        Professor professor = null;
+       Professor professor = new Professor(null, null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null, null);
         try (BufferedReader leitor = new BufferedReader(new FileReader("banco/professor" + matricula + ".txt"))) {
-            String linha;
-            //while ((linha = leitor.readLine()) != null) {
-                String[] dados = linha.split(",");
-                // Converte a string do arquivo para lista de disciplinas
-                String disciplinasTexto = dados[16].replace("[", "").replace("]", "").trim();
-                String[] nomesDisciplinas = disciplinasTexto.split(",");
+            Map <String, String> dados = Services.lerDados("banco/professor" + matricula + ".txt");
+            
+            professor.setNome(dados.get("nome"));
+            professor.setCpf(dados.get("cpf"));
+            professor.setRg(dados.get("rg"));
+            professor.setMatricula(dados.get("matricula"));
+            professor.setEmail(dados.get("email"));
+            professor.setDiaNasc(Integer.parseInt(dados.get("diaNasc").trim()));
+            professor.setMesNasc(Integer.parseInt(dados.get("mesNasc").trim()));
+            professor.setAnoNasc(Integer.parseInt(dados.get("anoNasc").trim()));
+            professor.setNomeRua(dados.get("nomeRua"));
+            professor.setNomeBairro(dados.get("nomeBairro"));
+            professor.setNomeCidade(dados.get("nomeCidade"));
+            professor.setNumeroCasa(Integer.parseInt(dados.get("numeroCasa").trim()));
+            professor.setComplemento(dados.get("complemento"));
+            professor.setNumeroTelefone(dados.get("numeroTelefone"));
+            professor.setSenha(dados.get("senha"));
+            professor.setFormacaoAcademica(dados.get("formacaoAcademica"));
 
-                ArrayList<Disciplina> disciplinas = new ArrayList<>();
+            String disciplinasTexto = dados.get("disciplinasLeciona").replace("[", "").replace("]", "");
+            String dadoDisciplina[] = disciplinasTexto.split(",");
+            ArrayList <Disciplina> disciplinas = new ArrayList<>();
+            
+            for(String nomeDisciplina : dadoDisciplina){
+                Disciplina d = new Disciplina(nomeDisciplina);
+                disciplinas.add(d);
+            }
+            professor.setDisciplinasLeciona(disciplinas);
 
-                for (String nomeDisciplina : nomesDisciplinas) {
-                    nomeDisciplina = nomeDisciplina.trim();
-                    if (!nomeDisciplina.isEmpty()) {
-                        disciplinas.add(new Disciplina(nomeDisciplina));
-                    }
-                }
-                String turmasTexto = dados[17].replace("[", "").replace("]", "").trim();
-                String[] turmasLecionadas = turmasTexto.split(",");
+            String turmasTexto = dados.get("turmasLeciona").replace("[", "").replace("]", "");
+            String dadoTurmas[] = turmasTexto.split(",");
+            ArrayList <Turma> turmas = new ArrayList<>();
+            //FALTA CONCERTAR ESSA PARTE DE PEGAR O NOME E ANO DAS TURMAS
+            for(String nomeTurma : dadoTurmas){
+                Turma t = new Turma(0, nomeTurma);
+                turmas.add(t);
+            }
+            professor.setTurmasLeciona(turmas);
 
-                ArrayList<Turma> turmas = new ArrayList<>();
-
-                for (String t : turmasLecionadas) {
-                    t = t.trim();
-                    if (!t.isEmpty()) {
-                        String[] partes = t.split("\\|"); // separa ano do nome
-                        if (partes.length == 2) {
-                            int ano = Integer.parseInt(partes[0].trim());
-                            String nome = partes[1].trim();
-                            turmas.add(new Turma(ano, nome));
-                        }
-                    }
-                }
-
-                professor = new Professor(
-                    dados[0], // nome
-                    dados[1], // cpf
-                    dados[2], // rg
-                    dados[3], // matricula
-                    dados[4], // email
-                    Integer.parseInt(dados[5]), // dia nasc
-                    Integer.parseInt(dados[6]), // mes nasc
-                    Integer.parseInt(dados[7]), // ano nasc
-                    dados[8], // rua
-                    dados[9], // bairro
-                    dados[10], // cidade
-                    Integer.parseInt(dados[11]), // número casa
-                    dados[12], // complemento
-                    dados[13], // telefone
-                    dados[14], // senha
-                    dados[15], // formação
-                    disciplinas // disciplinas leciona
-                );
-
-                professor.setTurmasLeciona(turmas);
-                professores.add(professor);
-        //}
     } catch (IOException e) {
         System.err.println("Erro ao ler arquivo: " + e.getMessage());
     }
@@ -148,8 +132,8 @@ public class ProfessorDAO {
     }
 
     public void listarProfessores(){
-        listaProfessores = getProfessor();
-        for(Professor professor : listaProfessores){
+        //professores = getProfessor();
+        for(Professor professor : professores){
             System.out.println(professor.getNome());
         }
     }
@@ -157,7 +141,7 @@ public class ProfessorDAO {
     public void sobrescreverArquivo(){
         try{
             FileWriter escritor = new FileWriter("professores.txt", false);
-            for(Professor professor : listaProfessores){
+            for(Professor professor : professores){
                 escritor.write(professor.getNome() + ";" + professor.getCpf() + ";" + professor.getRg() + ";" + professor.getMatricula() + ";" + professor.getEmail() + ";" + professor.getDiaNasc() + ";" + professor.getMesNasc() + ";" + professor.getAnoNasc() + ";" + professor.getNomeRua() + ";" + professor.getNomeBairro() + ";" + professor.getNomeCidade() + ";" + professor.getNumeroCasa() + ";" + professor.getComplemento() + ";" + professor.getNumeroTelefone() + ";" + professor.getSenha() + ";" + professor.getFormacaoAcademica() + ";" + professor.getDisciplinasLeciona() + ";" + professor.getTurmasLeciona() + "\n");
             }
             System.out.println("Arquivo sobrescrito!");
@@ -168,10 +152,10 @@ public class ProfessorDAO {
     }
 
     public boolean buscarPorNome(String nome){
-        ArrayList<Professor> listaProfessores = getProfessor();
+        //ArrayList<Professor> professores = getProfessor();
         boolean resp = false;
 
-        for (Professor professor : listaProfessores) {
+        for (Professor professor : professores) {
             String nomeUpper = professor.getNome().toUpperCase();
             if(nomeUpper.equals(nome.toUpperCase())){
                 resp = true;
@@ -181,10 +165,10 @@ public class ProfessorDAO {
     }
 
     public boolean buscarPorCpf(String cpf){
-        listaProfessores = getProfessor();
+        //professores = getProfessor();
         boolean resp = false;
 
-        for (Professor professor : listaProfessores) {
+        for (Professor professor : professores) {
             if(professor.getCpf().equals(cpf)){
                 resp = true;
             }
@@ -193,9 +177,9 @@ public class ProfessorDAO {
     }
 
     public boolean buscarPorDisciplina(String nomeDisciplina, String matricula){
-        listaProfessores = getProfessor();
+        //professores = getProfessor();
         boolean resp = false;
-        for(Professor professor : listaProfessores){
+        for(Professor professor : professores){
             if(professor.getMatricula().equals(matricula)){
                 for(Disciplina disciplina : professor.getDisciplinasLeciona()){
                     if(disciplina.getNome().equals(nomeDisciplina)){
@@ -210,8 +194,8 @@ public class ProfessorDAO {
 
     public void adicionarDisciplinaAoProfessor(Disciplina disciplina, String matriculaProfessor){
         if(verificarProfessor(matriculaProfessor)){
-            listaProfessores = getProfessor();
-            for(Professor professor : listaProfessores){
+            //professores = getProfessor();
+            for(Professor professor : professores){
                 if(professor.getMatricula().equals(matriculaProfessor)){
                     //Testa se existe disciplina com mesmo nome no ArrayList
                     for(int i=0; i<professor.getDisciplinasLeciona().size(); i++){
@@ -235,9 +219,9 @@ public class ProfessorDAO {
     public void removerProfessor(String matricula){
         if(verificarProfessor(matricula)){
             boolean resp = false;
-            listaProfessores = getProfessor();
+            //professores = getProfessor();
             Professor professorRemover = null;
-            for(Professor professor : listaProfessores){
+            for(Professor professor : professores){
                 if(professor.getMatricula().equals(matricula)){
                     professorRemover = professor;
                     resp = true;
@@ -245,7 +229,7 @@ public class ProfessorDAO {
                 }
             }
             if(resp){
-                listaProfessores.remove(professorRemover);
+                professores.remove(professorRemover);
                 sobrescreverArquivo();
             }
         }
@@ -253,9 +237,9 @@ public class ProfessorDAO {
     }
 
     public boolean verificarProfessor(String matricula){
-        listaProfessores = getProfessores();
+        //professores = getProfessores();
         boolean resp = false;
-        for(Professor professor : listaProfessores){
+        for(Professor professor : professores){
             if(professor.getMatricula().equals(matricula)){
                 resp = true;
             }
@@ -263,8 +247,8 @@ public class ProfessorDAO {
         return resp;
     }
     //FALTA CONCERTAR ESSE MÉTODO DE adicionarTurmasAoProfessor!!! Ele muda a turma ao invés de adicionar no final do ArrayList
-    public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor){
-        listaProfessores = getProfessores();
+    /*public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor){
+        professores = getProfessores();
         if(verificarProfessor(matriculaProfessor)){
             for(Professor p : listaProfessores){
                 if(p.getMatricula().equals(matriculaProfessor)){
@@ -280,5 +264,5 @@ public class ProfessorDAO {
                 }
             }
         }
-    }
+    } */
 }

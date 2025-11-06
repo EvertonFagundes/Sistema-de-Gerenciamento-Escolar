@@ -51,7 +51,7 @@ public class Administrador extends Usuario {
     }
 
     public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor){
-        pDao.adicionarTurmasAoProfessor(turma, matriculaProfessor);
+        //pDao.adicionarTurmasAoProfessor(turma, matriculaProfessor);
     }
 
     // Métodos em relação ao Aluno

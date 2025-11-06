@@ -28,27 +28,76 @@ public class Services {
     }
     return false;
 }
-    public static Map<String, String> lerDados(String caminhoArquivo) {
-        Map<String, String> dados = new HashMap<>();
+   public static Map<String, String> lerDados(String caminhoArquivo) {
+    Map<String, String> dados = new HashMap<>();
 
-        try {
-            List<String> linhas = Files.readAllLines(Paths.get(caminhoArquivo));
+    try {
+        List<String> linhas = Files.readAllLines(Paths.get(caminhoArquivo));
+        StringBuilder conteudo = new StringBuilder();
 
-            for (String linha : linhas) {
-                if (linha.trim().isEmpty() || linha.trim().startsWith("#")) continue;
+        boolean dentroDoBloco = false;
 
-                String[] partes = linha.split(":", 2);
-                if (partes.length == 2) {
-                    dados.put(partes[0].trim(), partes[1].trim());
-                }
+        // Junta apenas o conteúdo dentro das chaves { }
+        for (String linha : linhas) {
+            linha = linha.trim();
+            if (linha.isEmpty() || linha.startsWith("#")) continue;
+
+            if (linha.contains("{")) {
+                dentroDoBloco = true;
+                linha = linha.substring(linha.indexOf("{") + 1);
+            }
+            if (linha.contains("}")) {
+                dentroDoBloco = false;
+                linha = linha.substring(0, linha.indexOf("}"));
             }
 
-        } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            if (dentroDoBloco || linha.contains(":")) {
+                conteudo.append(linha).append(" ");
+            }
         }
 
-        return dados;
+        // Agora, percorre o texto e quebra corretamente nos pares chave:valor
+        String texto = conteudo.toString();
+        StringBuilder buffer = new StringBuilder();
+        boolean dentroDeColchetes = false;
+
+        for (char c : texto.toCharArray()) {
+            if (c == '[') dentroDeColchetes = true;
+            else if (c == ']') dentroDeColchetes = false;
+
+            // vírgula fora de colchetes separa pares chave:valor
+            if (c == ',' && !dentroDeColchetes) {
+                buffer.append('\n'); // quebra linha
+            } else {
+                buffer.append(c);
+            }
+        }
+
+        // Divide em pares e adiciona no mapa
+        String[] partes = buffer.toString().split("\n");
+        for (String parte : partes) {
+            parte = parte.trim();
+            if (parte.isEmpty()) continue;
+
+            String[] kv = parte.split(":", 2);
+            if (kv.length == 2) {
+                String chave = kv[0].trim();
+                String valor = kv[1].trim();
+
+                // remove vírgula final se sobrar
+                if (valor.endsWith(",")) valor = valor.substring(0, valor.length() - 1).trim();
+
+                dados.put(chave, valor);
+            }
+        }
+
+    } catch (Exception e) {
+        System.out.println("Erro ao ler o arquivo: " + e.getMessage());
     }
+
+    return dados;
+}
+
     public static void modificarDado(String caminhoArquivo, String chave, String novoValor) {
         try {
             List<String> linhas = Files.readAllLines(Paths.get(caminhoArquivo));

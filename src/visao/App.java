@@ -1,7 +1,10 @@
 package visao;
 // Erick
 import java.util.ArrayList;
+import java.util.Map;
+
 import dao.ProfessorDAO;
+import dao.Services;
 import modelo.*;
 
 public class App {
@@ -247,6 +250,10 @@ public class App {
 
         // adm1.editarProfessor(p26);
 
-        adm1.cadastrarProfessor(p26);
+        //adm1.cadastrarProfessor(p26);
+
+        //Map <String, String> dados = Services.lerDados("banco/professor" + p26.getMatricula() + ".txt");
+        //System.out.println(dados.get("disciplinasLeciona"));
+        System.out.println(pDAO.getProfessor(p26.getMatricula()).getTurmasLeciona());
     }
 }
