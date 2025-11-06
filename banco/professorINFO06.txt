@@ -1,0 +1,20 @@
+Professor :{
+    nome: Everton Souza Fagundes,
+    cpf: 092.804.235-93,
+    rg: BA5678901,
+    matricula: INFO06,
+    email: yuri@colegio.edu.br,
+    diaNasc: 18,
+    mesNasc: 2,
+    anoNasc: 2007,
+    nomeRua: Rua Y,
+    nomeBairro: Bairro Y,
+    nomeCidade: Cidade Y,
+    numeroCasa: 501,
+    complemento: Casa Azul,
+    numeroTelefone: 99995555,
+    senha: Everton123,
+    formacaoAcademica: Professor de Informática,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}

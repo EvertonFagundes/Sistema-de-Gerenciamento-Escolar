@@ -232,7 +232,7 @@ public class App {
         //System.out.println(pDAO.buscarPorDisciplina("Química", "CIE006"));
         // pDAO.removerProfessor("MAT002");
 
-        //Professor p26 = new Professor("Everton Souza Fagundes", "092.804.235-93", "BA5678901", "INFO01", "yuri@colegio.edu.br", 18, 2, 2007, "Rua Y", "Bairro Y", "Cidade Y", 501, "Casa Azul", "99995555", "Everton123", "Professor de Informática");
+        Professor p26 = new Professor("Everton Souza Fagundes", "092.804.235-93", "BA5678901", "INFO06", "yuri@colegio.edu.br", 18, 2, 2007, "Rua Y", "Bairro Y", "Cidade Y", 501, "Casa Azul", "99995555", "Everton123", "Professor de Informática");
 
         Administrador adm1 = new Administrador("Geovânio", null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null);
 
@@ -247,5 +247,6 @@ public class App {
 
         // adm1.editarProfessor(p26);
 
+        adm1.cadastrarProfessor(p26);
     }
 }
