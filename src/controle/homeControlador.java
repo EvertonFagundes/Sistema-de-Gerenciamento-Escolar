@@ -26,8 +26,8 @@ public class homeControlador {
         System.out.println();
         
         System.out.println(verificarDado("professores.txt", "Givanilda"));
-        Map<String, String> dados = lerDados("/home/erick/Documentos/Programação/sagres/Sistema-de-Gerenciamento-Escolar/src/dao/data/settings.txt");
-        String matricula = criarMatricula(2024);
+        Map<String, String> dados = lerDados("settings.txt");
+        String matricula = criarMatricula(2024, professor.getPerfil());
         System.out.println("Matrícula gerada: " + matricula);
     }
 }
