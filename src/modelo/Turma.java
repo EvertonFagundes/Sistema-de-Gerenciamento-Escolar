@@ -32,4 +32,9 @@ public class Turma extends AnoEscolar{
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public String toString() {
+        return getAno() + " ano " + getNome();
+    }
 }
