@@ -15,6 +15,6 @@ Professor :{
     numeroTelefone: 99995555,
     senha: Everton123,
     formacaoAcademica: Professor de Informática,
-    disciplinasLeciona: [matematica, portugues, geografia],
+    disciplinasLeciona: [matematica,  portugues,  geografia, Artes],
     turmasLeciona: [5 ano A, 6 ano B, 7 ano C]
 }

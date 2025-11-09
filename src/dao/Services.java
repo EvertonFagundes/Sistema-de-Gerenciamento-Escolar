@@ -28,6 +28,7 @@ public class Services {
     }
     return false;
 }
+/*
    public static Map<String, String> lerDados(String caminhoArquivo) {
     Map<String, String> dados = new HashMap<>();
 
@@ -93,6 +94,94 @@ public class Services {
 
     } catch (Exception e) {
         System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+    }
+
+    return dados;
+}
+*/
+
+public static Map<String, String> lerDados(String caminhoArquivo) {
+    Map<String, String> dados = new HashMap<>();
+
+    try {
+        List<String> linhas = Files.readAllLines(Paths.get(caminhoArquivo));
+        StringBuilder conteudo = new StringBuilder();
+
+        boolean dentroDoBloco = false;
+
+        // Junta apenas o conteúdo dentro das chaves { }
+        for (String linha : linhas) {
+            linha = linha.trim();
+            if (linha.isEmpty() || linha.startsWith("#")) continue;
+
+            if (linha.contains("{")) {
+                dentroDoBloco = true;
+                linha = linha.substring(linha.indexOf("{") + 1);
+            }
+            if (linha.contains("}")) {
+                dentroDoBloco = false;
+                linha = linha.substring(0, linha.indexOf("}"));
+            }
+
+            if (dentroDoBloco || linha.contains(":")) {
+                conteudo.append(linha).append(" ");
+            }
+        }
+
+        // Agora, percorre o texto e quebra corretamente nos pares chave:valor
+        String texto = conteudo.toString();
+        StringBuilder buffer = new StringBuilder();
+        boolean dentroDeColchetes = false;
+
+        for (char c : texto.toCharArray()) {
+            if (c == '[') dentroDeColchetes = true;
+            else if (c == ']') dentroDeColchetes = false;
+
+            // vírgula fora de colchetes separa pares chave:valor
+            if (c == ',' && !dentroDeColchetes) {
+                buffer.append('\n'); // quebra linha
+            } else {
+                buffer.append(c);
+            }
+        }
+
+        // Divide em pares e adiciona no mapa
+        String[] partes = buffer.toString().split("\n");
+        for (String parte : partes) {
+            parte = parte.trim();
+            if (parte.isEmpty()) continue;
+
+            String[] kv = parte.split(":", 2);
+            if (kv.length == 2) {
+                String chave = kv[0].trim();
+                String valor = kv[1].trim();
+
+                // remove vírgula final se sobrar
+                if (valor.endsWith(",")) valor = valor.substring(0, valor.length() - 1).trim();
+
+                // ✅ Garantia: nunca armazenar null
+                if (valor == null) valor = "";
+
+                dados.put(chave, valor);
+            }
+        }
+
+    } catch (Exception e) {
+        System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+    }
+
+    // ✅ PASSO FINAL: garantir que TODAS as chaves esperadas existam
+    String[] chavesEsperadas = {
+            "nome", "cpf", "rg", "matricula", "email",
+            "diaNasc", "mesNasc", "anoNasc",
+            "nomeRua", "nomeBairro", "nomeCidade",
+            "numeroCasa", "complemento", "numeroTelefone",
+            "senha", "formacaoAcademica",
+            "disciplinasLeciona", "turmasLeciona"
+    };
+
+    for (String chave : chavesEsperadas) {
+        dados.putIfAbsent(chave, "");
     }
 
     return dados;

@@ -3,18 +3,18 @@ package modelo;
 import java.util.ArrayList;
 
 public class Turma extends AnoEscolar{
-    private String nome; //ex: 1A, 3C etc
+    private String identificador; //ex: A, C etc
     private ArrayList<Aluno>alunosTurma = new ArrayList<>();
 
-    public Turma(int ano, String nome){
+    public Turma(int ano, String identificador){
         super(ano);
-        this.nome = nome;
+        this.identificador = identificador;
     }
 
-    public Turma(int ano, ArrayList<Aluno>alunosTurma, String nome){
+    public Turma(int ano, ArrayList<Aluno>alunosTurma, String identificador){
         super(ano);
         this.alunosTurma = alunosTurma; 
-        this.nome = nome;
+        this.identificador = identificador;
     }
 
     public ArrayList<Aluno> getAlunosTurma() {
@@ -25,16 +25,16 @@ public class Turma extends AnoEscolar{
         this.alunosTurma = alunosTurma;
     }
 
-    public String getNome() {
-        return nome;
+    public String getIdentificador() {
+        return identificador;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 
     @Override
     public String toString() {
-        return getAno() + " ano " + getNome();
+        return getAno() + " ano " + getIdentificador();
     }
 }

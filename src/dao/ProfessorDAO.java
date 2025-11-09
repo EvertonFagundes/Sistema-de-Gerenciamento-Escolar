@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,25 +14,24 @@ import dao.Services;
 
 public class ProfessorDAO {
 
-    private ArrayList<Professor> professores = new ArrayList<>();
-
     public Professor getProfessor(String matricula) {
-       Professor professor = new Professor(null, null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null, null);
+        Professor professor = new Professor(null, null, null, null, null, 0, 0, 0, null, null, null, 0, null, null,
+                null, null);
         try (BufferedReader leitor = new BufferedReader(new FileReader("banco/professor" + matricula + ".txt"))) {
-            Map <String, String> dados = Services.lerDados("banco/professor" + matricula + ".txt");
-            
+            Map<String, String> dados = Services.lerDados("banco/professor" + matricula + ".txt");
+
             professor.setNome(dados.get("nome"));
             professor.setCpf(dados.get("cpf"));
             professor.setRg(dados.get("rg"));
             professor.setMatricula(dados.get("matricula"));
             professor.setEmail(dados.get("email"));
-            professor.setDiaNasc(Integer.parseInt(dados.get("diaNasc").trim()));
-            professor.setMesNasc(Integer.parseInt(dados.get("mesNasc").trim()));
-            professor.setAnoNasc(Integer.parseInt(dados.get("anoNasc").trim()));
+            professor.setDiaNasc(parseIntSeguro(dados.get("diaNasc")));
+            professor.setMesNasc(parseIntSeguro(dados.get("mesNasc")));
+            professor.setAnoNasc(parseIntSeguro(dados.get("anoNasc")));
             professor.setNomeRua(dados.get("nomeRua"));
             professor.setNomeBairro(dados.get("nomeBairro"));
             professor.setNomeCidade(dados.get("nomeCidade"));
-            professor.setNumeroCasa(Integer.parseInt(dados.get("numeroCasa").trim()));
+            professor.setNumeroCasa(parseIntSeguro(dados.get("numeroCasa")));
             professor.setComplemento(dados.get("complemento"));
             professor.setNumeroTelefone(dados.get("numeroTelefone"));
             professor.setSenha(dados.get("senha"));
@@ -39,60 +39,78 @@ public class ProfessorDAO {
 
             String disciplinasTexto = dados.get("disciplinasLeciona").replace("[", "").replace("]", "");
             String dadoDisciplina[] = disciplinasTexto.split(",");
-            ArrayList <Disciplina> disciplinas = new ArrayList<>();
-            
-            for(String nomeDisciplina : dadoDisciplina){
+            ArrayList<Disciplina> disciplinas = new ArrayList<>();
+
+            for (String nomeDisciplina : dadoDisciplina) {
                 Disciplina d = new Disciplina(nomeDisciplina);
                 disciplinas.add(d);
             }
             professor.setDisciplinasLeciona(disciplinas);
 
             String turmasTexto = dados.get("turmasLeciona").replace("[", "").replace("]", "");
-            String[] turmas = turmasTexto.split(",");
-            ArrayList <Turma> turmasArray = new ArrayList<>();
 
-            for(String turma : turmas){
-                turma = turma.trim();
-                String[] partes = turma.split("\\s+");
+            if (turmasTexto.trim().isEmpty()) {
+                professor.setTurmasLeciona(new ArrayList<>());
+            } else {
+                String[] turmas = turmasTexto.split(",");
+                ArrayList<Turma> turmasArray = new ArrayList<>();
 
-                if (partes.length < 3) {
-                    System.out.println("Linha de turma inválida: " + turma);
-                    continue; // pula para a próxima
+                for (String turma : turmas) {
+                    turma = turma.trim();
+                    if (turma.isEmpty()) continue; // ✅ IGNORA VAZIAS
+
+                    String[] partes = turma.split("\\s+");
+
+                    if (partes.length < 2) continue; // ✅ evita erro e barulho
+
+                    Turma t = new Turma(Integer.parseInt(partes[0]), partes[1]);
+                    turmasArray.add(t);
                 }
-                Turma t = new Turma(Integer.parseInt(partes[0]), partes[2]);
-                turmasArray.add(t);
+
+                professor.setTurmasLeciona(turmasArray);
             }
-            
-            professor.setTurmasLeciona(turmasArray);
 
-    } catch (IOException e) {
-        System.err.println("Erro ao ler arquivo: " + e.getMessage());
+
+        } catch (IOException e) {
+            System.err.println("Erro ao ler arquivo: " + e.getMessage());
+        }
+
+        return professor;
     }
+    // alterado para cadastrar cada professor em um arquivo individual
+    public void cadastrarProfessor(Professor professor) {
+        if (verificarProfessor(professor.getMatricula()) == false) {// verifica se o professor existe, caso não exista
+                                                                    // ele cadastra o professor
+            try {
+                FileWriter escritor = new FileWriter("banco/professor" + professor.getMatricula() + ".txt", true);
+                escritor.write("Professor :{\n");
+                escritor.write("    nome: " + professor.getNome() + ",\n" + "    cpf: " + professor.getCpf() + ",\n"
+                        + "    rg: " + professor.getRg() + ",\n" + "    matricula: " + professor.getMatricula() + ",\n"
+                        + "    email: " + professor.getEmail() + ",\n" + "    diaNasc: " + professor.getDiaNasc()
+                        + ",\n" + "    mesNasc: " + professor.getMesNasc() + ",\n" + "    anoNasc: "
+                        + professor.getAnoNasc() + ",\n" + "    nomeRua: " + professor.getNomeRua() + ",\n"
+                        + "    nomeBairro: " + professor.getNomeBairro() + ",\n" + "    nomeCidade: "
+                        + professor.getNomeCidade() + ",\n" + "    numeroCasa: " + professor.getNumeroCasa() + ",\n"
+                        + "    complemento: " + professor.getComplemento() + ",\n" + "    numeroTelefone: "
+                        + professor.getNumeroTelefone() + ",\n" + "    senha: " + professor.getSenha() + ",\n"
+                        + "    formacaoAcademica: " + professor.getFormacaoAcademica() + ",\n"
+                        + "    disciplinasLeciona: " + professor.getDisciplinasLeciona() + ",\n" + "    turmasLeciona: "
+                        + professor.getTurmasLeciona() + "\n");
+                escritor.write("}");
+                escritor.close();
+                System.out.println("Professor adicionado com sucesso!");
 
-    return professor;
-}
-    //alterado para cadastrar cada professor em um arquivo individual
-    public void cadastrarProfessor(Professor professor){
-        if(verificarProfessor(professor.getMatricula()) == false){//verifica se o professor existe, caso não exista ele cadastra o professor
-            try{
-            FileWriter escritor = new FileWriter("banco/professor" + professor.getMatricula() + ".txt", true);
-            escritor.write("Professor :{\n");
-            escritor.write("    nome: " + professor.getNome() + ",\n" + "    cpf: " +professor.getCpf() + ",\n" + "    rg: " + professor.getRg() + ",\n" + "    matricula: " + professor.getMatricula() + ",\n" + "    email: " + professor.getEmail() + ",\n" + "    diaNasc: " + professor.getDiaNasc() + ",\n" + "    mesNasc: " + professor.getMesNasc() + ",\n" + "    anoNasc: " + professor.getAnoNasc() + ",\n" + "    nomeRua: " + professor.getNomeRua() + ",\n" + "    nomeBairro: " + professor.getNomeBairro() + ",\n" + "    nomeCidade: " + professor.getNomeCidade() + ",\n" + "    numeroCasa: " + professor.getNumeroCasa() + ",\n" + "    complemento: " + professor.getComplemento() + ",\n" + "    numeroTelefone: " + professor.getNumeroTelefone() + ",\n" + "    senha: " + professor.getSenha() + ",\n" + "    formacaoAcademica: " + professor.getFormacaoAcademica() + ",\n" + "    disciplinasLeciona: " + professor.getDisciplinasLeciona() + ",\n" + "    turmasLeciona: " + professor.getTurmasLeciona() + "\n");
-            escritor.write("}");
-            escritor.close();
-            System.out.println("Professor adicionado com sucesso!");
-            
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.err.println("Erro ao cadastrar Professor " + e.getMessage());
             }
-        }else{
+        } else {
             System.out.println("Professor já cadastrado no sistema");
         }
-        
+
     }
-    //alterado
-    public void editarProfessor(Professor novoProfessor, String matricula){
-        if(verificarProfessor(matricula)){
+    // alterado
+    public void editarProfessor(Professor novoProfessor, String matricula) {
+        if (verificarProfessor(matricula)) {
             // Atualiza os dados
             Professor p = getProfessor(matricula);
             p.setNome(novoProfessor.getNome());
@@ -114,139 +132,170 @@ public class ProfessorDAO {
             p.setTurmasLeciona(novoProfessor.getTurmasLeciona());
         }
     }
+    //novo método criado
+    public ArrayList<Professor> getProfessores() {
+        ArrayList<Professor> lista = new ArrayList<>();
 
-    public void listarProfessores(){
-        //professores = getProfessor();
-        for(Professor professor : professores){
-            System.out.println(professor.getNome());
+        File pasta = new File("banco/");
+        File[] arquivos = pasta.listFiles();
+
+        if (arquivos == null) return lista;
+
+        for (File f : arquivos) {
+            if (f.getName().startsWith("professor") && f.getName().endsWith(".txt")) {
+                // Extrai a matrícula do nome do arquivo
+                String nomeArq = f.getName(); // ex.: professorABC123.txt
+                String matricula = nomeArq.replace("professor", "").replace(".txt", "");
+
+                Professor p = getProfessor(matricula);
+                lista.add(p);
+            }
         }
+
+        return lista;
     }
-    //alterado
-    public void sobrescreverArquivo(Professor professor){
-        try{
+    // alterado
+    public void sobrescreverArquivo(Professor professor) {
+        try {
             FileWriter escritor = new FileWriter("banco/professor" + professor.getMatricula() + ".txt", false);
             escritor.write("Professor :{\n");
-            escritor.write("    nome: " + professor.getNome() + ",\n" + "    cpf: " +professor.getCpf() + ",\n" + "    rg: " + professor.getRg() + ",\n" + "    matricula: " + professor.getMatricula() + ",\n" + "    email: " + professor.getEmail() + ",\n" + "    diaNasc: " + professor.getDiaNasc() + ",\n" + "    mesNasc: " + professor.getMesNasc() + ",\n" + "    anoNasc: " + professor.getAnoNasc() + ",\n" + "    nomeRua: " + professor.getNomeRua() + ",\n" + "    nomeBairro: " + professor.getNomeBairro() + ",\n" + "    nomeCidade: " + professor.getNomeCidade() + ",\n" + "    numeroCasa: " + professor.getNumeroCasa() + ",\n" + "    complemento: " + professor.getComplemento() + ",\n" + "    numeroTelefone: " + professor.getNumeroTelefone() + ",\n" + "    senha: " + professor.getSenha() + ",\n" + "    formacaoAcademica: " + professor.getFormacaoAcademica() + ",\n" + "    disciplinasLeciona: " + professor.getDisciplinasLeciona() + ",\n" + "    turmasLeciona: " + professor.getTurmasLeciona() + "\n");
+            escritor.write("    nome: " + professor.getNome() + ",\n" + "    cpf: " + professor.getCpf() + ",\n"
+                    + "    rg: " + professor.getRg() + ",\n" + "    matricula: " + professor.getMatricula() + ",\n"
+                    + "    email: " + professor.getEmail() + ",\n" + "    diaNasc: " + professor.getDiaNasc() + ",\n"
+                    + "    mesNasc: " + professor.getMesNasc() + ",\n" + "    anoNasc: " + professor.getAnoNasc()
+                    + ",\n" + "    nomeRua: " + professor.getNomeRua() + ",\n" + "    nomeBairro: "
+                    + professor.getNomeBairro() + ",\n" + "    nomeCidade: " + professor.getNomeCidade() + ",\n"
+                    + "    numeroCasa: " + professor.getNumeroCasa() + ",\n" + "    complemento: "
+                    + professor.getComplemento() + ",\n" + "    numeroTelefone: " + professor.getNumeroTelefone()
+                    + ",\n" + "    senha: " + professor.getSenha() + ",\n" + "    formacaoAcademica: "
+                    + professor.getFormacaoAcademica() + ",\n" + "    disciplinasLeciona: "
+                    + professor.getDisciplinasLeciona() + ",\n" + "    turmasLeciona: " + professor.getTurmasLeciona()
+                    + "\n");
             escritor.write("}");
             System.out.println("Arquivo sobrescrito!");
             escritor.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Erro ao sobrescrever arquivo" + e.getMessage());
         }
     }
-
-    public boolean buscarPorNome(String nome){
-        //ArrayList<Professor> professores = getProfessor();
-        boolean resp = false;
-
-        for (Professor professor : professores) {
-            String nomeUpper = professor.getNome().toUpperCase();
-            if(nomeUpper.equals(nome.toUpperCase())){
-                resp = true;
-            }
-        }
-        return resp;
-    }
-
-    public boolean buscarPorCpf(String cpf){
-        //professores = getProfessor();
-        boolean resp = false;
+    // alterado
+    public boolean buscarPorNome(String nome) {
+        ArrayList<Professor> professores = getProfessores();
 
         for (Professor professor : professores) {
-            if(professor.getCpf().equals(cpf)){
-                resp = true;
+            if (professor.getNome().equalsIgnoreCase(nome.trim())) {
+                return true;
             }
         }
-        return resp;
+
+        return false;
+    }
+    // alterado
+    public boolean buscarPorCpf(String cpf) {
+        ArrayList<Professor> professores = getProfessores();
+        for (Professor professor : professores) {
+            if (professor.getCpf().equals(cpf.trim())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    // alterado
+    public boolean buscarPorDisciplina(String nomeDisciplina, String matricula) {
+        // Verifica se o professor existe
+        if (!verificarProfessor(matricula)) {
+            return false;
+        }
+        // Carrega o professor
+        Professor professor = getProfessor(matricula);
+        // Verifica se ele leciona a disciplina
+        for (Disciplina d : professor.getDisciplinasLeciona()) {
+            if (d.getNome().equalsIgnoreCase(nomeDisciplina.trim())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    //alterado
+    public void adicionarDisciplinaAoProfessor(Disciplina disciplina, String matriculaProfessor) {
+        // Verifica se o professor existe
+        if (!verificarProfessor(matriculaProfessor)) {
+            System.out.println("Erro: Professor não encontrado!");
+            return;
+        }
+        // Carrega o professor diretamente do arquivo
+        Professor professor = getProfessor(matriculaProfessor);
+        // Verifica se já possui a disciplina
+        for (Disciplina d : professor.getDisciplinasLeciona()) {
+            if (d.getNome().trim().equalsIgnoreCase(disciplina.getNome().trim())) {
+                System.out.println("Professor já tem essa disciplina cadastrada!");
+                return;
+            }
+        }
+        // Se não tem, adiciona
+        professor.getDisciplinasLeciona().add(disciplina);
+        // Sobrescreve o arquivo com os dados atualizados
+        sobrescreverArquivo(professor);
+
+        System.out.println("Disciplina adicionada com sucesso!");
+    }
+    //alterado
+    public void removerProfessor(String matricula) {
+        if (!verificarProfessor(matricula)) {
+            System.out.println("Professor não encontrado.");
+            return;
+        }
+
+        File arquivo = new File("banco/professor" + matricula + ".txt");
+
+        if (arquivo.delete()) {
+            System.out.println("Professor removido com sucesso!");
+        } else {
+            System.out.println("Erro ao remover o professor.");
+        }
+    }
+    //alterado
+    public boolean verificarProfessor(String matricula) {
+        File arquivo = new File("banco/professor" + matricula + ".txt");
+        return arquivo.exists();
+    }
+    //alterado
+    public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor) {
+        // Verifica se o professor existe
+        if (!verificarProfessor(matriculaProfessor)) {
+            System.out.println("Professor não encontrado!");
+            return;
+        }
+        // Carrega o professor
+        Professor professor = getProfessor(matriculaProfessor);
+        // Verifica se a turma já está cadastrada
+        boolean jaExiste = false;
+        for (Turma t : professor.getTurmasLeciona()) {
+            if (t.getAno() == turma.getAno() && t.getIdentificador().equals(turma.getIdentificador())) {
+                jaExiste = true;
+                break;
+            }
+        }
+        if (jaExiste) {
+            System.out.println("Turma já vinculada ao professor");
+            return;
+        }
+        // Adiciona a nova turma
+        professor.getTurmasLeciona().add(turma);
+        // Salva no arquivo
+        sobrescreverArquivo(professor);
+        System.out.println("Turma adicionada com sucesso!");
+    }
+    //Funções para previnir exceções
+    private int parseIntSeguro(String s) {
+        try {
+            if (s == null || s.trim().isEmpty()) return 0;
+            return Integer.parseInt(s.trim());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
-    public boolean buscarPorDisciplina(String nomeDisciplina, String matricula){
-        //professores = getProfessor();
-        boolean resp = false;
-        for(Professor professor : professores){
-            if(professor.getMatricula().equals(matricula)){
-                for(Disciplina disciplina : professor.getDisciplinasLeciona()){
-                    if(disciplina.getNome().equals(nomeDisciplina)){
-                        // System.out.println(disciplina.getNome());
-                        resp = true;
-                    }
-                }
-            }
-        }
-        return resp;
-    }
-
-    public void adicionarDisciplinaAoProfessor(Disciplina disciplina, String matriculaProfessor){
-        if(verificarProfessor(matriculaProfessor)){
-            //professores = getProfessor();
-            for(Professor professor : professores){
-                if(professor.getMatricula().equals(matriculaProfessor)){
-                    //Testa se existe disciplina com mesmo nome no ArrayList
-                    for(int i=0; i<professor.getDisciplinasLeciona().size(); i++){
-                        if(professor.getDisciplinasLeciona().get(i).getNome().toUpperCase().equals(disciplina.getNome().toUpperCase())){
-                            System.out.println("Professor já tem essa disciplina cadastrada!");
-                            return;
-                        }
-                    }
-                    //só adiciona se não achar disciplina igual já no ArrayList
-                    professor.getDisciplinasLeciona().add(disciplina);
-                    System.out.println("Disciplina adicionada com sucesso!");
-                    sobrescreverArquivo(professor);
-                    return;
-                }
-            }
-        }else{
-            System.out.println("Erro ao adicionar disciplina!");
-        }
-    }
-
-    public void removerProfessor(String matricula){
-        if(verificarProfessor(matricula)){
-            boolean resp = false;
-            //professores = getProfessor();
-            Professor professorRemover = null;
-            for(Professor professor : professores){
-                if(professor.getMatricula().equals(matricula)){
-                    professorRemover = professor;
-                    resp = true;
-                    break;
-                }
-            }
-            if(resp){
-                professores.remove(professorRemover);
-                sobrescreverArquivo(professorRemover);
-            }
-        }
-        
-    }
-
-    public boolean verificarProfessor(String matricula){
-        //professores = getProfessores();
-        boolean resp = false;
-        for(Professor professor : professores){
-            if(professor.getMatricula().equals(matricula)){
-                resp = true;
-            }
-        }
-        return resp;
-    }
-    //FALTA CONCERTAR ESSE MÉTODO DE adicionarTurmasAoProfessor!!! Ele muda a turma ao invés de adicionar no final do ArrayList
-    /*public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor){
-        professores = getProfessores();
-        if(verificarProfessor(matriculaProfessor)){
-            for(Professor p : listaProfessores){
-                if(p.getMatricula().equals(matriculaProfessor)){
-                    if(p.getTurmasLeciona().contains(turma)){
-                        System.out.println("Turma já vinculada ao professor");
-                        return;
-                    }else{
-                        p.getTurmasLeciona().add(turma);
-                        sobrescreverArquivo();
-                        System.out.println("turma adicionada com sucesso");
-                        return;
-                    }
-                }
-            }
-        }
-    } */
 }

@@ -19,27 +19,38 @@ public class Administrador extends Usuario {
     // Métodos em relação ao Professor
     public void cadastrarProfessor(Professor p) {
         pDao.cadastrarProfessor(p);
-        // System.out.println("Professor " + p.getNome() + " cadastrado com sucesso!");
     }
 
     public void editarProfessor(Professor p){
         pDao.editarProfessor(p, p.getMatricula());
     }
 
-    public void listarProfessores(){
-        pDao.listarProfessores();
+    public void getProfessores(){
+        pDao.getProfessores();
     }
 
-    public void buscarPorNome(String nome){
-        pDao.buscarPorNome(nome);
+    public boolean buscarPorNome(String nome){
+        if(pDao.buscarPorNome(nome)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public void buscarPorCpf(String cpf){
-        pDao.buscarPorCpf(cpf);
+    public boolean buscarPorCpf(String cpf){
+        if(pDao.buscarPorCpf(cpf)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public void buscarPorDisciplina(String nomeDisciplina, String matricula){
-        pDao.buscarPorDisciplina(nomeDisciplina, matricula);
+    public boolean buscarPorDisciplina(String nomeDisciplina, String matricula){
+        if(pDao.buscarPorDisciplina(nomeDisciplina, matricula)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void adicionarDisciplinaAoProfessor(Disciplina disciplina, String matriculaProfessor){
@@ -51,7 +62,7 @@ public class Administrador extends Usuario {
     }
 
     public void adicionarTurmasAoProfessor(Turma turma, String matriculaProfessor){
-        //pDao.adicionarTurmasAoProfessor(turma, matriculaProfessor);
+        pDao.adicionarTurmasAoProfessor(turma, matriculaProfessor);
     }
 
     // Métodos em relação ao Aluno
