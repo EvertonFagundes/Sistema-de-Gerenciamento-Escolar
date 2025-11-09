@@ -14,7 +14,7 @@ import dao.Services;
 public class ProfessorDAO {
 
     private ArrayList<Professor> professores = new ArrayList<>();
-    //FALTA CONCERTAR ESSA PARTE DE PEGAR O NOME E ANO DAS TURMAS
+
     public Professor getProfessor(String matricula) {
        Professor professor = new Professor(null, null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null, null);
         try (BufferedReader leitor = new BufferedReader(new FileReader("banco/professor" + matricula + ".txt"))) {
@@ -48,14 +48,22 @@ public class ProfessorDAO {
             professor.setDisciplinasLeciona(disciplinas);
 
             String turmasTexto = dados.get("turmasLeciona").replace("[", "").replace("]", "");
-            String dadoTurmas[] = turmasTexto.split(",");
-            ArrayList <Turma> turmas = new ArrayList<>();
-            //FALTA CONCERTAR ESSA PARTE DE PEGAR O NOME E ANO DAS TURMAS
-            for(String nomeTurma : dadoTurmas){
-                Turma t = new Turma(0, nomeTurma);
-                turmas.add(t);
+            String[] turmas = turmasTexto.split(",");
+            ArrayList <Turma> turmasArray = new ArrayList<>();
+
+            for(String turma : turmas){
+                turma = turma.trim();
+                String[] partes = turma.split("\\s+");
+
+                if (partes.length < 3) {
+                    System.out.println("Linha de turma inválida: " + turma);
+                    continue; // pula para a próxima
+                }
+                Turma t = new Turma(Integer.parseInt(partes[0]), partes[2]);
+                turmasArray.add(t);
             }
-            professor.setTurmasLeciona(turmas);
+            
+            professor.setTurmasLeciona(turmasArray);
 
     } catch (IOException e) {
         System.err.println("Erro ao ler arquivo: " + e.getMessage());
@@ -82,52 +90,28 @@ public class ProfessorDAO {
         }
         
     }
-
-    /*public void editarProfessor(Professor novoProfessor, String matricula){
-        if(verificarProfessor(matricula)){
-            listaProfessores = getProfessores();
-            boolean encontrado = false;
-
-            for (Professor p : listaProfessores) {
-                if (p.getMatricula().equals(matricula)) {
-                    // Atualiza os dados
-                    p.setNome(novoProfessor.getNome());
-                    p.setCpf(novoProfessor.getCpf());
-                    p.setRg(novoProfessor.getRg());
-                    p.setEmail(novoProfessor.getEmail());
-                    p.setDiaNasc(novoProfessor.getDiaNasc());
-                    p.setMesNasc(novoProfessor.getMesNasc());
-                    p.setAnoNasc(novoProfessor.getAnoNasc());
-                    p.setNomeRua(novoProfessor.getNomeRua());
-                    p.setNomeBairro(novoProfessor.getNomeBairro());
-                    p.setNomeCidade(novoProfessor.getNomeCidade());
-                    p.setNumeroCasa(novoProfessor.getNumeroCasa());
-                    p.setComplemento(novoProfessor.getComplemento());
-                    p.setNumeroTelefone(novoProfessor.getNumeroTelefone());
-                    p.setSenha(novoProfessor.getSenha());
-                    p.setFormacaoAcademica(novoProfessor.getFormacaoAcademica());
-                    p.setDisciplinasLeciona(novoProfessor.getDisciplinasLeciona());
-                    p.setTurmasLeciona(novoProfessor.getTurmasLeciona());
-                    encontrado = true;
-                    break;
-                }
-            }
-
-            if (encontrado) {
-                sobrescreverArquivo(); // sobrescreve o arquivo atualizado
-                System.out.println("Professor atualizado com sucesso!");
-            } else {
-                System.out.println("Professor não encontrado.");
-            }
-        }
-        
-    }*/
-
+    //alterado
     public void editarProfessor(Professor novoProfessor, String matricula){
-        try (BufferedReader leitor = new BufferedReader(new FileReader("banco/professor" + matricula + ".txt"))){
-             
-        } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        if(verificarProfessor(matricula)){
+            // Atualiza os dados
+            Professor p = getProfessor(matricula);
+            p.setNome(novoProfessor.getNome());
+            p.setCpf(novoProfessor.getCpf());
+            p.setRg(novoProfessor.getRg());
+            p.setEmail(novoProfessor.getEmail());
+            p.setDiaNasc(novoProfessor.getDiaNasc());
+            p.setMesNasc(novoProfessor.getMesNasc());
+            p.setAnoNasc(novoProfessor.getAnoNasc());
+            p.setNomeRua(novoProfessor.getNomeRua());
+            p.setNomeBairro(novoProfessor.getNomeBairro());
+            p.setNomeCidade(novoProfessor.getNomeCidade());
+            p.setNumeroCasa(novoProfessor.getNumeroCasa());
+            p.setComplemento(novoProfessor.getComplemento());
+            p.setNumeroTelefone(novoProfessor.getNumeroTelefone());
+            p.setSenha(novoProfessor.getSenha());
+            p.setFormacaoAcademica(novoProfessor.getFormacaoAcademica());
+            p.setDisciplinasLeciona(novoProfessor.getDisciplinasLeciona());
+            p.setTurmasLeciona(novoProfessor.getTurmasLeciona());
         }
     }
 
@@ -137,13 +121,13 @@ public class ProfessorDAO {
             System.out.println(professor.getNome());
         }
     }
-
-    public void sobrescreverArquivo(){
+    //alterado
+    public void sobrescreverArquivo(Professor professor){
         try{
-            FileWriter escritor = new FileWriter("professores.txt", false);
-            for(Professor professor : professores){
-                escritor.write(professor.getNome() + ";" + professor.getCpf() + ";" + professor.getRg() + ";" + professor.getMatricula() + ";" + professor.getEmail() + ";" + professor.getDiaNasc() + ";" + professor.getMesNasc() + ";" + professor.getAnoNasc() + ";" + professor.getNomeRua() + ";" + professor.getNomeBairro() + ";" + professor.getNomeCidade() + ";" + professor.getNumeroCasa() + ";" + professor.getComplemento() + ";" + professor.getNumeroTelefone() + ";" + professor.getSenha() + ";" + professor.getFormacaoAcademica() + ";" + professor.getDisciplinasLeciona() + ";" + professor.getTurmasLeciona() + "\n");
-            }
+            FileWriter escritor = new FileWriter("banco/professor" + professor.getMatricula() + ".txt", false);
+            escritor.write("Professor :{\n");
+            escritor.write("    nome: " + professor.getNome() + ",\n" + "    cpf: " +professor.getCpf() + ",\n" + "    rg: " + professor.getRg() + ",\n" + "    matricula: " + professor.getMatricula() + ",\n" + "    email: " + professor.getEmail() + ",\n" + "    diaNasc: " + professor.getDiaNasc() + ",\n" + "    mesNasc: " + professor.getMesNasc() + ",\n" + "    anoNasc: " + professor.getAnoNasc() + ",\n" + "    nomeRua: " + professor.getNomeRua() + ",\n" + "    nomeBairro: " + professor.getNomeBairro() + ",\n" + "    nomeCidade: " + professor.getNomeCidade() + ",\n" + "    numeroCasa: " + professor.getNumeroCasa() + ",\n" + "    complemento: " + professor.getComplemento() + ",\n" + "    numeroTelefone: " + professor.getNumeroTelefone() + ",\n" + "    senha: " + professor.getSenha() + ",\n" + "    formacaoAcademica: " + professor.getFormacaoAcademica() + ",\n" + "    disciplinasLeciona: " + professor.getDisciplinasLeciona() + ",\n" + "    turmasLeciona: " + professor.getTurmasLeciona() + "\n");
+            escritor.write("}");
             System.out.println("Arquivo sobrescrito!");
             escritor.close();
         }catch(IOException e){
@@ -207,7 +191,7 @@ public class ProfessorDAO {
                     //só adiciona se não achar disciplina igual já no ArrayList
                     professor.getDisciplinasLeciona().add(disciplina);
                     System.out.println("Disciplina adicionada com sucesso!");
-                    sobrescreverArquivo();
+                    sobrescreverArquivo(professor);
                     return;
                 }
             }
@@ -230,7 +214,7 @@ public class ProfessorDAO {
             }
             if(resp){
                 professores.remove(professorRemover);
-                sobrescreverArquivo();
+                sobrescreverArquivo(professorRemover);
             }
         }
         

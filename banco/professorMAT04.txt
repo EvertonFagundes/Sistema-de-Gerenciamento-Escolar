@@ -1,0 +1,20 @@
+Professor :{
+    nome: Mariana Duarte Silveira dos Santos,
+    cpf: 318.642.910-57,
+    rg: SP9034128,
+    matricula: MAT04,
+    email: mariana.silveira@colegio.edu.br,
+    diaNasc: 12,
+    mesNasc: 9,
+    anoNasc: 1989,
+    nomeRua: Rua das Acácias,
+    nomeBairro: Jardim Primavera,
+    nomeCidade: São Paulo,
+    numeroCasa: 742,
+    complemento: Casa Verde,
+    numeroTelefone: 11988776655,
+    senha: MarianaD89,
+    formacaoAcademica: Professora de Matemática,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}
