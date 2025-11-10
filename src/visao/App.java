@@ -254,15 +254,14 @@ public class App {
 
         //Map <String, String> dados = Services.lerDados("banco/professor" + p26.getMatricula() + ".txt");
         //System.out.println(dados.get("disciplinasLeciona"));
-        /*Turma t1 = new Turma(5, "C");
-        p26.getTurmasLeciona().add(t1);*/
+        //Turma t1 = new Turma(5, "C");
 
-        /*Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");*/
+        Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");
         // if(adm1.buscarPorNome("Everton Souza Fagundes")){
         //     System.out.println("achou");
         // }
-        
-        
+
+        /*Disciplina d = new Disciplina("Portugues", "006", "Portugues fundamental", 30);*/
 
     }
 }

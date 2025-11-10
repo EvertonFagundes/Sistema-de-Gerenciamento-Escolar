@@ -65,6 +65,14 @@ public class Administrador extends Usuario {
         pDao.adicionarTurmasAoProfessor(turma, matriculaProfessor);
     }
 
+    public int calcularCargaHorariaPorDisciplinas(String matriculaProfessor){
+        return pDao.calcularCargaHorariaPorDisciplinas(matriculaProfessor);
+    }
+
+    public int calcularCargaHorariaPorTurmas(String matriculaProfessor){
+        return pDao.calcularCargaHorariaPorTurmas(matriculaProfessor);
+    }
+
     // Métodos em relação ao Aluno
     public void cadastrarAluno(Aluno a, AlunoDAO aDAO) {
         // aDAO.cadastrarAluno(a);
