@@ -51,45 +51,41 @@ public class PainelGerenciamentoAluno extends JPanel {
 
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		lblBuscarPor.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblBuscarPor.setBounds(100, 100, 80, 18);
+		lblBuscarPor.setBounds(198, 115, 80, 18);
 		add(lblBuscarPor);
 		
 		comboFiltroBusca = new JComboBox<>();
 		comboFiltroBusca.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		comboFiltroBusca.setModel(new DefaultComboBoxModel<>(new String[] {"Nome", "CPF", "Série", "Ano Escolar"}));
-		comboFiltroBusca.setBounds(180, 100, 120, 18);
+		comboFiltroBusca.setBounds(288, 115, 120, 18);
 		add(comboFiltroBusca);
 
 		txtTermoBusca = new JTextField();
-		txtTermoBusca.setBounds(310, 100, 300, 18);
+		txtTermoBusca.setBounds(450, 116, 300, 18);
 		add(txtTermoBusca);
 		txtTermoBusca.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnBuscar.setBounds(620, 98, 90, 21);
+		btnBuscar.setBounds(795, 114, 90, 21);
 		add(btnBuscar);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(100, 135, 800, 2);
-		add(separator);
 		
 		// --- CAMPOS DE DADOS DO ALUNO ---
 		
 		JLabel lblNomeAluno = new JLabel("Nome completo:");
 		lblNomeAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblNomeAluno.setBounds(99, 179, 100, 18);
+		lblNomeAluno.setBounds(143, 179, 100, 18);
 		add(lblNomeAluno);
 		
 		txtNomeAluno = new JTextField();
 		txtNomeAluno.setEditable(false);
-		txtNomeAluno.setBounds(209, 182, 199, 18);
+		txtNomeAluno.setBounds(253, 180, 199, 18);
 		add(txtNomeAluno);
 		txtNomeAluno.setColumns(10);
 		
 		JLabel lblDataNascAluno = new JLabel("Data de Nascimento:");
 		lblDataNascAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblDataNascAluno.setBounds(415, 182, 124, 12);
+		lblDataNascAluno.setBounds(486, 182, 124, 12);
 		add(lblDataNascAluno);
 		
 		try {
@@ -98,12 +94,12 @@ public class PainelGerenciamentoAluno extends JPanel {
 			e.printStackTrace();
 		}
 		formattedtxtDataNascimentoAluno.setEditable(false);
-		formattedtxtDataNascimentoAluno.setBounds(549, 180, 69, 18);
+		formattedtxtDataNascimentoAluno.setBounds(620, 180, 34, 18);
 		add(formattedtxtDataNascimentoAluno);
 		
 		JLabel lblCpfAluno = new JLabel("CPF:");
 		lblCpfAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblCpfAluno.setBounds(638, 182, 25, 12);
+		lblCpfAluno.setBounds(686, 182, 25, 12);
 		add(lblCpfAluno);
 		
 		try {
@@ -112,12 +108,12 @@ public class PainelGerenciamentoAluno extends JPanel {
 			e.printStackTrace();
 		}
 		formattedtxtCpfAluno.setEditable(false);
-		formattedtxtCpfAluno.setBounds(673, 180, 96, 18);
+		formattedtxtCpfAluno.setBounds(715, 180, 96, 18);
 		add(formattedtxtCpfAluno);
 		
 		JLabel lblRgAluno = new JLabel("RG:");
 		lblRgAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblRgAluno.setBounds(806, 182, 25, 12);
+		lblRgAluno.setBounds(839, 182, 25, 12);
 		add(lblRgAluno);
 		
 		try {
@@ -126,7 +122,7 @@ public class PainelGerenciamentoAluno extends JPanel {
 			e.printStackTrace();
 		}
 		formattedtxtRgAluno.setEditable(false);
-		formattedtxtRgAluno.setBounds(831, 180, 100, 18);
+		formattedtxtRgAluno.setBounds(863, 180, 100, 18);
 		add(formattedtxtRgAluno);
 		
 		JLabel lblRuaAluno = new JLabel("Rua:");
@@ -216,29 +212,29 @@ public class PainelGerenciamentoAluno extends JPanel {
 		
 		JLabel lblNomeResponsavel = new JLabel("Nome do responsável:");
 		lblNomeResponsavel.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblNomeResponsavel.setBounds(57, 377, 133, 16);
+		lblNomeResponsavel.setBounds(75, 377, 133, 16);
 		add(lblNomeResponsavel);
 		
 		txtNomeResponsavel = new JTextField();
 		txtNomeResponsavel.setEditable(false);
-		txtNomeResponsavel.setBounds(193, 377, 199, 18);
+		txtNomeResponsavel.setBounds(217, 377, 199, 18);
 		add(txtNomeResponsavel);
 		txtNomeResponsavel.setColumns(10);
 		
 		JLabel lblEmailResponsavel = new JLabel("E-mail do responsável:");
 		lblEmailResponsavel.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblEmailResponsavel.setBounds(659, 376, 133, 18);
+		lblEmailResponsavel.setBounds(698, 376, 133, 18);
 		add(lblEmailResponsavel);
 		
 		txtEmailResponsavel = new JTextField();
 		txtEmailResponsavel.setEditable(false);
-		txtEmailResponsavel.setBounds(794, 377, 204, 18);
+		txtEmailResponsavel.setBounds(839, 377, 204, 18);
 		add(txtEmailResponsavel);
 		txtEmailResponsavel.setColumns(10);
 
 		JLabel lblTelefoneResponsavel = new JLabel("Telefone do responsável:");
 		lblTelefoneResponsavel.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblTelefoneResponsavel.setBounds(401, 376, 160, 18);
+		lblTelefoneResponsavel.setBounds(426, 376, 160, 18);
 		add(lblTelefoneResponsavel);
 		
 		try {
@@ -247,24 +243,24 @@ public class PainelGerenciamentoAluno extends JPanel {
 			e.printStackTrace();
 		}
 		formattedtxtTelefoneResponsavel.setEditable(false);
-		formattedtxtTelefoneResponsavel.setBounds(549, 377, 100, 18);
+		formattedtxtTelefoneResponsavel.setBounds(581, 377, 100, 18);
 		add(formattedtxtTelefoneResponsavel);
 
 		// --- BOTÕES DE AÇÃO ---
 		
 		btnEditar = new JButton("Editar");
 		btnEditar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnEditar.setBounds(280, 461, 120, 25);
+		btnEditar.setBounds(320, 461, 120, 25);
 		add(btnEditar);
 		
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnExcluir.setBounds(420, 461, 120, 25);
+		btnExcluir.setBounds(498, 461, 120, 25);
 		add(btnExcluir);
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnSalvarEdicao.setBounds(560, 461, 150, 25);
+		btnSalvarEdicao.setBounds(668, 461, 150, 25);
 		add(btnSalvarEdicao);
 	}
 
