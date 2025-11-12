@@ -14,6 +14,8 @@ import java.text.ParseException;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PainelGerenciamentoDisciplina extends JPanel {
 
@@ -26,11 +28,9 @@ public class PainelGerenciamentoDisciplina extends JPanel {
 	private JTextField txtNomeDisciplina;
 	private JTextField txtCodigoDisciplina;
 	private JFormattedTextField formattedtxtCargaHoraria;
-	private JTextArea txtDescricao;
-	
-	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JButton btnSalvarEdicao;
+	private JTextField txtProfessorResponsavel;
 
 	public PainelGerenciamentoDisciplina() {
 		setBackground(new Color(145, 196, 195));
@@ -38,7 +38,7 @@ public class PainelGerenciamentoDisciplina extends JPanel {
 		
 		JLabel lblTitulo = new JLabel("GERENCIAMENTO DE DISCIPLINAS");
 		lblTitulo.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		lblTitulo.setBounds(400, 40, 300, 30);
+		lblTitulo.setBounds(423, 40, 300, 30);
 		add(lblTitulo);
 
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
@@ -49,7 +49,7 @@ public class PainelGerenciamentoDisciplina extends JPanel {
 		comboFiltroBusca = new JComboBox<>();
 		comboFiltroBusca.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		comboFiltroBusca.setModel(new DefaultComboBoxModel<>(new String[] {"Nome", "Código"}));
-		comboFiltroBusca.setBounds(305, 111, 120, 18);
+		comboFiltroBusca.setBounds(304, 111, 120, 18);
 		add(comboFiltroBusca);
 
 		txtTermoBusca = new JTextField();
@@ -62,35 +62,31 @@ public class PainelGerenciamentoDisciplina extends JPanel {
 		btnBuscar.setBounds(776, 110, 90, 21);
 		add(btnBuscar);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(100, 145, 800, 2);
-		add(separator);
-		
 		JLabel lblNomeDisciplina = new JLabel("Nome da Disciplina:");
         lblNomeDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblNomeDisciplina.setBounds(99, 179, 120, 21); 
+        lblNomeDisciplina.setBounds(156, 179, 120, 21); 
         add(lblNomeDisciplina);
 
         txtNomeDisciplina = new JTextField();
         txtNomeDisciplina.setEditable(false);
-        txtNomeDisciplina.setBounds(230, 182, 250, 18); 
+        txtNomeDisciplina.setBounds(286, 181, 250, 18); 
         add(txtNomeDisciplina);
         txtNomeDisciplina.setColumns(10);
 
         JLabel lblCodigoDisciplina = new JLabel("Código:");
         lblCodigoDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblCodigoDisciplina.setBounds(500, 182, 50, 18); 
+        lblCodigoDisciplina.setBounds(546, 180, 50, 18); 
         add(lblCodigoDisciplina);
 
         txtCodigoDisciplina = new JTextField(); 
         txtCodigoDisciplina.setEditable(false);
-        txtCodigoDisciplina.setBounds(560, 180, 100, 18); 
+        txtCodigoDisciplina.setBounds(600, 181, 100, 18); 
         add(txtCodigoDisciplina);
         txtCodigoDisciplina.setColumns(10);
 
         JLabel lblCargaHoraria = new JLabel("Carga Horária (horas):");
         lblCargaHoraria.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblCargaHoraria.setBounds(680, 182, 140, 12); 
+        lblCargaHoraria.setBounds(726, 183, 140, 12); 
         add(lblCargaHoraria);
 
         try {
@@ -99,36 +95,41 @@ public class PainelGerenciamentoDisciplina extends JPanel {
             e.printStackTrace();
         }
         formattedtxtCargaHoraria.setEditable(false);
-        formattedtxtCargaHoraria.setBounds(816, 181, 40, 18); 
+        formattedtxtCargaHoraria.setBounds(860, 181, 40, 18); 
         add(formattedtxtCargaHoraria);
 
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblDescricao.setBounds(152, 240, 100, 18); 
+        lblDescricao.setBounds(185, 294, 100, 18); 
         add(lblDescricao);
         
         JScrollPane scrollPaneDescricaoDisciplina = new JScrollPane();
-        scrollPaneDescricaoDisciplina.setBounds(230, 240, 640, 100); 
+        scrollPaneDescricaoDisciplina.setBounds(260, 294, 640, 100); 
         add(scrollPaneDescricaoDisciplina);
-        
-        txtDescricao = new JTextArea();
-        txtDescricao.setEditable(false);
-        scrollPaneDescricaoDisciplina.setViewportView(txtDescricao);
-		
-		btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnEditar.setBounds(337, 427, 120, 25);
-		add(btnEditar);
 		
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnExcluir.setBounds(491, 427, 120, 25);
+		btnExcluir.setBounds(400, 439, 120, 25);
 		add(btnExcluir);
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnSalvarEdicao.setBounds(645, 427, 150, 25);
+		btnSalvarEdicao.setBounds(600, 439, 150, 25);
 		add(btnSalvarEdicao);
+		
+		JLabel lblProfessorResponsavel = new JLabel("Professor responsável:");
+		lblProfessorResponsavel.setFont(new Font("Century Gothic", Font.BOLD, 12));
+		lblProfessorResponsavel.setBounds(400, 237, 134, 18);
+		add(lblProfessorResponsavel);
+		
+		txtProfessorResponsavel = new JTextField();
+		txtProfessorResponsavel.setBounds(532, 238, 113, 18);
+		add(txtProfessorResponsavel);
+		txtProfessorResponsavel.setColumns(10);
 	}
 
 	public JComboBox<String> getComboFiltroBusca() {
