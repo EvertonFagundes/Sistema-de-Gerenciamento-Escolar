@@ -35,8 +35,6 @@ public class PainelGerenciamentoAluno extends JPanel {
 	private JFormattedTextField formattedtxtTelefoneResponsavel;
 	private JTextField txtComplementoAluno;
 	private JFormattedTextField formattedtxtNumeroCasaAluno;
-	
-	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JButton btnSalvarEdicao;
 
@@ -245,22 +243,15 @@ public class PainelGerenciamentoAluno extends JPanel {
 		formattedtxtTelefoneResponsavel.setEditable(false);
 		formattedtxtTelefoneResponsavel.setBounds(581, 377, 100, 18);
 		add(formattedtxtTelefoneResponsavel);
-
-		// --- BOTÕES DE AÇÃO ---
-		
-		btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnEditar.setBounds(320, 461, 120, 25);
-		add(btnEditar);
 		
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnExcluir.setBounds(498, 461, 120, 25);
+		btnExcluir.setBounds(344, 461, 120, 25);
 		add(btnExcluir);
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnSalvarEdicao.setBounds(668, 461, 150, 25);
+		btnSalvarEdicao.setBounds(541, 461, 150, 25);
 		add(btnSalvarEdicao);
 	}
 
