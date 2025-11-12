@@ -1,6 +1,6 @@
 Professor :{
     nome: Erick Fábio Silva,
-    cpf: 125.616.516-51,
+    cpf: 12561651651,
     rg: 15.616.516-51,
     matricula: 20250005,
     email: erickfabio@gmail.com,
@@ -13,8 +13,8 @@ Professor :{
     numeroCasa: 3,
     complemento: Casa Branca,
     numeroTelefone: (73) 96598-8549,
-    senha: senhaPadrao,
+    senha: null,
     formacaoAcademica: Professor de Redes II,
     disciplinasLeciona: [],
-    turmasLeciona: [3 A]
+    turmasLeciona: []
 }

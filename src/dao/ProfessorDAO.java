@@ -182,6 +182,8 @@ public class ProfessorDAO {
             p.setFormacaoAcademica(novoProfessor.getFormacaoAcademica());
             p.setDisciplinasLeciona(novoProfessor.getDisciplinasLeciona());
             p.setTurmasLeciona(novoProfessor.getTurmasLeciona());
+
+            sobrescreverArquivo(novoProfessor);
         }
     }
     //novo método criado

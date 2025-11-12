@@ -255,6 +255,12 @@ public class PainelGerenciamentoProfessor extends JPanel {
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnSalvarEdicao.setBounds(645, 427, 150, 25);
 		add(btnSalvarEdicao);
+		btnSalvarEdicao.addActionListener(e ->{
+			String termo = txtTermoBusca.getText().trim();
+			String filtro = comboFiltroBusca.getSelectedItem().toString();
+			editarProfessor(filtro, termo);
+
+		});
 	}
 
 	public JComboBox<String> getComboFiltroBusca() {
@@ -438,8 +444,55 @@ public class PainelGerenciamentoProfessor extends JPanel {
 
 		public void excluirProfessor(String filtro, String termo){
 			Professor professor_procurado = buscarProfessor(filtro, termo);
+			if(professor_procurado == null){
+				return;
+			}
 			ProfessorDAO professorDAO = new ProfessorDAO();
 
 			professorDAO.removerProfessor(professor_procurado.getMatricula());
 		}
+
+		public void editarProfessor(String filtro, String termo) {
+			ProfessorDAO professorDAO = new ProfessorDAO();
+			Professor professor_procurado = buscarProfessor(filtro, termo);
+			if (professor_procurado == null) {
+				JOptionPane.showMessageDialog(null, "Professor não encontrado.");
+				return;
+			}
+
+			Professor novo_professor = new Professor();
+			novo_professor.setNome(getTxtNomeProfessor().getText());
+			novo_professor.setCpf(getFormattedtxtCpfProfessor().getText().replaceAll("[^0-9]", ""));
+			novo_professor.setRg(getFormattedtxtRgProfessor().getText());
+			novo_professor.setNumeroTelefone(getFormattedtxtTelefoneProfessor().getText());
+			
+			String numeroCasaTxt = getFormattedtxtNumeroCasaProfessor().getText().trim();
+			novo_professor.setNumeroCasa(numeroCasaTxt.isEmpty() ? 0 : Integer.parseInt(numeroCasaTxt));
+
+			String[] data = getFormattedtxtDataNascimentoProfessor().getText().split("/");
+			if (data.length == 3) {
+				novo_professor.setDiaNasc(Integer.parseInt(data[0]));
+				novo_professor.setMesNasc(Integer.parseInt(data[1]));
+				novo_professor.setAnoNasc(Integer.parseInt(data[2]));
+			}
+			novo_professor.setMatricula(professor_procurado.getMatricula());
+			novo_professor.setSenha(professor_procurado.getSenha());
+			novo_professor.setNomeRua(getTxtRuaProfessor().getText());
+			novo_professor.setNomeCidade(getTxtCidadeProfessor().getText());
+			novo_professor.setNomeBairro(getTxtBairroProfessor().getText());
+			novo_professor.setComplemento(getTxtComplementoProfessor().getText());
+			novo_professor.setEmail(getTxtEmailProfessor().getText());
+			novo_professor.setFormacaoAcademica(getTxtFormacaoAcademica().getText());
+
+			// logs de debug
+			System.out.println("CPF novo: " + novo_professor.getCpf());
+			System.out.println("CPF antigo: " + professor_procurado.getCpf());
+			System.out.println("Matrícula: " + professor_procurado.getMatricula());
+
+			professorDAO.editarProfessor(novo_professor, professor_procurado.getMatricula());
+			JOptionPane.showMessageDialog(null, "Professor alterado com sucesso!");
+}
+
+
+
 }
