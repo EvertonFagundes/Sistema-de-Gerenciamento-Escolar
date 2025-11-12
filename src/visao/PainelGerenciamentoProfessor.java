@@ -3,7 +3,11 @@ package visao;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.TrayIcon.MessageType;
+
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JFormattedTextField;
@@ -240,7 +244,12 @@ public class PainelGerenciamentoProfessor extends JPanel {
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnExcluir.setBounds(491, 427, 120, 25);
 		add(btnExcluir);
+		btnExcluir.addActionListener(e ->{
+			String termo = txtTermoBusca.getText().trim();
+			String filtro = comboFiltroBusca.getSelectedItem().toString();
+			excluirProfessor(filtro, termo);
 
+		});
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
@@ -317,39 +326,11 @@ public class PainelGerenciamentoProfessor extends JPanel {
 	}
 
 	public void buscar(String filtro, String termo){
-		Professor professor_procurado = null;
-		ProfessorDAO professorDAO = new ProfessorDAO();
-		ArrayList<Professor> professores = professorDAO.getProfessores();
-		switch (filtro) {
-			case "CPF":
-			{
-				if(professorDAO.buscarPorCpf(termo.trim())){
-				
-				
-				for(Professor professor : professores){
-					if(professor.getCpf().equals(termo.trim())){
-						professor_procurado = professorDAO.getProfessor(professor.getMatricula());
-					}
-				}
-				}
+			Professor professor_procurado = buscarProfessor(filtro, termo);
+			if(professor_procurado == null){
+				return;
 			}
-			break;
-			case "Nome":
-			{
-				if(professorDAO.buscarPorNome(termo)){
-					for(Professor professor : professores){
-						if(professor.getNome().equals(termo.trim())){
-							professor_procurado = professorDAO.getProfessor(professor.getMatricula());
-						}
-					}
-				}
-			}
-				
-		
-			default:
-				break;
-		
-			}
+
 			JTextField nome = getTxtNomeProfessor();
 			nome.setText(professor_procurado.getNome());
 			nome.setEditable(true);
@@ -413,5 +394,52 @@ public class PainelGerenciamentoProfessor extends JPanel {
 
 			});
 			*/
+		}
+		public Professor buscarProfessor(String filtro, String termo){
+			Professor professor_procurado = null;
+			ProfessorDAO professorDAO = new ProfessorDAO();
+			ArrayList<Professor> professores = professorDAO.getProfessores();
+			switch (filtro) {
+				case "CPF":
+				{
+					if(professorDAO.buscarPorCpf(termo.trim())){
+					
+					
+					for(Professor professor : professores){
+						if(professor.getCpf().equals(termo.trim())){
+							professor_procurado = professorDAO.getProfessor(professor.getMatricula());
+						}
+					}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Professor não encontrado");
+						return null;
+					}
+				}
+				break;
+				case "Nome":
+				{
+					if(professorDAO.buscarPorNome(termo)){
+						for(Professor professor : professores){
+							if(professor.getNome().equals(termo.trim())){
+								professor_procurado = professorDAO.getProfessor(professor.getMatricula());
+							}
+						}
+					}
+				}
+					
+			
+				default:
+					break;
+			
+				}
+				return professor_procurado;
+		}
+
+		public void excluirProfessor(String filtro, String termo){
+			Professor professor_procurado = buscarProfessor(filtro, termo);
+			ProfessorDAO professorDAO = new ProfessorDAO();
+
+			professorDAO.removerProfessor(professor_procurado.getMatricula());
 		}
 }
