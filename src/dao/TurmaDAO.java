@@ -123,7 +123,7 @@ public class TurmaDAO {
             System.err.println("Erro ao sobrescrever arquivo " + e.getMessage());
         }
     }
-
+    //Falta adicionar a lógica para adiconar outro professor ao invés de sobrescrever
     public static void adiconarProfessorLeciona(Turma t, String matricula){
 
         if(ProfessorDAO.verificarProfessor(matricula)){
@@ -131,7 +131,7 @@ public class TurmaDAO {
             for(String matriculaProf : t.getProfessoresLeciona()){
                 System.out.println(matriculaProf+"\n");
             }
-            
+
             t.getProfessoresLeciona().add(matricula);
 
             sobrescreverArquivoTurma(t);
