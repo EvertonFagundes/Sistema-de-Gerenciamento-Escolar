@@ -1,0 +1,20 @@
+Professor :{
+    nome: Erick Fábio Silva,
+    cpf: 125.616.516-51,
+    rg: 15.616.516-51,
+    matricula: 20250005,
+    email: erickfabio@gmail.com,
+    diaNasc: 3,
+    mesNasc: 5,
+    anoNasc: 2001,
+    nomeRua: Rua D,
+    nomeBairro: São Judas,
+    nomeCidade: Jequié,
+    numeroCasa: 3,
+    complemento: Casa Branca,
+    numeroTelefone: (73) 96598-8549,
+    senha: senhaPadrao,
+    formacaoAcademica: Professor de Redes II,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}

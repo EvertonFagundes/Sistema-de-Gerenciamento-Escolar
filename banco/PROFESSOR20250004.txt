@@ -1,0 +1,20 @@
+Professor :{
+    nome: Everton Souza Fagundes,
+    cpf: 092.804.365-94,
+    rg: 41.415.151-65,
+    matricula: 20250004,
+    email: evertonfagundes1510@gmail.com,
+    diaNasc: 18,
+    mesNasc: 2,
+    anoNasc: 2007,
+    nomeRua: Rua São Sebastião,
+    nomeBairro: Curral Novo,
+    nomeCidade: Jequié,
+    numeroCasa: 35,
+    complemento: Casa cinza,
+    numeroTelefone: (73) 98865-9878,
+    senha: senhaPadrao,
+    formacaoAcademica: Professor com Mestrado e Doutorado,
+    disciplinasLeciona: [],
+    turmasLeciona: [1 A, 1 B, 3 A]
+}
