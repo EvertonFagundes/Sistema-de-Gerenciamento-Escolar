@@ -12,6 +12,8 @@ import java.text.ParseException;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PainelGerenciamentoProfessor extends JPanel {
 
@@ -33,8 +35,6 @@ public class PainelGerenciamentoProfessor extends JPanel {
 	private JTextField txtComplementoProfessor;
 	private JFormattedTextField formattedtxtNumeroCasaProfessor;
 	private JTextField txtFormacaoAcademica;
-	
-	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JButton btnSalvarEdicao;
 
@@ -217,21 +217,18 @@ public class PainelGerenciamentoProfessor extends JPanel {
 		add(txtFormacaoAcademica);
 		txtFormacaoAcademica.setColumns(10);
 		
-		// --- BOTÕES DE AÇÃO ---
-		
-		btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnEditar.setBounds(337, 427, 120, 25);
-		add(btnEditar);
-		
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnExcluir.setBounds(491, 427, 120, 25);
+		btnExcluir.setBounds(400, 427, 120, 25);
 		add(btnExcluir);
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
+		btnSalvarEdicao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnSalvarEdicao.setBounds(645, 427, 150, 25);
+		btnSalvarEdicao.setBounds(600, 427, 150, 25);
 		add(btnSalvarEdicao);
 	}
 
