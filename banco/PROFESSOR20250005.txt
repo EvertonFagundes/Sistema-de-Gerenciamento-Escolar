@@ -16,5 +16,5 @@ Professor :{
     senha: senhaPadrao,
     formacaoAcademica: Professor de Redes II,
     disciplinasLeciona: [],
-    turmasLeciona: []
+    turmasLeciona: [3 A]
 }

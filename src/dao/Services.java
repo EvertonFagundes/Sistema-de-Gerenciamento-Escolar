@@ -177,7 +177,7 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
             "nomeRua", "nomeBairro", "nomeCidade",
             "numeroCasa", "complemento", "numeroTelefone",
             "senha", "formacaoAcademica",
-            "disciplinasLeciona", "turmasLeciona"
+            "disciplinasLeciona", "turmasLeciona",
     };
 
     for (String chave : chavesEsperadas) {

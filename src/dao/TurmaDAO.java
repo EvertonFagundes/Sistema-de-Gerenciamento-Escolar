@@ -106,7 +106,7 @@ public class TurmaDAO {
                     escritor.write(", ");
                 }
             }
-            escritor.write("]\n");
+            escritor.write("],\n");
             escritor.write("    professoresLeciona: [");
             ArrayList<String> matriculaProfessoresLeciona = turma.getProfessoresLeciona();
             for(int i = 0; i < matriculaProfessoresLeciona.size(); i++){
@@ -123,23 +123,47 @@ public class TurmaDAO {
             System.err.println("Erro ao sobrescrever arquivo " + e.getMessage());
         }
     }
-    //Falta adicionar a lógica para adiconar outro professor ao invés de sobrescrever
+
     public static void adiconarProfessorLeciona(Turma t, String matricula){
-
+        Map<String,String> dados = Services.lerDados("banco/turmas/TURMA" + t.getAno()+t.getIdentificador()+".txt");
+        String professores = dados.get("professoresLeciona").replace("[", "").replace("]", "").trim();
         if(ProfessorDAO.verificarProfessor(matricula)){
-
-            for(String matriculaProf : t.getProfessoresLeciona()){
-                System.out.println(matriculaProf+"\n");
+            String[] vetor_professores = professores.split(",");
+            for(String matriculaProf : vetor_professores){
+                if(matriculaProf.trim().equals(matricula)){
+                    System.out.println("Professor já leciona está turma!");
+                    return;
+                }
             }
-
-            t.getProfessoresLeciona().add(matricula);
+            if(professores.isEmpty()){
+                t.getProfessoresLeciona().add(matricula);
+            }
+            else{
+                t.getProfessoresLeciona().add(professores + " , " + matricula);
+            }
 
             sobrescreverArquivoTurma(t);
         }else{
             System.out.println("Professor não existente");
         }
         
-        
     }
 
+    public static void removerProfessorLeciona(Turma t, String matricula){
+        Map<String,String> dados = Services.lerDados("banco/turmas/TURMA" + t.getAno()+t.getIdentificador()+".txt");
+        String professores = dados.get("professoresLeciona").replace("[", "").replace("]", "").trim();
+        if(ProfessorDAO.verificarProfessor(matricula)){
+            String[] vetor_professores = professores.split(",");
+            for(String matriculaProf : vetor_professores){
+                if(matriculaProf.trim().equals(matricula)){
+                    professores = professores.replace(matricula+" , ","");
+                    t.getProfessoresLeciona().add(professores);
+                    sobrescreverArquivoTurma(t);
+                }
+            }
+        }
+        else{
+                    System.out.println("Matricula não encontrada!");
+                }
+    }
 }

@@ -273,7 +273,10 @@ public class App {
 
         Turma t = new Turma(3, "A");
         //TurmaDAO.criarTurma(t);
-        //pDAO.adicionarTurmasAoProfessor(t, "20250004");
-        TurmaDAO.adiconarProfessorLeciona(t, "20250005");
+        //pDAO.adicionarTurmasAoProfessor(t, "20250005");
+        //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
+        //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
+        
+        TurmaDAO.removerProfessorLeciona(t, "20250004");
     }
 }

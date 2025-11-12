@@ -1,0 +1,20 @@
+Professor :{
+    nome: Murilo,
+    cpf: 123.456.789-99,
+    rg: 12.334.567-89,
+    matricula: 20250007,
+    email: murilo@gmail.com,
+    diaNasc: 1,
+    mesNasc: 1,
+    anoNasc: 2000,
+    nomeRua: Rua 1,
+    nomeBairro: CENTRO,
+    nomeCidade: jequie,
+    numeroCasa: 1,
+    complemento: jjjj,
+    numeroTelefone: (73) 88888-8888,
+    senha: senhaPadrao,
+    formacaoAcademica: Lp2,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}
