@@ -178,7 +178,7 @@ public class PainelCadastroProfessor extends JPanel {
                 nome, cpf, rg, "", email,
                 dia, mes, ano, rua, bairro, cidade,
                 Integer.parseInt(numero), complemento, telefone,
-                "senhaPadrao", formacao
+                "senhaPadrao", formacao 
             );
 
             ProfessorDAO professorDAO = new ProfessorDAO();

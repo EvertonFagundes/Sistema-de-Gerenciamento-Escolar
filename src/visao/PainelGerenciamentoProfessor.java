@@ -82,8 +82,8 @@ public class PainelGerenciamentoProfessor extends JPanel {
 		btnBuscar.addActionListener(e ->{
 			String termo = txtTermoBusca.getText().trim();
 			String filtro = comboFiltroBusca.getSelectedItem().toString();
-			System.out.println(termo);
-			System.out.println(filtro);
+			//System.out.println(termo);
+			//System.out.println(filtro);
 			buscar(filtro, termo);
 
 		});
@@ -388,19 +388,8 @@ public class PainelGerenciamentoProfessor extends JPanel {
 			JTextField formacao_academica = getTxtFormacaoAcademica();
 			formacao_academica.setText(professor_procurado.getFormacaoAcademica());
 			formacao_academica.setEditable(true);
-
-			/*DefaultTableModel model = (DefaultTableModel) tabelaProfessores.getModel();
-			model.addRow(new Object[]{
-				professor_procurado.getNome(),
-				professor_procurado.getCpf(),
-				professor_procurado.getNumeroTelefone(),
-				professor_procurado.getEmail(),
-				professor_procurado.getFormacaoAcademica(),
-				professor_procurado.getDisciplinasLeciona()
-
-			});
-			*/
 		}
+
 		public Professor buscarProfessor(String filtro, String termo){
 			Professor professor_procurado = null;
 			ProfessorDAO professorDAO = new ProfessorDAO();
@@ -410,7 +399,6 @@ public class PainelGerenciamentoProfessor extends JPanel {
 				{
 					if(professorDAO.buscarPorCpf(termo.trim())){
 					
-					
 					for(Professor professor : professores){
 						if(professor.getCpf().equals(termo.trim())){
 							professor_procurado = professorDAO.getProfessor(professor.getMatricula());
@@ -418,7 +406,7 @@ public class PainelGerenciamentoProfessor extends JPanel {
 					}
 					}
 					else{
-						JOptionPane.showMessageDialog(null, "Professor não encontrado");
+						JOptionPane.showMessageDialog(null, "Professor não encontrado", "Erro ao procurar Professor por CPF", JOptionPane.ERROR_MESSAGE);
 						return null;
 					}
 				}
@@ -431,9 +419,17 @@ public class PainelGerenciamentoProfessor extends JPanel {
 								professor_procurado = professorDAO.getProfessor(professor.getMatricula());
 							}
 						}
+					}else{
+						JOptionPane.showMessageDialog(null, "Professor não encontrado", "Erro ao procurar Professor por Nome", JOptionPane.ERROR_MESSAGE);
+						return null;
 					}
 				}
-					
+				break;
+				case "Disicplinas":
+				{
+					JOptionPane.showMessageDialog(null, "Só teste aí", null, ABORT);
+				}
+				break;
 			
 				default:
 					break;
@@ -456,7 +452,7 @@ public class PainelGerenciamentoProfessor extends JPanel {
 			ProfessorDAO professorDAO = new ProfessorDAO();
 			Professor professor_procurado = buscarProfessor(filtro, termo);
 			if (professor_procurado == null) {
-				JOptionPane.showMessageDialog(null, "Professor não encontrado.");
+				JOptionPane.showMessageDialog(null, "Professor não encontrado", "Erro ao procurar Professor", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -490,8 +486,8 @@ public class PainelGerenciamentoProfessor extends JPanel {
 			System.out.println("Matrícula: " + professor_procurado.getMatricula());
 
 			professorDAO.editarProfessor(novo_professor, professor_procurado.getMatricula());
-			JOptionPane.showMessageDialog(null, "Professor alterado com sucesso!");
-}
+			JOptionPane.showMessageDialog(null, "Professor alterado com sucesso!", "Sucesso ao editar Professor", JOptionPane.INFORMATION_MESSAGE);
+		}
 
 
 
