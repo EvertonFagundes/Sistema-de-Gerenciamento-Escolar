@@ -2,76 +2,58 @@ package visao;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-//painel
+
 public class PainelLogin extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtEmail;
-	private JPasswordField pwdtxtSenha;
+
+	private JButton btnAdministrador;
+	private JButton btnProfessor;
+	private JButton btnAluno;
 
 	public PainelLogin() {
 		setBackground(new Color(145, 196, 195));
-		setLayout(new GridBagLayout());
+		setLayout(null);
+		
+		JLabel lblSistemaGerenciamentoEscolar = new JLabel("Sistema de Gerenciamento Escolar");
+		lblSistemaGerenciamentoEscolar.setFont(new Font("Century Gothic", Font.BOLD, 17));
+		lblSistemaGerenciamentoEscolar.setBounds(385, 149, 310, 21);
+		add(lblSistemaGerenciamentoEscolar);
+		
+		btnAdministrador = new JButton("Administrador"); 
+		btnAdministrador.setFont(new Font("Century Gothic", Font.BOLD, 13));
+		btnAdministrador.setBounds(454, 268, 132, 20);
+		add(btnAdministrador);
+		
+		btnProfessor = new JButton("Professor");
+		btnProfessor.setFont(new Font("Century Gothic", Font.BOLD, 13));
+		btnProfessor.setBounds(454, 331, 132, 20);
+		add(btnProfessor);
+		
+		JLabel lblSelecione = new JLabel("Selecione:");
+		lblSelecione.setFont(new Font("Century Gothic", Font.BOLD, 14));
+		lblSelecione.setBounds(479, 213, 89, 12);
+		add(lblSelecione);
+		
+		btnAluno = new JButton("Aluno"); 
+		btnAluno.setFont(new Font("Century Gothic", Font.BOLD, 13));
+		btnAluno.setBounds(454, 403, 132, 20);
+		add(btnAluno);
+	}
 
-		JPanel painelInterno = new JPanel(new GridBagLayout());
-		painelInterno.setBackground(getBackground()); 
+	
+	public JButton getBtnAdministrador() {
+		return btnAdministrador;
+	}
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(15, 15, 15, 15); 
+	public JButton getBtnProfessor() {
+		return btnProfessor;
+	}
 
-		JLabel lblSistemaColégio = new JLabel("Sistema - Colégio");
-		lblSistemaColégio.setFont(new Font("Century Gothic", Font.BOLD, 20));
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		painelInterno.add(lblSistemaColégio, gbc);
-
-		JLabel lblRealizeLogin = new JLabel("Realize o seu login");
-		lblRealizeLogin.setFont(new Font("Century Gothic", Font.BOLD, 16));
-		gbc.gridy = 1;
-		painelInterno.add(lblRealizeLogin, gbc);
-
-		JLabel lblEmail = new JLabel("E-mail:");
-		lblEmail.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.WEST;
-		painelInterno.add(lblEmail, gbc);
-
-		txtEmail = new JTextField(20);
-		txtEmail.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		gbc.gridx = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
-		painelInterno.add(txtEmail, gbc);
-
-		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.anchor = GridBagConstraints.WEST;
-		painelInterno.add(lblSenha, gbc);
-
-		pwdtxtSenha = new JPasswordField(20);
-		pwdtxtSenha.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		gbc.gridx = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
-		painelInterno.add(pwdtxtSenha, gbc);
-
-		JButton btnEntrar = new JButton("Entrar");
-		btnEntrar.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.gridwidth = 2;
-		painelInterno.add(btnEntrar, gbc);
-
-		add(painelInterno);
+	public JButton getBtnAluno() {
+		return btnAluno;
 	}
 }
