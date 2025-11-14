@@ -1,10 +1,16 @@
 package modelo;
 
+import java.util.ArrayList;
+
 public class Disciplina {
     private String nome;
     private String codigo;
     private String descricao;
     private int cargaHoraria;
+    private ArrayList<Professor> lecionadaPor = new ArrayList<>();
+
+    public Disciplina(){
+    }
 
     public Disciplina(String nome, String codigo, String descricao, int cargaHoraria){
         this.nome = nome;
@@ -43,6 +49,14 @@ public class Disciplina {
 
     public void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public ArrayList<Professor> getLecionadaPor() {
+        return lecionadaPor;
+    }
+
+    public void setLecionadaPor(ArrayList<Professor> lecionadaPor) {
+        this.lecionadaPor = lecionadaPor;
     }
 
     @Override

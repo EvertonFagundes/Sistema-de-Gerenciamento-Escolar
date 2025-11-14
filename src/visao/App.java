@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
+import dao.DisciplinaDAO;
 import dao.ProfessorDAO;
 import dao.Services;
 import dao.TurmaDAO;
@@ -265,18 +266,25 @@ public class App {
         //     System.out.println("achou");
         // }
 
-        /*Disciplina d = new Disciplina("Portugues", "006", "Portugues fundamental", 30);*/
-
         //Path caminho = Paths.get("banco/turmas/");
         //System.out.println("Tentando ler de: " + caminho.toAbsolutePath());
         //System.out.println("Existe? " + Files.exists(caminho)); 
 
-        Turma t = new Turma(3, "A");
+        //Turma t = new Turma(3, "A");
         //TurmaDAO.criarTurma(t);
         //pDAO.adicionarTurmasAoProfessor(t, "20250005");
         //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
         //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
+        //TurmaDAO.removerProfessorLeciona(t, "20250004");
+        //Map<String, String> dados = Services.lerDados("src/dao/settings.txt");
+        //Disciplina d = new Disciplina("Portugues", dados.get("codigoDisciplina") , "Portugues fundamental", 30);
+        //d.getLecionadaPor().add(p28);
+        //DisciplinaDAO.criarDisciplina(d);
         
-        TurmaDAO.removerProfessorLeciona(t, "20250004");
+        //Disciplina d = DisciplinaDAO.getDisciplina("0");
+        //ProfessorDAO pDao2 = new ProfessorDAO();
+        //Professor p = pDao2.getProfessor("20250005");
+        //d.getLecionadaPor().add(p);
+        //DisciplinaDAO.sobrescreverArquivo(d);
     }
 }

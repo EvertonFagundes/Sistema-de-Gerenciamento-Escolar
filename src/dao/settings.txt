@@ -1,1 +1,2 @@
-numeroMatricula: 7
+numeroMatricula: 11,
+codigoDisciplina: 0

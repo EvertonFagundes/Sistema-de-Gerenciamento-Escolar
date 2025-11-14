@@ -1,6 +1,7 @@
 package dao;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -251,7 +252,7 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
     return matricula;
 }
 
-    public static String verificarTipo(String matricula){
+    /*public static String verificarTipo(String matricula){
         String tipo = matricula.substring(0,1);
         String retorno;
         switch (tipo) {
@@ -269,5 +270,29 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
             break;
         }
         return retorno;
+    }*/
+
+    public static String criarCodigoDisciplina(){
+        Map<String, String> dados = lerDados("src/dao/settings.txt");
+        String codigo = "";
+        if(dados.get("codigoDisciplina") == null){
+            try {
+                FileWriter escritor = new FileWriter("src/dao/settings.txt");
+                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
+                escritor.write("codigoDisciplina: 0000");
+                escritor.close();
+            } catch (Exception e) {
+                System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());
+            }
+        }else{
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoDisciplina"));
+            ultimoCodigo += 1;
+             codigo = String.valueOf(ultimoCodigo);
+            
+            modificarDado("src/dao/settings.txt", "codigoDisciplina", codigo);
+        }
+        
+        return codigo;
+        
     }
 }

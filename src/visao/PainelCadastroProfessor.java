@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.util.ArrayList;
+
 import modelo.Professor;
 import dao.ProfessorDAO;
 import dao.Services;
@@ -154,6 +156,10 @@ public class PainelCadastroProfessor extends JPanel {
     // ------------------------------------------------------
     private void salvarProfessor() {
         try {
+            ProfessorDAO professorDAO = new ProfessorDAO();
+            ArrayList <Professor> arrayProfessores = professorDAO.getProfessores();
+            boolean cpfIgual = false;
+            boolean rgIgual = false;
 
             String nome = campoNome.getText();
             String dataNasc = campoDataNascimento.getText();
@@ -173,21 +179,32 @@ public class PainelCadastroProfessor extends JPanel {
             int dia = Integer.parseInt(dataSplit[0]);
             int mes = Integer.parseInt(dataSplit[1]);
             int ano = Integer.parseInt(dataSplit[2]);
+            //verificar se existe algum cpf e/ou rg igual
+            for(Professor p : arrayProfessores){
+                if(p.getCpf().equals(cpf)){
+                    cpfIgual = true;
+                }if(p.getRg().equals(rg)){
+                    rgIgual = true;
+                }
+            }
 
-            Professor professor = new Professor(
-                nome, cpf, rg, "", email,
-                dia, mes, ano, rua, bairro, cidade,
-                Integer.parseInt(numero), complemento, telefone,
-                "senhaPadrao", formacao 
-            );
+            if(cpfIgual || rgIgual){
+                JOptionPane.showMessageDialog(null, "Já existe professor com essas credenciais", "Credenciais inválidas", JOptionPane.ERROR_MESSAGE);
+            }else{
+                Professor professor = new Professor(
+                    nome, cpf, rg, "", email,
+                    dia, mes, ano, rua, bairro, cidade,
+                    Integer.parseInt(numero), complemento, telefone,
+                    "senhaPadrao", formacao 
+                );
 
-            ProfessorDAO professorDAO = new ProfessorDAO();
-            professorDAO.cadastrarProfessor(professor);
+                //ProfessorDAO professorDAO = new ProfessorDAO();
+                professorDAO.cadastrarProfessor(professor);
 
-            JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(this, "Professor cadastrado com sucesso!");
+            }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar professor: " + ex.getMessage(),
-                    "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar professor: " + ex.getMessage(),"Erro", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }

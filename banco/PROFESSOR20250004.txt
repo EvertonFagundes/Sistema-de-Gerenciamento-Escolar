@@ -1,6 +1,6 @@
 Professor :{
     nome: Everton Souza Fagundes,
-    cpf: 09280436594,
+    cpf: 092.804.235-95,
     rg: 41.415.151-65,
     matricula: 20250004,
     email: evertonfagundes1510@gmail.com,

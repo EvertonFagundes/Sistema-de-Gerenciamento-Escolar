@@ -247,7 +247,12 @@ public class PainelGerenciamentoProfessor extends JPanel {
 		btnExcluir.addActionListener(e ->{
 			String termo = txtTermoBusca.getText().trim();
 			String filtro = comboFiltroBusca.getSelectedItem().toString();
-			excluirProfessor(filtro, termo);
+			if(!termo.isEmpty()){
+				int opc = JOptionPane.showConfirmDialog(null, "Você realmente deseja excluir o Professor?");
+				if(opc == 0){
+					excluirProfessor(filtro, termo);
+				}
+			}
 
 		});
 		
@@ -425,9 +430,9 @@ public class PainelGerenciamentoProfessor extends JPanel {
 					}
 				}
 				break;
-				case "Disicplinas":
+				case "Disciplina":
 				{
-					JOptionPane.showMessageDialog(null, "Só teste aí", null, ABORT);
+					JOptionPane.showMessageDialog(null, "Só teste aí", null, JOptionPane.DEFAULT_OPTION);
 				}
 				break;
 			
@@ -458,7 +463,7 @@ public class PainelGerenciamentoProfessor extends JPanel {
 
 			Professor novo_professor = new Professor();
 			novo_professor.setNome(getTxtNomeProfessor().getText());
-			novo_professor.setCpf(getFormattedtxtCpfProfessor().getText().replaceAll("[^0-9]", ""));
+			novo_professor.setCpf(getFormattedtxtCpfProfessor().getText());
 			novo_professor.setRg(getFormattedtxtRgProfessor().getText());
 			novo_professor.setNumeroTelefone(getFormattedtxtTelefoneProfessor().getText());
 			
@@ -479,11 +484,6 @@ public class PainelGerenciamentoProfessor extends JPanel {
 			novo_professor.setComplemento(getTxtComplementoProfessor().getText());
 			novo_professor.setEmail(getTxtEmailProfessor().getText());
 			novo_professor.setFormacaoAcademica(getTxtFormacaoAcademica().getText());
-
-			// logs de debug
-			System.out.println("CPF novo: " + novo_professor.getCpf());
-			System.out.println("CPF antigo: " + professor_procurado.getCpf());
-			System.out.println("Matrícula: " + professor_procurado.getMatricula());
 
 			professorDAO.editarProfessor(novo_professor, professor_procurado.getMatricula());
 			JOptionPane.showMessageDialog(null, "Professor alterado com sucesso!", "Sucesso ao editar Professor", JOptionPane.INFORMATION_MESSAGE);

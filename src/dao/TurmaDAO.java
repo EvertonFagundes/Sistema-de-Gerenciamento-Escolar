@@ -163,7 +163,7 @@ public class TurmaDAO {
             }
         }
         else{
-                    System.out.println("Matricula não encontrada!");
-                }
+                System.out.println("Matricula não encontrada!");
+            }
     }
 }

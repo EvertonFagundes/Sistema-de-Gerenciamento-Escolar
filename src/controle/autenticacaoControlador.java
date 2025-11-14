@@ -1,5 +1,5 @@
 package controle;
-import static dao.Services.verificarTipo;
+//import static dao.Services.verificarTipo;
 import dao.Services;
 
 public class autenticacaoControlador {

@@ -1,0 +1,20 @@
+Professor :{
+    nome: Assebio,
+    cpf: 092.804.235-94,
+    rg: 11.415.151-65,
+    matricula: 20250011,
+    email: safgvansjhn,
+    diaNasc: 1,
+    mesNasc: 25,
+    anoNasc: 1561,
+    nomeRua: asfd,
+    nomeBairro: hojuhj,
+    nomeCidade: asjkdfj,
+    numeroCasa: 8,
+    complemento: kijkljçkl,
+    numeroTelefone: (45) 61616-5156,
+    senha: senhaPadrao,
+    formacaoAcademica: ohnjlknjlk,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}

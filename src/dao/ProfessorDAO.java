@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
+
 import modelo.Disciplina;
 import modelo.Professor;
 import modelo.Turma;
@@ -343,9 +346,9 @@ public class ProfessorDAO {
         File arquivo = new File("banco/PROFESSOR" + matricula + ".txt");
 
         if (arquivo.delete()) {
-            System.out.println("Professor removido com sucesso!");
+            JOptionPane.showMessageDialog(null, "Professor removido com sucesso!", "Professor removido", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            System.out.println("Erro ao remover o professor.");
+            JOptionPane.showMessageDialog(null, "Erro ao remover o professor!", "Professor não removido", JOptionPane.ERROR_MESSAGE);
         }
     }
     //alterado

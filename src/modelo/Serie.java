@@ -7,6 +7,9 @@ public class Serie extends AnoEscolar{
     private ArrayList<Turma>turmas2Ano = new ArrayList<>();
     private ArrayList<Turma>turmas3Ano = new ArrayList<>();
 
+    public Serie(){
+    }
+
     public Serie(int ano, ArrayList<Turma>turmas1ano, ArrayList<Turma>turmas2Ano, ArrayList<Turma>turmas3Ano){
         super(ano);
         this.turmas1Ano = turmas1ano;
