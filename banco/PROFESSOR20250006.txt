@@ -1,0 +1,20 @@
+Professor :{
+    nome: Eduardo Meira,
+    cpf: 10210232215,
+    rg: 12.345.678-99,
+    matricula: 20250006,
+    email: edu@gmail.com,
+    diaNasc: 1,
+    mesNasc: 1,
+    anoNasc: 2000,
+    nomeRua: Rua 10,
+    nomeBairro: Centro,
+    nomeCidade: Jequie,
+    numeroCasa: 1,
+    complemento: ddd,
+    numeroTelefone: (73) 97555-5555,
+    senha: senhaPadrao,
+    formacaoAcademica: LP2,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}
