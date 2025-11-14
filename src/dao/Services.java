@@ -279,7 +279,7 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
             try {
                 FileWriter escritor = new FileWriter("src/dao/settings.txt");
                 escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
-                escritor.write("codigoDisciplina: 0000");
+                escritor.write("codigoDisciplina: 0");
                 escritor.close();
             } catch (Exception e) {
                 System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());
@@ -290,6 +290,31 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
              codigo = String.valueOf(ultimoCodigo);
             
             modificarDado("src/dao/settings.txt", "codigoDisciplina", codigo);
+        }
+        
+        return codigo;
+        
+    }
+
+    public static String criarCodigoTurma(){
+        Map<String, String> dados = lerDados("src/dao/settings.txt");
+        String codigo = "";
+        if(dados.get("codigoTurma") == null){
+            try {
+                FileWriter escritor = new FileWriter("src/dao/settings.txt");
+                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
+                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
+                escritor.write("codigoTurma: 0");
+                escritor.close();
+            } catch (Exception e) {
+                System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());
+            }
+        }else{
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoTurma"));
+            ultimoCodigo += 1;
+             codigo = String.valueOf(ultimoCodigo);
+            
+            modificarDado("src/dao/settings.txt", "codigoTurma", codigo);
         }
         
         return codigo;

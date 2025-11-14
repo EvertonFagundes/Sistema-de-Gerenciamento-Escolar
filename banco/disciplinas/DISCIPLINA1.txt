@@ -1,0 +1,7 @@
+Disciplina :{
+    nome: Lp1,
+    codigo: 1,
+    descricao: OHHH NAIARA TU ME PAGA!!!,
+    cargaHoraria: 200,
+    lecionadaPor: []
+}

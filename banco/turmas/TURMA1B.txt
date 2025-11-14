@@ -1,6 +1,0 @@
-Turma :{
-    ano: 1,
-    identificador: B,
-    alunosTurma: []
-    professoresLeciona: []
-}

@@ -240,9 +240,9 @@ public class App {
         //System.out.println(pDAO.buscarPorDisciplina("Química", "CIE006"));
         // pDAO.removerProfessor("MAT002");
 
-        Professor p26 = new Professor("Everton Souza Fagundes", "092.804.235-93", "BA5678901", "INFO06", "yuri@colegio.edu.br", 18, 2, 2007, "Rua Y", "Bairro Y", "Cidade Y", 501, "Casa Azul", "99995555", "Everton123", "Professor de Informática");
+        //Professor p26 = new Professor("Everton Souza Fagundes", "092.804.235-93", "BA5678901", "INFO06", "yuri@colegio.edu.br", 18, 2, 2007, "Rua Y", "Bairro Y", "Cidade Y", 501, "Casa Azul", "99995555", "Everton123", "Professor de Informática");
 
-        Administrador adm1 = new Administrador("Geovânio", null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null);
+        //Administrador adm1 = new Administrador("Geovânio", null, null, null, null, 0, 0, 0, null, null, null, 0, null, null, null);
 
         //Disciplina RedesI = new Disciplina("RedesII", "R001", "Disciplina de Redes I", 75);
         // adm1.cadastrarProfessor(p26);
@@ -261,7 +261,7 @@ public class App {
         //System.out.println(dados.get("disciplinasLeciona"));
         //Turma t1 = new Turma(5, "C");
 
-        Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");
+        //Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");
         // if(adm1.buscarPorNome("Everton Souza Fagundes")){
         //     System.out.println("achou");
         // }
@@ -270,21 +270,31 @@ public class App {
         //System.out.println("Tentando ler de: " + caminho.toAbsolutePath());
         //System.out.println("Existe? " + Files.exists(caminho)); 
 
-        //Turma t = new Turma(3, "A");
         //TurmaDAO.criarTurma(t);
         //pDAO.adicionarTurmasAoProfessor(t, "20250005");
         //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
         //TurmaDAO.adiconarProfessorLeciona(t, "20250005");
         //TurmaDAO.removerProfessorLeciona(t, "20250004");
         //Map<String, String> dados = Services.lerDados("src/dao/settings.txt");
-        //Disciplina d = new Disciplina("Portugues", dados.get("codigoDisciplina") , "Portugues fundamental", 30);
+        //Disciplina d = new Disciplina("Inglês instrumental", Services.criarCodigoDisciplina() , "Portugues fundamental", 30);
         //d.getLecionadaPor().add(p28);
         //DisciplinaDAO.criarDisciplina(d);
-        
-        //Disciplina d = DisciplinaDAO.getDisciplina("0");
-        //ProfessorDAO pDao2 = new ProfessorDAO();
-        //Professor p = pDao2.getProfessor("20250005");
-        //d.getLecionadaPor().add(p);
-        //DisciplinaDAO.sobrescreverArquivo(d);
+        //Turma t = TurmaDAO.getTurma(1, "A");
+        //Turma t = new Turma(1, "A");
+        //t.setCodigo(Services.criarCodigoTurma());
+        //TurmaDAO.sobrescreverArquivoTurma(t);
+        //System.out.println(t.getCodigo());
+        ProfessorDAO professorDAO = new ProfessorDAO();
+        Professor professor = professorDAO.getProfessor("20250005");
+        Disciplina disciplina = DisciplinaDAO.getDisciplina("1");
+        Turma turma = TurmaDAO.getTurma(1, "2");
+        ProfessorTurmaDisciplina professorTurmaDisciplina = new ProfessorTurmaDisciplina(turma, disciplina, professor);
+        professorTurmaDisciplina.id = 6;
+
+        System.out.println(professorTurmaDisciplina.professor.getNome());
+
+
+
     }
+
 }

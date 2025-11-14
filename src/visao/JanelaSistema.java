@@ -19,6 +19,8 @@ public class JanelaSistema extends JFrame {
     private JPanel painelCadastroAlunos;
     private JPanel painelCadastroProfessor;
     private JPanel painelGerenciamentoProfessor;
+    private JPanel painelCadastroDisciplina;
+    private JPanel painelGerenciamentoDisciplina;
 
     // Menus principais
     private JMenuBar menuBarPrincipal;
@@ -93,11 +95,15 @@ public class JanelaSistema extends JFrame {
         painelCadastroAlunos = new PainelCadastroAlunos();
         painelCadastroProfessor = new PainelCadastroProfessor();
         painelGerenciamentoProfessor = new PainelGerenciamentoProfessor();
+        painelCadastroDisciplina = new PainelCadastroDisciplina();
+        painelGerenciamentoDisciplina = new PainelGerenciamentoDisciplina();
 
         painelPrincipal.add(painelInicio, "inicio");
         painelPrincipal.add(painelCadastroAlunos, "cadastroAlunos");
         painelPrincipal.add(painelCadastroProfessor, "cadastroProfessor");
         painelPrincipal.add(painelGerenciamentoProfessor, "gerenciamentoProfessor");
+        painelPrincipal.add(painelCadastroDisciplina, "cadastroDisciplina");
+        painelPrincipal.add(painelGerenciamentoDisciplina, "gerenciamentoDisciplina");
 
         getContentPane().add(painelPrincipal);
     }
@@ -184,6 +190,8 @@ public class JanelaSistema extends JFrame {
         itemCadastroAlunos.addActionListener(e -> abrirPainel("cadastroAlunos"));
         itemCadastroProfessores.addActionListener(e -> abrirPainel("cadastroProfessor"));
         itemGerenciamentoProfessores.addActionListener(e -> abrirPainel("gerenciamentoProfessor"));
+        itemCadastroDisciplinas.addActionListener(e -> abrirPainel("cadastroDisciplina"));
+        itemGerenciamentoDisciplinas.addActionListener(e -> abrirPainel("gerenciamentoDisciplina"));
     }
 
     private void abrirPainel(String nomePainel) {

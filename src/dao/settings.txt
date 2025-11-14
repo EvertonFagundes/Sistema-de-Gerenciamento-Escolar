@@ -1,2 +1,3 @@
 numeroMatricula: 11,
-codigoDisciplina: 0
+codigoDisciplina: 2,
+codigoTurma: 2

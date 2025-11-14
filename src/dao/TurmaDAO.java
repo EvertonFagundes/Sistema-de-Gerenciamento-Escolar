@@ -15,13 +15,18 @@ import dao.AlunoDAO;
 public class TurmaDAO {
     public static void criarTurma(Turma turma) {
         File diretorio = new File("banco/turmas/");
+        File arquivo = new File("banco/turmas/TURMA" + turma.getAno() + turma.getIdentificador() + ".txt");
         if(!diretorio.exists()) {
             diretorio.mkdirs();
         }
-        try(FileWriter escritor = new FileWriter("banco/turmas/TURMA" + turma.getAno() + turma.getIdentificador() + ".txt", false)){
+        if(!arquivo.isFile()){
+            try(FileWriter escritor = new FileWriter("banco/turmas/TURMA" + turma.getAno() + turma.getIdentificador() + ".txt", false)){
+            String codigo = Services.criarCodigoTurma();
+            turma.setCodigo(codigo);
             escritor.write("Turma :{\n");
             escritor.write("    ano: " + turma.getAno() + ",\n");
             escritor.write("    identificador: " + turma.getIdentificador() + ",\n");
+            escritor.write("    codigo: " + turma.getCodigo() + ",\n");
             escritor.write("    alunosTurma: [");
             ArrayList<String> matriculaAlunos = turma.getAlunosTurma();
             for (int i = 0; i < matriculaAlunos.size(); i++) {
@@ -30,7 +35,7 @@ public class TurmaDAO {
                     escritor.write(", ");
                 }
             }
-            escritor.write("]\n");
+            escritor.write("],\n");
             escritor.write("    professoresLeciona: [");
             ArrayList<String> matriculaProfessoresLeciona = turma.getProfessoresLeciona();
             for(int i = 0; i < matriculaProfessoresLeciona.size(); i++){
@@ -43,9 +48,13 @@ public class TurmaDAO {
             escritor.write("}");
             escritor.close();
             JOptionPane.showMessageDialog(null, "Turma criada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "A turma já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        
     }
 
     public static Turma getTurma(int ano, String identificador) {
@@ -56,6 +65,8 @@ public class TurmaDAO {
             Map<String, String> dados = Services.lerDados(nomeArquivo);
             String letra = dados.getOrDefault("identificador", "");
             turma = new Turma(ano, letra);
+            String codigo = dados.get("codigo");
+            turma.setCodigo(codigo);
 
             ArrayList <String> matriculasAlunosTurma = new ArrayList<>();
             String alunosTexto = dados.getOrDefault("alunosTurma", "[]").replace("[", "").replace("]", "").trim();
@@ -98,12 +109,16 @@ public class TurmaDAO {
         escritor.write("Turma :{\n");
             escritor.write("    ano: " + turma.getAno() + ",\n");
             escritor.write("    identificador: " + turma.getIdentificador() + ",\n");
+            escritor.write("    codigo: " + turma.getCodigo() + ",\n");
             escritor.write("    alunosTurma: [");
             ArrayList<String> matriculaAlunos = turma.getAlunosTurma();
-            for (int i = 0; i < matriculaAlunos.size(); i++) {
-                escritor.write(matriculaAlunos.get(i));
-                if (i < matriculaAlunos.size() - 1) {
-                    escritor.write(", ");
+            if (matriculaAlunos != null && !matriculaAlunos.isEmpty()) {
+                for (int i = 0; i < matriculaAlunos.size(); i++) {
+                    escritor.write(matriculaAlunos.get(i));
+                    System.out.println(matriculaAlunos.get(i) + "\n");
+                    if (i < matriculaAlunos.size() - 1) {
+                        escritor.write(", ");
+                    }
                 }
             }
             escritor.write("],\n");

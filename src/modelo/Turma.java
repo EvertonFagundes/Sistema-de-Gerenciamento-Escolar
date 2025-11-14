@@ -2,8 +2,11 @@ package modelo;
 
 import java.util.ArrayList;
 
+import dao.Services;
+
 public class Turma extends AnoEscolar{
     private String identificador; //ex: A, C etc
+    private String codigo;
     private ArrayList<String>alunosTurma = new ArrayList<>();
     private ArrayList<String>professoresLeciona = new ArrayList<>();
 
@@ -43,6 +46,14 @@ public class Turma extends AnoEscolar{
 
     public void setProfessoresLeciona(ArrayList<String> professoresLeciona) {
         this.professoresLeciona = professoresLeciona;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     
     @Override
