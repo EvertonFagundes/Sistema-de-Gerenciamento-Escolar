@@ -18,6 +18,7 @@ public class PainelCadastroDisciplina extends JPanel {
     private JTextField txtNomeDisciplina;
     private JTextField txtCodigoDisciplina;
     private JFormattedTextField formattedtxtCargaHoraria; 
+    private JTextField txtProfessorResponsavel;
 
     public PainelCadastroDisciplina() {
         setBackground(new Color(145, 196, 195));
@@ -30,27 +31,27 @@ public class PainelCadastroDisciplina extends JPanel {
 
         JLabel lblNomeDisciplina = new JLabel("Nome da Disciplina:");
         lblNomeDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblNomeDisciplina.setBounds(99, 179, 120, 21); 
+        lblNomeDisciplina.setBounds(131, 179, 120, 21); 
         add(lblNomeDisciplina);
 
         txtNomeDisciplina = new JTextField();
-        txtNomeDisciplina.setBounds(230, 182, 250, 18); 
+        txtNomeDisciplina.setBounds(261, 181, 250, 18); 
         add(txtNomeDisciplina);
         txtNomeDisciplina.setColumns(10);
 
         JLabel lblCodigoDisciplina = new JLabel("Código:");
         lblCodigoDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblCodigoDisciplina.setBounds(500, 182, 50, 18); 
+        lblCodigoDisciplina.setBounds(521, 180, 50, 18); 
         add(lblCodigoDisciplina);
 
         txtCodigoDisciplina = new JTextField(); 
-        txtCodigoDisciplina.setBounds(560, 180, 100, 18); 
+        txtCodigoDisciplina.setBounds(581, 181, 100, 18); 
         add(txtCodigoDisciplina);
         txtCodigoDisciplina.setColumns(10);
 
         JLabel lblCargaHoraria = new JLabel("Carga Horária (horas):");
         lblCargaHoraria.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblCargaHoraria.setBounds(680, 182, 140, 12); // Ajustei a coordenada X
+        lblCargaHoraria.setBounds(691, 183, 140, 12); 
         add(lblCargaHoraria);
 
         try {
@@ -59,22 +60,30 @@ public class PainelCadastroDisciplina extends JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        formattedtxtCargaHoraria.setBounds(816, 181, 40, 18); 
+        formattedtxtCargaHoraria.setBounds(830, 181, 40, 18); 
         add(formattedtxtCargaHoraria);
 
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblDescricao.setBounds(151, 254, 100, 18); // Nova linha
+        lblDescricao.setBounds(156, 301, 64, 18); 
         add(lblDescricao);
         JScrollPane scrollPaneDescricaoDisciplina = new JScrollPane();
-        scrollPaneDescricaoDisciplina.setBounds(230, 249, 640, 100); 
+        scrollPaneDescricaoDisciplina.setBounds(230, 298, 640, 100); 
         add(scrollPaneDescricaoDisciplina);
 
-
-        // --- BOTÃO ---
         JButton btnSalvarDisciplina = new JButton("Salvar");
         btnSalvarDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        btnSalvarDisciplina.setBounds(512, 396, 96, 25); 
+        btnSalvarDisciplina.setBounds(513, 429, 96, 25); 
         add(btnSalvarDisciplina);
+        
+        JLabel lblProfessorResponsavel = new JLabel("Professor responsável:");
+        lblProfessorResponsavel.setFont(new Font("Century Gothic", Font.BOLD, 12));
+        lblProfessorResponsavel.setBounds(371, 244, 140, 16);
+        add(lblProfessorResponsavel);
+        
+        txtProfessorResponsavel = new JTextField();
+        txtProfessorResponsavel.setBounds(513, 242, 120, 18);
+        add(txtProfessorResponsavel);
+        txtProfessorResponsavel.setColumns(10);
     }
 }
