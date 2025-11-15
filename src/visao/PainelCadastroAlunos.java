@@ -9,6 +9,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.text.MaskFormatter; 
 import java.text.ParseException;
+import java.awt.event.ActionListener; 
+import java.awt.event.ActionEvent; 
+import javax.swing.JOptionPane; 
+import modelo.Aluno; // IMPORT ADICIONADO (verifique o nome do pacote com Everton)
 
 public class PainelCadastroAlunos extends JPanel {
 
@@ -27,6 +31,7 @@ public class PainelCadastroAlunos extends JPanel {
 	private JFormattedTextField formattedtxtTelefoneResponsavel;
 	private JTextField txtComplementoAluno;
 	private JFormattedTextField formattedtxtNumeroCasaAluno;
+	private JButton btnCadastrarAluno; 
 
 	public PainelCadastroAlunos() {
 		setBackground(new Color(145, 196, 195));
@@ -111,14 +116,12 @@ public class PainelCadastroAlunos extends JPanel {
 		lblNumeroCasaAluno.setBounds(450, 250, 62, 12);
 		add(lblNumeroCasaAluno);
 		
-		// --- CÓDIGO ALTERADO AQUI ---
 		try {
-			// Cria a máscara para aceitar até 3 números
-			formattedtxtNumeroCasaAluno = new JFormattedTextField(new MaskFormatter("###"));
+			formattedtxtNumeroCasaAluno = new JFormattedTextField(new MaskFormatter("#####"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		formattedtxtNumeroCasaAluno.setBounds(508, 248, 24, 18); // Aumentei um pouco a largura
+		formattedtxtNumeroCasaAluno.setBounds(508, 248, 24, 18); 
 		add(formattedtxtNumeroCasaAluno);
 		
 		JLabel lblCidadeAluno = new JLabel("Cidade:");
@@ -198,9 +201,127 @@ public class PainelCadastroAlunos extends JPanel {
 		formattedtxtTelefoneResponsavel.setBounds(549, 377, 100, 18);
 		add(formattedtxtTelefoneResponsavel);
 
-		JButton btnCadastrarAluno = new JButton("Salvar");
+		btnCadastrarAluno = new JButton("Salvar");
 		btnCadastrarAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnCadastrarAluno.setBounds(508, 461, 96, 25);
+		
+		
+		btnCadastrarAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String nome = txtNomeAluno.getText();
+				String dataNasc = formattedtxtDataNascimentoAluno.getText();
+				String cpf = formattedtxtCpfAluno.getText();
+				String rg = formattedtxtRgAluno.getText();
+				String rua = txtRuaAluno.getText();
+				String bairro = txtBairroAluno.getText();
+				String numero = formattedtxtNumeroCasaAluno.getText();
+				String cidade = txtCidadeAluno.getText();
+				String complemento = txtComplementoAluno.getText();
+				String telefone = formattedtxtTelefoneAluno.getText();
+				String email = txtEmailAluno.getText();
+				String nomeResp = txtNomeResponsavel.getText();
+				String telResp = formattedtxtTelefoneResponsavel.getText();
+				String emailResp = txtEmailResponsavel.getText();
+
+				// --- 3. CRIAÇÃO DO OBJETO ---
+				
+				// (Atenção: A classe Aluno do Everton precisa ter um construtor
+				// que aceite todos estes 14 campos, EXATAMENTE NESTA ORDEM)
+				Aluno aluno = new Aluno(nome, dataNasc, cpf, rg, rua, bairro, numero, 
+										cidade, complemento, telefone, email, 
+										nomeResp, telResp, emailResp);
+				
+				// 4. (FUTURO) Chama o DAO do Everton para salvar
+				// AlunoDAO dao = new AlunoDAO();
+				// dao.salvar(aluno);
+				
+				JOptionPane.showMessageDialog(null, "Aluno " + nome + " cadastrado!");
+				
+				limparCampos();
+			}
+		});
+		
 		add(btnCadastrarAluno);
+	}
+	
+	
+	private void limparCampos() {
+		txtNomeAluno.setText("");
+		formattedtxtDataNascimentoAluno.setText("");
+		formattedtxtCpfAluno.setText("");
+		formattedtxtRgAluno.setText("");
+		txtRuaAluno.setText("");
+		txtBairroAluno.setText("");
+		formattedtxtNumeroCasaAluno.setText("");
+		txtCidadeAluno.setText("");
+		txtComplementoAluno.setText("");
+		formattedtxtTelefoneAluno.setText("");
+		txtEmailAluno.setText("");
+		txtNomeResponsavel.setText("");
+		formattedtxtTelefoneResponsavel.setText("");
+		txtEmailResponsavel.setText("");
+	}
+
+	// --- GETTERS ---
+
+	public JTextField getTxtNomeAluno() {
+		return txtNomeAluno;
+	}
+
+	public JTextField getTxtRuaAluno() {
+		return txtRuaAluno;
+	}
+
+	public JTextField getTxtBairroAluno() {
+		return txtBairroAluno;
+	}
+
+	public JTextField getTxtEmailAluno() {
+		return txtEmailAluno;
+	}
+
+	public JTextField getTxtNomeResponsavel() {
+		return txtNomeResponsavel;
+	}
+
+	public JTextField getTxtEmailResponsavel() {
+		return txtEmailResponsavel;
+	}
+
+	public JTextField getTxtCidadeAluno() {
+		return txtCidadeAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtDataNascimentoAluno() {
+		return formattedtxtDataNascimentoAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtCpfAluno() {
+		return formattedtxtCpfAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtRgAluno() {
+		return formattedtxtRgAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtTelefoneAluno() {
+		return formattedtxtTelefoneAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtTelefoneResponsavel() {
+		return formattedtxtTelefoneResponsavel;
+	}
+
+	public JTextField getTxtComplementoAluno() {
+		return txtComplementoAluno;
+	}
+
+	public JFormattedTextField getFormattedtxtNumeroCasaAluno() {
+		return formattedtxtNumeroCasaAluno;
+	}
+
+	public JButton getBtnCadastrarAluno() {
+		return btnCadastrarAluno;
 	}
 }
