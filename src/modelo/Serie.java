@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Serie extends AnoEscolar{
+public class Serie{
     private ArrayList<Turma>turmas1Ano = new ArrayList<>();
     private ArrayList<Turma>turmas2Ano = new ArrayList<>();
     private ArrayList<Turma>turmas3Ano = new ArrayList<>();
@@ -10,8 +10,7 @@ public class Serie extends AnoEscolar{
     public Serie(){
     }
 
-    public Serie(int ano, ArrayList<Turma>turmas1ano, ArrayList<Turma>turmas2Ano, ArrayList<Turma>turmas3Ano){
-        super(ano);
+    public Serie(ArrayList<Turma>turmas1ano, ArrayList<Turma>turmas2Ano, ArrayList<Turma>turmas3Ano){
         this.turmas1Ano = turmas1ano;
         this.turmas2Ano = turmas2Ano;
         this.turmas3Ano = turmas3Ano;

@@ -1,8 +1,11 @@
 package modelo;
+import dao.Services;
 
 public class AnoEscolar {
-    private int ano; //1,2 ou 3
+    private int ano; //2025, 2024, etc
     private String periodoLetivo; //bimestres,trimestres,semestres
+    private String codigo;
+    private boolean ativo;
 
     public AnoEscolar(){
     }
@@ -10,6 +13,7 @@ public class AnoEscolar {
     public AnoEscolar(int ano, String periodoLetivo){
         this.ano = ano;
         this.periodoLetivo = periodoLetivo;
+        this.ativo = true;
     }
 
     public AnoEscolar(int ano){
@@ -30,6 +34,22 @@ public class AnoEscolar {
 
     public void setPeriodoLetivo(String periodoLetivo) {
         this.periodoLetivo = periodoLetivo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public boolean getAtivo(){
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
 }

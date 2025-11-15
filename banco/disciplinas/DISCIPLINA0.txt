@@ -1,7 +1,0 @@
-Disciplina :{
-    nome: Portugues,
-    codigo: 0,
-    descricao: Portugues fundamental,
-    cargaHoraria: 30,
-    lecionadaPor: [20250004, 20250005]
-}

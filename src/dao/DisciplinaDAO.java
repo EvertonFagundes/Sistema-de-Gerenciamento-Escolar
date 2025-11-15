@@ -114,5 +114,12 @@ public class DisciplinaDAO {
         }
     }
 
+    public static void buscarPorCodigo(){
+
+    }
+
+    public static void buscarPorNome(){
+        
+    }
 
 }

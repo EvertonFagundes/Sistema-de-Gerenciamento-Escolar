@@ -1,7 +1,0 @@
-Disciplina :{
-    nome: Inglês instrumental,
-    codigo: 2,
-    descricao: Portugues fundamental,
-    cargaHoraria: 30,
-    lecionadaPor: []
-}

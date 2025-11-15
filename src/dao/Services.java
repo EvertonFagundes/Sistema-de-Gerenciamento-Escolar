@@ -318,6 +318,31 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
         }
         
         return codigo;
-        
     }
+
+    public static String criarCodigoAnoEscolar(){
+        Map<String, String> dados = lerDados("src/dao/settings.txt");
+        String codigo = "";
+        if(dados.get("codigoAnoEscolar") == null){
+            try {
+                FileWriter escritor = new FileWriter("src/dao/settings.txt");
+                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
+                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
+                escritor.write("codigoTurma: " + dados.get("codigoTurma") + ",\n");
+                escritor.write("codigoAnoEscolar: 0");
+                escritor.close();
+            } catch (Exception e) {
+                System.out.println("Erro em criar campo codigoTurma on settings.txt" + e.getMessage());
+            }
+        }else{
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoAnoEscolar"));
+            ultimoCodigo += 1;
+            codigo = String.valueOf(ultimoCodigo);
+            
+            modificarDado("src/dao/settings.txt", "codigoAnoEscolar", codigo);
+        }
+        
+        return codigo;
+    }
+
 }

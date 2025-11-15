@@ -1,3 +1,4 @@
 numeroMatricula: 11,
 codigoDisciplina: 2,
-codigoTurma: 2
+codigoTurma: 2,
+codigoAnoEscolar: 1
