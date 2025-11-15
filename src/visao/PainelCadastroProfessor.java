@@ -9,6 +9,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.text.MaskFormatter; 
 import java.text.ParseException;
+import java.awt.event.ActionListener; 
+import java.awt.event.ActionEvent; 
+import javax.swing.JOptionPane; 
+import modelo.Professor; // IMPORT ADICIONADO (verifique o nome do pacote do Everton)
 
 public class PainelCadastroProfessor extends JPanel {
 
@@ -21,12 +25,12 @@ public class PainelCadastroProfessor extends JPanel {
 	private JFormattedTextField formattedtxtDataNascimentoProfessor;
 	private JFormattedTextField formattedtxtCpfProfessor;
 	private JFormattedTextField formattedtxtRgProfessor;
-	private JFormattedTextField formattedtxtCepProfessor;
+	private JFormattedTextField formattedtxtCepProfessor; 
 	private JFormattedTextField formattedtxtTelefoneProfessor;
 	private JTextField txtComplementoProfessor;
 	private JFormattedTextField formattedtxtNumeroCasaProfessor;
 	private JTextField txtFormacaoAcademica;
-	private JTextField txtDisciplinas;
+	private JButton btnCadastrarProfessor;
 
 	public PainelCadastroProfessor() {
 		setBackground(new Color(145, 196, 195));
@@ -138,12 +142,10 @@ public class PainelCadastroProfessor extends JPanel {
 		txtComplementoProfessor.setBounds(806, 248, 153, 18);
 		add(txtComplementoProfessor);
 		txtComplementoProfessor.setColumns(10);
-
-		// Reajustando posições dos campos abaixo
 		
 		JLabel lblTelefoneProfessor = new JLabel("Telefone:");
 		lblTelefoneProfessor.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblTelefoneProfessor.setBounds(120, 314, 58, 12); // Posição ajustada
+		lblTelefoneProfessor.setBounds(120, 314, 58, 12); 
 		add(lblTelefoneProfessor);
 
 		try {
@@ -151,46 +153,135 @@ public class PainelCadastroProfessor extends JPanel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		formattedtxtTelefoneProfessor.setBounds(185, 312, 100, 18); // Posição ajustada
+		formattedtxtTelefoneProfessor.setBounds(185, 312, 100, 18); 
 		add(formattedtxtTelefoneProfessor);
 		
 		JLabel lblEmailProfessor = new JLabel("E-mail:");
 		lblEmailProfessor.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblEmailProfessor.setBounds(305, 314, 44, 12); // Posição ajustada
+		lblEmailProfessor.setBounds(305, 314, 44, 12); 
 		add(lblEmailProfessor);
 		
 		txtEmailProfessor = new JTextField();
-		txtEmailProfessor.setBounds(350, 312, 153, 18); // Posição ajustada
+		txtEmailProfessor.setBounds(350, 312, 153, 18);
 		add(txtEmailProfessor);
 		txtEmailProfessor.setColumns(10);
-
-		// --- NOVOS CAMPOS PARA PROFESSOR ---
 		
 		JLabel lblFormacao = new JLabel("Formação Acadêmica:");
 		lblFormacao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblFormacao.setBounds(520, 314, 140, 12); // Posição ajustada
+		lblFormacao.setBounds(520, 314, 140, 12);
 		add(lblFormacao);
 		
 		txtFormacaoAcademica = new JTextField();
-		txtFormacaoAcademica.setBounds(665, 312, 250, 18); // Posição ajustada
+		txtFormacaoAcademica.setBounds(665, 312, 250, 18); 
 		add(txtFormacaoAcademica);
 		txtFormacaoAcademica.setColumns(10);
-
-		JLabel lblDisciplinas = new JLabel("Disciplina que leciona:");
-		lblDisciplinas.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		lblDisciplinas.setBounds(290, 376, 160, 18); // Nova linha
-		add(lblDisciplinas);
 		
-		txtDisciplinas = new JTextField();
-		txtDisciplinas.setBounds(431, 377, 400, 18); // Nova linha
-		add(txtDisciplinas);
-		txtDisciplinas.setColumns(10);
-		
-		// --- BOTÃO ---
-		
-		JButton btnCadastrarProfessor = new JButton("Salvar");
+		btnCadastrarProfessor = new JButton("Salvar");
 		btnCadastrarProfessor.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		btnCadastrarProfessor.setBounds(508, 461, 96, 25);
+		btnCadastrarProfessor.setBounds(508, 427, 96, 25);
+		
+		// --- ACTION LISTENER ATUALIZADO ---
+		btnCadastrarProfessor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				String nome = txtNomeProfessor.getText();
+				String dataNasc = formattedtxtDataNascimentoProfessor.getText();
+				String cpf = formattedtxtCpfProfessor.getText();
+				String rg = formattedtxtRgProfessor.getText();
+				String rua = txtRuaProfessor.getText();
+				String bairro = txtBairroProfessor.getText();
+				String numero = formattedtxtNumeroCasaProfessor.getText();
+				String cidade = txtCidadeProfessor.getText();
+				String complemento = txtComplementoProfessor.getText();
+				String telefone = formattedtxtTelefoneProfessor.getText();
+				String email = txtEmailProfessor.getText();
+				String formacao = txtFormacaoAcademica.getText();
+				
+				// 2. Cria o objeto do Modelo (USANDO O CONSTRUTOR, COMO PEDIDO)
+				// (Atenção: A classe Professor do Everton precisa ter um construtor
+				// que aceite todos estes 12 campos, EXATAMENTE NESTA ORDEM)
+				Professor professor = new Professor(nome, dataNasc, cpf, rg, rua, bairro, 
+													numero, cidade, complemento, telefone, 
+													email, formacao);
+				
+				// 3. (FUTURO) Chama o DAO do Everton para salvar
+				// ProfessorDAO dao = new ProfessorDAO();
+				// dao.salvar(professor);
+				
+				JOptionPane.showMessageDialog(null, "Professor " + nome + " cadastrado!");
+				
+				// 5. Limpa os campos
+				txtNomeProfessor.setText("");
+				formattedtxtDataNascimentoProfessor.setText("");
+				formattedtxtCpfProfessor.setText("");
+				formattedtxtRgProfessor.setText("");
+				txtRuaProfessor.setText("");
+				txtBairroProfessor.setText("");
+				formattedtxtNumeroCasaProfessor.setText("");
+				txtCidadeProfessor.setText("");
+				txtComplementoProfessor.setText("");
+				formattedtxtTelefoneProfessor.setText("");
+				txtEmailProfessor.setText("");
+				txtFormacaoAcademica.setText("");
+			}
+		});
+		
 		add(btnCadastrarProfessor);
+	}
+
+	public JTextField getTxtNomeProfessor() {
+		return txtNomeProfessor;
+	}
+
+	public JTextField getTxtRuaProfessor() {
+		return txtRuaProfessor;
+	}
+
+	public JTextField getTxtBairroProfessor() {
+		return txtBairroProfessor;
+	}
+
+	public JTextField getTxtEmailProfessor() {
+		return txtEmailProfessor;
+	}
+
+	public JTextField getTxtCidadeProfessor() {
+		return txtCidadeProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtDataNascimentoProfessor() {
+		return formattedtxtDataNascimentoProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtCpfProfessor() {
+		return formattedtxtCpfProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtRgProfessor() {
+		return formattedtxtRgProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtCepProfessor() {
+		return formattedtxtCepProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtTelefoneProfessor() {
+		return formattedtxtTelefoneProfessor;
+	}
+
+	public JTextField getTxtComplementoProfessor() {
+		return txtComplementoProfessor;
+	}
+
+	public JFormattedTextField getFormattedtxtNumeroCasaProfessor() {
+		return formattedtxtNumeroCasaProfessor;
+	}
+
+	public JTextField getTxtFormacaoAcademica() {
+		return txtFormacaoAcademica;
+	}
+
+	public JButton getBtnCadastrarProfessor() {
+		return btnCadastrarProfessor;
 	}
 }
