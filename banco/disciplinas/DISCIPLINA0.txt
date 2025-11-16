@@ -1,0 +1,7 @@
+Disciplina :{
+    nome: RedesI,
+    codigo: 0,
+    descricao: Disciplina de Redes I,
+    cargaHoraria: 75,
+    lecionadaPor: []
+}

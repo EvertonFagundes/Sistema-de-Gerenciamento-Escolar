@@ -304,7 +304,8 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
                 FileWriter escritor = new FileWriter("src/dao/settings.txt");
                 escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
                 escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
-                escritor.write("codigoTurma: 0");
+                escritor.write("codigoTurma: 0,\n");
+                escritor.write("codigoAnoEscolar: 0");
                 escritor.close();
             } catch (Exception e) {
                 System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());

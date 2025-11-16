@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import dao.Services;
 
@@ -58,6 +59,7 @@ public class Turma extends AnoEscolar{
     
     @Override
     public String toString() {
-        return getAno() + " " + getIdentificador();
+        Map<String, String> dados = Services.lerDados("src/dao/settings.txt");
+        return dados.get("codigoTurma");
     }
 }

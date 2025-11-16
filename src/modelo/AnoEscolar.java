@@ -5,7 +5,7 @@ public class AnoEscolar {
     private int ano; //2025, 2024, etc
     private String periodoLetivo; //bimestres,trimestres,semestres
     private String codigo;
-    private boolean ativo;
+    private boolean situacao;//ativo ou não ativo
 
     public AnoEscolar(){
     }
@@ -13,7 +13,7 @@ public class AnoEscolar {
     public AnoEscolar(int ano, String periodoLetivo){
         this.ano = ano;
         this.periodoLetivo = periodoLetivo;
-        this.ativo = true;
+        this.situacao = true;
     }
 
     public AnoEscolar(int ano){
@@ -44,12 +44,12 @@ public class AnoEscolar {
         this.codigo = codigo;
     }
 
-    public boolean getAtivo(){
-        return ativo;
+    public boolean getSituacao(){
+        return situacao;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
     }
 
 }

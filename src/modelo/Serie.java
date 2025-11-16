@@ -3,40 +3,30 @@ package modelo;
 import java.util.ArrayList;
 
 public class Serie{
-    private ArrayList<Turma>turmas1Ano = new ArrayList<>();
-    private ArrayList<Turma>turmas2Ano = new ArrayList<>();
-    private ArrayList<Turma>turmas3Ano = new ArrayList<>();
+    private String nome;
+    private ArrayList<Turma> turmas = new ArrayList<>();
 
     public Serie(){
     }
 
-    public Serie(ArrayList<Turma>turmas1ano, ArrayList<Turma>turmas2Ano, ArrayList<Turma>turmas3Ano){
-        this.turmas1Ano = turmas1ano;
-        this.turmas2Ano = turmas2Ano;
-        this.turmas3Ano = turmas3Ano;
+    public Serie(String nome, ArrayList<Turma> turmas){
+        this.nome = nome;
+        this.turmas = turmas;
     }
 
-    public ArrayList<Turma> getTurmas1Ano() {
-        return turmas1Ano;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTurmas1Ano(ArrayList<Turma> turmas1Ano) {
-        this.turmas1Ano = turmas1Ano;
-    }
-
-    public ArrayList<Turma> getTurmas2Ano() {
-        return turmas2Ano;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
-    public void setTurmas2Ano(ArrayList<Turma> turmas2Ano) {
-        this.turmas2Ano = turmas2Ano;
+    public ArrayList<Turma> getTurmas() {
+        return turmas;
     }
 
-    public ArrayList<Turma> getTurmas3Ano() {
-        return turmas3Ano;
-    }
-
-    public void setTurmas3Ano(ArrayList<Turma> turmas3Ano) {
-        this.turmas3Ano = turmas3Ano;
+    public void setTurmas(ArrayList<Turma> turmas) {
+        this.turmas = turmas;
     }
 }

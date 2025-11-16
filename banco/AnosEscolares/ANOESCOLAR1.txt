@@ -1,5 +1,0 @@
-AnoEscolar :{
-    ano: 2025,
-    periodoLetivo: Semestre,
-    codigo: 1
-}
