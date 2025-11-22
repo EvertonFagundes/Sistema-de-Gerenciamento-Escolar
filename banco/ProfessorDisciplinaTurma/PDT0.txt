@@ -1,0 +1,6 @@
+PDT :{
+    id: 0,
+    professor: MAT04,
+    disciplina: 3,
+    turma: 0
+}

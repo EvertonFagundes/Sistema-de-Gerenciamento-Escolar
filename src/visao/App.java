@@ -9,6 +9,7 @@ import java.util.Map;
 import dao.AnoEscolarDAO;
 import dao.DisciplinaDAO;
 import dao.ProfessorDAO;
+import dao.ProfessorDisciplinaTurmaDAO;
 import dao.Services;
 import dao.TurmaDAO;
 import modelo.*;
@@ -75,26 +76,24 @@ public class App {
         //TurmaDAO.sobrescreverArquivoTurma(t);
         ProfessorDAO pDAO = new ProfessorDAO();
         Map<String, String> dados = Services.lerDados("src/dao/settings.txt");
-        AnoEscolar a1 = new AnoEscolar(2025, "semestre");
+        /*AnoEscolar a1 = new AnoEscolar(2025, "semestre");
         Services.criarCodigoAnoEscolar();
         a1.setCodigo(dados.get("codigoAnoEscolar"));
         AnoEscolarDAO.criarAnoEscolar(a1);
+        */
         
-        /*
         Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");
-        
-        Disciplina RedesI = new Disciplina("RedesI", "", "Disciplina de Redes I", 75);
+        String codDisc = Services.criarCodigoDisciplina();
+        Disciplina RedesI = new Disciplina("RedesI", codDisc, "Disciplina de Redes I", 75);
         
         Turma t = new Turma(1, "A");
         Services.criarCodigoTurma();
         t.setCodigo(dados.get("codigoTurma"));
-        TurmaDAO.sobrescreverArquivoTurma(t);
+        //TurmaDAO.sobrescreverArquivoTurma(t);
         
         ProfessorDisciplinaTurma pdt1 = new ProfessorDisciplinaTurma(p28, RedesI, t);
-        System.out.println(pdt1.getProfessor());
-        System.out.println(pdt1.getDisciplina());
-        System.out.println(pdt1.getTurma());
-        */
+        ProfessorDisciplinaTurmaDAO.criarAtribuicaoProfessorDisciplinaTurma(pdt1);
+        
     }
 
 }

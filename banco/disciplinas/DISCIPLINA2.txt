@@ -1,0 +1,7 @@
+Disciplina :{
+    nome: matematica,
+    codigo: 2,
+    descricao: melhor matéria.,
+    cargaHoraria: 75,
+    lecionadaPor: []
+}

@@ -78,7 +78,7 @@ public class PainelCadastroDisciplina extends JPanel {
         btnSalvarDisciplina.setFont(new Font("Century Gothic", Font.BOLD, 12));
         btnSalvarDisciplina.setBounds(512, 396, 96, 25);
         btnSalvarDisciplina.addActionListener(e ->{
-            System.out.println(getTxtNomeDisciplina().getText() + " " + getFormattedtxtCargaHoraria().getText() +  " " + getTxtDescricaoDisciplina().getText());
+            //System.out.println(getTxtNomeDisciplina().getText() + " " + getFormattedtxtCargaHoraria().getText() +  " " + getTxtDescricaoDisciplina().getText());
             String nome = getTxtNomeDisciplina().getText();
             String cargaHoraria = getFormattedtxtCargaHoraria().getText();
             String descricao = getTxtDescricaoDisciplina().getText();

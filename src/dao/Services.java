@@ -346,4 +346,30 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
         return codigo;
     }
 
+    public static int criarCodigoProfessorDisciplinaTurma(){
+        Map<String, String> dados = lerDados("src/dao/settings.txt");
+        String codigo = "";
+        if(dados.get("codigoPDT") == null){
+            try {
+                FileWriter escritor = new FileWriter("src/dao/settings.txt");
+                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
+                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
+                escritor.write("codigoTurma: " + dados.get("codigoTurma") + ",\n");
+                escritor.write("codigoPDT: 0");
+                escritor.close();
+            } catch (Exception e) {
+                System.out.println("Erro em criar campo codigoPDT on settings.txt" + e.getMessage());
+            }
+        }else{
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoPDT"));
+            ultimoCodigo += 1;
+            codigo = String.valueOf(ultimoCodigo);
+            
+            modificarDado("src/dao/settings.txt", "codigoPDT", codigo);
+        }
+
+        int cod = Integer.parseInt(codigo);
+        
+        return cod;
+    }
 }
