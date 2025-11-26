@@ -2,6 +2,7 @@ package visao;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 // Erick
 import java.util.ArrayList;
 import java.util.Map;
@@ -76,12 +77,19 @@ public class App {
         //TurmaDAO.sobrescreverArquivoTurma(t);
         ProfessorDAO pDAO = new ProfessorDAO();
         Map<String, String> dados = Services.lerDados("src/dao/settings.txt");
-        /*AnoEscolar a1 = new AnoEscolar(2025, "semestre");
+
+        ArrayList<PeriodoLetivo> periodos = new ArrayList<>();
+
+        PeriodoLetivo p1 = new PeriodoLetivo("1 bimestre", LocalDate.of(2025,03,01), LocalDate.of(2025, 12, 20));
+
+        periodos.add(p1);
+
+        AnoEscolar a1 = new AnoEscolar(2025, periodos);
         Services.criarCodigoAnoEscolar();
         a1.setCodigo(dados.get("codigoAnoEscolar"));
         AnoEscolarDAO.criarAnoEscolar(a1);
-        */
         
+        /*
         Professor p28 = new Professor("Mariana Duarte Silveira dos Santos", "318.642.910-57", "SP9034128", "MAT04", "mariana.silveira@colegio.edu.br", 12, 9, 1989, "Rua das Acácias", "Jardim Primavera", "São Paulo", 742, "Casa Verde", "11988776655", "MarianaD89", "Professora de Matemática");
         String codDisc = Services.criarCodigoDisciplina();
         Disciplina RedesI = new Disciplina("RedesI", codDisc, "Disciplina de Redes I", 75);
@@ -93,6 +101,8 @@ public class App {
         
         ProfessorDisciplinaTurma pdt1 = new ProfessorDisciplinaTurma(p28, RedesI, t);
         ProfessorDisciplinaTurmaDAO.criarAtribuicaoProfessorDisciplinaTurma(pdt1);
+        */
+
         
     }
 

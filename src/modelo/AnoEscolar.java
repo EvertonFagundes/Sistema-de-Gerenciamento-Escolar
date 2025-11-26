@@ -1,18 +1,21 @@
 package modelo;
+import java.util.ArrayList;
+
 import dao.Services;
 
 public class AnoEscolar {
     private int ano; //2025, 2024, etc
-    private String periodoLetivo; //bimestres,trimestres,semestres
+    private ArrayList<PeriodoLetivo> periodos; //bimestres,trimestres,semestres
     private String codigo;
     private boolean situacao;//ativo ou não ativo
+    private ArrayList<Serie> series = new ArrayList<>();
 
     public AnoEscolar(){
     }
     
-    public AnoEscolar(int ano, String periodoLetivo){
+    public AnoEscolar(int ano, ArrayList<PeriodoLetivo> periodoLetivo){
         this.ano = ano;
-        this.periodoLetivo = periodoLetivo;
+        this.periodos = periodos;
         this.situacao = true;
     }
 
@@ -28,12 +31,12 @@ public class AnoEscolar {
         this.ano = ano;
     }
 
-    public String getPeriodoLetivo() {
-        return periodoLetivo;
+    public ArrayList<PeriodoLetivo> getPeriodoLetivo() {
+        return periodos;
     }
 
-    public void setPeriodoLetivo(String periodoLetivo) {
-        this.periodoLetivo = periodoLetivo;
+    public void setPeriodoLetivo(ArrayList<PeriodoLetivo> periodos) {
+        this.periodos = periodos;
     }
 
     public String getCodigo() {
@@ -52,4 +55,11 @@ public class AnoEscolar {
         this.situacao = situacao;
     }
 
+    public ArrayList<Serie> getSeries(){
+        return series;
+    }
+
+    public void setSeries(ArrayList<Serie> series) {
+        this.series = series;
+    }
 }

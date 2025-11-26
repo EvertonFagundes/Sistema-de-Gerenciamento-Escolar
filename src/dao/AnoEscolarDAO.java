@@ -17,7 +17,16 @@ public class AnoEscolarDAO {
             try(FileWriter escritor = new FileWriter(arquivo.getPath(), false)){
             escritor.write("AnoEscolar :{\n");
             escritor.write("    ano: " + anoEscolar.getAno() + ",\n");
-            escritor.write("    periodoLetivo: " + anoEscolar.getPeriodoLetivo() + ",\n");
+            escritor.write("    periodoLetivo: [");
+
+            for(int i=0; i<anoEscolar.getPeriodoLetivo().size(); i++){
+                if(i == 0){
+                    escritor.write(anoEscolar.getPeriodoLetivo().get(i).getNome());
+                }else{
+                    escritor.write(", " + anoEscolar.getPeriodoLetivo().get(i).getNome());
+                }
+            }
+            escritor.write("]\n");
             escritor.write("    codigo: " + anoEscolar.getCodigo() + "\n");
             escritor.write("}");
             escritor.close();

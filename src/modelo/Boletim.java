@@ -7,8 +7,8 @@ public class Boletim extends AnoEscolar{
     private double mediaAluno;
     private ArrayList<Double> notas = new ArrayList<>();
 
-    public Boletim(int ano, String periodoLetivo, double frequenciaAluno, double mediaAluno, ArrayList<Double> notas){
-        super(ano, periodoLetivo);
+    public Boletim(int ano, ArrayList<PeriodoLetivo> periodos, double frequenciaAluno, double mediaAluno, ArrayList<Double> notas){
+        super(ano, periodos);
         this.frequenciaAluno = frequenciaAluno;
         this.mediaAluno = mediaAluno;
         this.notas = notas;
