@@ -3,21 +3,22 @@ package visao;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener; // IMPORT ADICIONADO
-import java.awt.event.ActionEvent; // IMPORT ADICIONADO
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent; 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane; // Importado (embora não usado na lógica de login)
 import javax.swing.SwingConstants;
 
 public class JanelaSistema extends JFrame {
 
     // Painéis principais
     private JPanel painelPrincipal;
-    private PainelLogin painelLogin; // ADICIONADO
+    private PainelLogin painelLogin;
     private PainelPrincipal painelInicio; 
     private JPanel painelCadastroAlunos;
     private JPanel painelCadastroProfessor;
@@ -52,7 +53,7 @@ public class JanelaSistema extends JFrame {
     private JMenuItem itemGerenciamentoDisciplinas;
 
     // Itens de menu - Matrículas e Turmas
-    private JMenuItem itemMatriculaAlunoSerie;
+    // (Vazio conforme solicitado)
     
     // Item de menu - Boletim
     private JMenuItem itemBoletimVisualizar; 
@@ -62,7 +63,7 @@ public class JanelaSistema extends JFrame {
     private JMenuItem itemBuscarProfessores;
     private JMenuItem itemBuscarDisciplinas;
 
-   
+    
     // MÉTODO PRINCIPAL
 
     public static void main(String[] args) {
@@ -70,7 +71,7 @@ public class JanelaSistema extends JFrame {
         janela.setVisible(true);
     }
 
-  
+   
     // CONSTRUTOR
     public JanelaSistema() {
         configurarJanela();
@@ -78,11 +79,7 @@ public class JanelaSistema extends JFrame {
         inicializarMenu();
         configurarEventos();
         
-        // --- MODIFICAÇÕES AQUI ---
-        // 1. Esconde a barra de menu
         setJMenuBar(null); 
-        
-        // 2. Define o login como o painel inicial
         abrirPainel("login");
     }
 
@@ -99,7 +96,7 @@ public class JanelaSistema extends JFrame {
         painelPrincipal = new JPanel(new CardLayout());
         painelPrincipal.setBackground(new Color(145, 196, 195)); 
 
-        painelLogin = new PainelLogin(); // ADICIONADO
+        painelLogin = new PainelLogin(); 
         painelInicio = new PainelPrincipal(); 
 
         painelCadastroAlunos = new PainelCadastroAlunos();
@@ -111,7 +108,7 @@ public class JanelaSistema extends JFrame {
         painelBoletim = new PainelBoletim(); 
 
 
-        painelPrincipal.add(painelLogin, "login"); // ADICIONADO
+        painelPrincipal.add(painelLogin, "login"); 
         painelPrincipal.add(painelInicio, "inicio");
         painelPrincipal.add(painelCadastroAlunos, "cadastroAlunos");
         painelPrincipal.add(painelCadastroProfessor, "cadastroProfessor");
@@ -125,12 +122,11 @@ public class JanelaSistema extends JFrame {
     }
 
     // MENU
-   
+    
     private void inicializarMenu() {
-        // Barra de menu
+       
         menuBarPrincipal = new JMenuBar();
         menuBarPrincipal.setBackground(new Color(255, 247, 221));
-        // setJMenuBar(menuBarPrincipal); // REMOVIDO DAQUI (só aparece após login)
 
         // ------------------- MENU CADASTROS -------------------
         menuCadastros = criarMenu("Cadastros");
@@ -144,7 +140,6 @@ public class JanelaSistema extends JFrame {
 
         // ------------------- MENU FINANCEIRO -------------------
         menuFinanceiro = criarMenu("Financeiro");
-        // Você removeu os itens, pode adicionar se precisar
         menuBarPrincipal.add(menuFinanceiro);
 
         // ------------------- MENU GERENCIAMENTO -------------------
@@ -158,9 +153,7 @@ public class JanelaSistema extends JFrame {
         menuBarPrincipal.add(menuGerenciamento);
 
         // ------------------- MENU MATRÍCULAS -------------------
-        menuMatriculasTurmas = criarMenu("Matrículas e Turmas");
-        itemMatriculaAlunoSerie = criarItemMenu("Matrícula de aluno em ano escolar e série");
-        menuMatriculasTurmas.add(itemMatriculaAlunoSerie);
+        menuMatriculasTurmas = criarMenu("Matrículas");
         menuBarPrincipal.add(menuMatriculasTurmas);
 
         // ------------------- MENU BOLETIM -------------------
@@ -182,7 +175,7 @@ public class JanelaSistema extends JFrame {
 
 
     // MÉTODOS DE AJUDA
-   
+    
     private JMenu criarMenu(String titulo) {
         JMenu menu = new JMenu(titulo);
         menu.setFont(new Font("Century Gothic", Font.BOLD, 12));
@@ -201,19 +194,37 @@ public class JanelaSistema extends JFrame {
     
     private void configurarEventos() {
         
-        // --- EVENTOS DOS BOTÕES DE LOGIN ---
-        ActionListener listenerLogin = new ActionListener() {
+        // --- EVENTOS DOS BOTÕES DE LOGIN (LÓGICA DE VALIDAÇÃO) ---
+        
+        // 1. Botão Administrador
+        painelLogin.getBtnAdministrador().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // (Aqui entraria a validação de tipo de usuário)
-                realizarLogin();
+                configurarMenusParaAdmin();
+                setJMenuBar(menuBarPrincipal);
+                abrirPainel("inicio");
             }
-        };
-        painelLogin.getBtnAdministrador().addActionListener(listenerLogin);
-        painelLogin.getBtnProfessor().addActionListener(listenerLogin);
-        painelLogin.getBtnAluno().addActionListener(listenerLogin);
+        });
+        
+        // 2. Botão Professor
+        painelLogin.getBtnProfessor().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                configurarMenusParaProfessor();
+                setJMenuBar(menuBarPrincipal);
+                abrirPainel("inicio");
+            }
+        });
+
+        // 3. Botão Aluno
+        painelLogin.getBtnAluno().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                configurarMenusParaAluno();
+                setJMenuBar(menuBarPrincipal);
+                abrirPainel("boletim"); // Aluno vai direto para o boletim
+            }
+        });
         
         
-        // --- EVENTOS DOS MENUS ---
+        // --- EVENTOS DOS MENUS (após login) ---
         itemCadastroAlunos.addActionListener(e -> abrirPainel("cadastroAlunos"));
         itemCadastroProfessores.addActionListener(e -> abrirPainel("cadastroProfessor"));
         itemCadastroDisciplinas.addActionListener(e -> abrirPainel("cadastroDisciplina")); 
@@ -230,9 +241,45 @@ public class JanelaSistema extends JFrame {
         cl.show(painelPrincipal, nomePainel);
     }
     
-  // MÉTODO PARA LIDAR COM O LOGIN
-    private void realizarLogin() {
-        setJMenuBar(menuBarPrincipal);
-        abrirPainel("inicio");
+    // --- MÉTODOS DE CONTROLE DE ACESSO ADICIONADOS ---
+    
+    /**
+     * Administrador: Vê tudo.
+     */
+    private void configurarMenusParaAdmin() {
+        menuCadastros.setVisible(true);
+        menuFinanceiro.setVisible(true);
+        menuGerenciamento.setVisible(true);
+        menuMatriculasTurmas.setVisible(true);
+        menuBoletim.setVisible(true);
+        menuBuscar.setVisible(true);
+    }
+    
+    private void configurarMenusParaProfessor() {
+        menuFinanceiro.setVisible(false);
+        menuMatriculasTurmas.setVisible(false);
+        menuBoletim.setVisible(false); 
+        
+        menuCadastros.setVisible(true);
+        menuGerenciamento.setVisible(true);
+        menuBuscar.setVisible(true);
+        
+        itemCadastroAlunos.setVisible(false);
+        itemCadastroProfessores.setVisible(false);
+        itemCadastroDisciplinas.setVisible(true); 
+        
+        itemGerenciamentoAlunos.setVisible(false);
+        itemGerenciamentoProfessores.setVisible(true);
+        itemGerenciamentoDisciplinas.setVisible(true); 
+    }
+   
+    private void configurarMenusParaAluno() {
+        menuCadastros.setVisible(false);
+        menuFinanceiro.setVisible(false);
+        menuGerenciamento.setVisible(false);
+        menuMatriculasTurmas.setVisible(false);
+        menuBuscar.setVisible(false);
+      
+        menuBoletim.setVisible(true);
     }
 }
