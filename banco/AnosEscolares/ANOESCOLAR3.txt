@@ -1,0 +1,5 @@
+AnoEscolar :{
+    ano: 2025,
+    periodoLetivo: [1º Bimestre, 2º Bimestre, 3º Bimestre, 4º Bimestre]
+    codigo: 3
+}

@@ -1,0 +1,5 @@
+AnoEscolar :{
+    ano: 2026,
+    periodoLetivo: [1º Semestre, 2º Semestre]
+    codigo: 4
+}

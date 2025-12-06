@@ -7,6 +7,8 @@ public class PeriodoLetivo {
     private LocalDate inicio;
     private LocalDate fim;
 
+    public PeriodoLetivo(){}
+
     public PeriodoLetivo(String nome, LocalDate inicio, LocalDate fim) {
         this.nome = nome;
         this.inicio = inicio;

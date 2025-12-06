@@ -36,5 +36,14 @@ public class AnoEscolarDAO {
         }
     }
 
+    public static boolean verificaAnoEscolar(String codigo){
+        File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + codigo + ".txt");
+        if(arquivo.isFile()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     
 }

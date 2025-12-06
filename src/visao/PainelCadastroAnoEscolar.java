@@ -7,28 +7,22 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
-import javax.swing.JFormattedTextField; 
 import javax.swing.JButton;
-import javax.swing.JTextArea; 
-import javax.swing.JScrollPane; 
-import javax.swing.text.MaskFormatter;
+import javax.swing.JComboBox;
 
 import dao.AnoEscolarDAO;
-import dao.DisciplinaDAO;
 import dao.Services;
 import modelo.AnoEscolar;
-import modelo.Serie;
+import modelo.PeriodoLetivo;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class PainelCadastroAnoEscolar extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private JTextField txtNomeAnoEscolar;
-    private JFormattedTextField formattedtxtSerie; 
-    private JTextArea txtDescricaoAnoEscolar;
+    private JTextField txtAno;
+    private JComboBox<String> comboPeriodo;
     private JButton btnSalvarAnoEscolar;
 
     public PainelCadastroAnoEscolar() {
@@ -37,128 +31,102 @@ public class PainelCadastroAnoEscolar extends JPanel {
 
         JLabel lblCadastroAnoEscolar = new JLabel("CADASTRO DE ANO ESCOLAR");
         lblCadastroAnoEscolar.setFont(new Font("Century Gothic", Font.BOLD, 15));
-        lblCadastroAnoEscolar.setBounds(450, 93, 250, 30); 
+        lblCadastroAnoEscolar.setBounds(450, 93, 250, 30);
         add(lblCadastroAnoEscolar);
 
-        JLabel lblNomeAnoEscolar = new JLabel("Nome/Nível (Ex: Ensino Médio):");
-        lblNomeAnoEscolar.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblNomeAnoEscolar.setBounds(99, 179, 190, 21); 
-        add(lblNomeAnoEscolar);
+        JLabel lblAno = new JLabel("Ano (Ex: 2025):");
+        lblAno.setFont(new Font("Century Gothic", Font.BOLD, 12));
+        lblAno.setBounds(99, 179, 190, 21);
+        add(lblAno);
 
-        txtNomeAnoEscolar = new JTextField();
-        txtNomeAnoEscolar.setBounds(295, 182, 250, 18);
-        txtNomeAnoEscolar.setColumns(10);
-        add(txtNomeAnoEscolar);
+        txtAno = new JTextField();
+        txtAno.setBounds(295, 182, 250, 18);
+        add(txtAno);
 
-        JLabel lblSerie = new JLabel("Série (Ex: 1º, 2º, 3º):");
-        lblSerie.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblSerie.setBounds(560, 182, 130, 12);
-        add(lblSerie);
+        JLabel lblPeriodo = new JLabel("Período Letivo:");
+        lblPeriodo.setFont(new Font("Century Gothic", Font.BOLD, 12));
+        lblPeriodo.setBounds(99, 240, 190, 21);
+        add(lblPeriodo);
 
-        try {
-            formattedtxtSerie = new JFormattedTextField(new MaskFormatter("###")); 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        formattedtxtSerie.setBounds(695, 181, 40, 18);
-        add(formattedtxtSerie);
-
-        JLabel lblDescricao = new JLabel("Descrição (Opcional):");
-        lblDescricao.setFont(new Font("Century Gothic", Font.BOLD, 12));
-        lblDescricao.setBounds(99, 254, 150, 18);
-        add(lblDescricao);
-
-        txtDescricaoAnoEscolar = new JTextArea();
-        txtDescricaoAnoEscolar.setLineWrap(true);
-        txtDescricaoAnoEscolar.setWrapStyleWord(true);
-        txtDescricaoAnoEscolar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-
-        JScrollPane scrollPaneDescricaoAnoEscolar = new JScrollPane(txtDescricaoAnoEscolar);
-        scrollPaneDescricaoAnoEscolar.setBounds(295, 249, 575, 100);
-        add(scrollPaneDescricaoAnoEscolar);
+        comboPeriodo = new JComboBox<>();
+        comboPeriodo.setBounds(295, 240, 250, 22);
+        comboPeriodo.addItem("4 Bimestres");
+        comboPeriodo.addItem("3 Trimestres");
+        comboPeriodo.addItem("2 Semestres");
+        add(comboPeriodo);
 
         btnSalvarAnoEscolar = new JButton("Salvar");
         btnSalvarAnoEscolar.setFont(new Font("Century Gothic", Font.BOLD, 12));
         btnSalvarAnoEscolar.setBounds(512, 396, 96, 25);
-        btnSalvarAnoEscolar.addActionListener(e ->{
-            String nome = getTxtNomeAnoEscolar().getText();
-            String serieStr = getFormattedtxtSerie().getText().trim();
-            String descricao = getTxtDescricaoAnoEscolar().getText();
-            salvarAnoEscolar(nome, serieStr);
+        btnSalvarAnoEscolar.addActionListener(e -> {
+            salvarAnoEscolar(txtAno.getText().trim());
         });
         add(btnSalvarAnoEscolar);
     }
 
-    public JTextField getTxtNomeAnoEscolar() {
-        return txtNomeAnoEscolar;
+    // Cria os períodos conforme a seleção do usuário
+    private ArrayList<PeriodoLetivo> gerarPeriodos(String tipo) {
+        ArrayList<PeriodoLetivo> lista = new ArrayList<>();
+
+        if (tipo.equals("4 Bimestres")) {
+            for (int i = 1; i <= 4; i++) {
+                PeriodoLetivo p = new PeriodoLetivo();
+                p.setNome(i + "º Bimestre");
+                lista.add(p);
+            }
+        } 
+        else if (tipo.equals("3 Trimestres")) {
+            for (int i = 1; i <= 3; i++) {
+                PeriodoLetivo p = new PeriodoLetivo();
+                p.setNome(i + "º Trimestre");
+                lista.add(p);
+            }
+        } 
+        else if (tipo.equals("2 Semestres")) {
+            for (int i = 1; i <= 2; i++) {
+                PeriodoLetivo p = new PeriodoLetivo();
+                p.setNome(i + "º Semestre");
+                lista.add(p);
+            }
+        }
+
+        return lista;
     }
 
-    public void setTxtNomeAnoEscolar(JTextField txtNomeAnoEscolar) {
-        this.txtNomeAnoEscolar = txtNomeAnoEscolar;
-    }
-
-    public JFormattedTextField getFormattedtxtSerie() {
-        return formattedtxtSerie;
-    }
-
-    public void setFormattedtxtSerie(JFormattedTextField formattedtxtSerie) {
-        this.formattedtxtSerie = formattedtxtSerie;
-    }
-
-    public JTextArea getTxtDescricaoAnoEscolar() {
-        return txtDescricaoAnoEscolar;
-    }
-
-    public void setTxtDescricaoAnoEscolar(JTextArea txtDescricaoAnoEscolar) {
-        this.txtDescricaoAnoEscolar = txtDescricaoAnoEscolar;
-    }
-
-    public JButton getBtnSalvarAnoEscolar() {
-        return btnSalvarAnoEscolar;
-    }
-
-    public void setBtnSalvarAnoEscolar(JButton btnSalvarAnoEscolar) {
-        this.btnSalvarAnoEscolar = btnSalvarAnoEscolar;
-    }
-
-    public void salvarAnoEscolar(String nome, String serieStr){
+    public void salvarAnoEscolar(String anoStr) {
         try {
-            if (nome.trim().isEmpty() || serieStr.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nome do Ano Escolar e Série são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+            if (anoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O ano é obrigatório!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            //int serieDig = Integer.parseInt(serieStr);
+            int ano = Integer.parseInt(anoStr);
 
-            ArrayList<modelo.Serie> series = new ArrayList<>();
-            Serie serie = new Serie();
-            serie.setNome(nome);
-            series.add(serie);
-            
-            AnoEscolar novo_ano = new AnoEscolar();
-            novo_ano.setSeries(series);
-            
-            String codigo = Services.criarCodigoAnoEscolar(); 
-            novo_ano.setCodigo(codigo);
-            
-            AnoEscolarDAO.criarAnoEscolar(novo_ano); 
-            
-            JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso! Código: " + codigo, "Ano Escolar Criado", JOptionPane.INFORMATION_MESSAGE);
-            
-            getTxtNomeAnoEscolar().setText("");
-            getFormattedtxtSerie().setText("");
-            getTxtDescricaoAnoEscolar().setText("");
+            String tipoPeriodo = comboPeriodo.getSelectedItem().toString();
+            ArrayList<PeriodoLetivo> periodos = gerarPeriodos(tipoPeriodo);
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "O campo Série deve conter apenas números.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+            // Criar AnoEscolar compatível com o DAO
+            AnoEscolar novoAno = new AnoEscolar();
+            novoAno.setAno(ano);
+            novoAno.setPeriodoLetivo(periodos);
+            novoAno.setSituacao(true);
+            novoAno.setCodigo(Services.criarCodigoAnoEscolar());  
+
+            // CHAMADA DO DAO
+            AnoEscolarDAO.criarAnoEscolar(novoAno);
+
+            JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            txtAno.setText("");
+            comboPeriodo.setSelectedIndex(0);
+
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao salvar Ano Escolar: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao salvar Ano Escolar: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void criarAnoEscolar(){
-        AnoEscolarDAO.criarAnoEscolar(null);
-    }
-
+    
 }
