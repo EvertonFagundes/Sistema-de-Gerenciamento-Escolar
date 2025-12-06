@@ -2,11 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-        "type": "java",
-        "name": "App",
-        "request": "launch",
-        "mainClass": "SistemaDeGerenciamentoEscolar/visao.App",
-        "projectName": "SistemaDeGerenciamentoEscolar"
+      "type": "java",
+      "name": "JanelaSistema",
+      "request": "launch",
+      "mainClass": "SistemaDeGerenciamentoEscolar/visao.JanelaSistema",
+      "projectName": "SistemaDeGerenciamentoEscolar"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "SistemaDeGerenciamentoEscolar/visao.App",
+      "projectName": "SistemaDeGerenciamentoEscolar"
     }
-]
+  ]
 }

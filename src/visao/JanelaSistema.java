@@ -3,24 +3,31 @@ package visao;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import visao.PainelLogin;
+import visao.PainelCadastroAnoEscolar;
 
 public class JanelaSistema extends JFrame {
 
     // Painéis principais
     private JPanel painelPrincipal;
     private JPanel painelInicio;
+    private PainelLogin painelLogin;
     private JPanel painelCadastroAlunos;
     private JPanel painelCadastroProfessor;
     private JPanel painelGerenciamentoProfessor;
     private JPanel painelCadastroDisciplina;
     private JPanel painelGerenciamentoDisciplina;
+    private PainelCadastroAnoEscolar painelCadastroAnoEscolar;
 
     // Menus principais
     private JMenuBar menuBarPrincipal;
@@ -35,6 +42,7 @@ public class JanelaSistema extends JFrame {
     private JMenuItem itemCadastroAlunos;
     private JMenuItem itemCadastroProfessores;
     private JMenuItem itemCadastroDisciplinas;
+    private JMenuItem itemCadastroAnoEscolar;
 
     // Itens de menu - Financeiro
     private JMenuItem itemFinanceiroMensalidades;
@@ -52,6 +60,10 @@ public class JanelaSistema extends JFrame {
     private JMenuItem itemBuscarAlunos;
     private JMenuItem itemBuscarProfessores;
     private JMenuItem itemBuscarDisciplinas;
+
+    private JButton btnAdministrador;
+    private JButton btnAluno;
+    private JButton btnProfessor;
 
     // ------------------------------------------------------
     // MÉTODO PRINCIPAL
@@ -89,21 +101,29 @@ public class JanelaSistema extends JFrame {
         painelPrincipal = new JPanel(new CardLayout());
         painelPrincipal.setBackground(new Color(230, 240, 240));
 
-        painelInicio = new JPanel();
-        painelInicio.add(new JLabel("Bem-vindo ao Sistema", SwingConstants.CENTER));
-
+        //painelInicio = new JPanel();
+        //painelInicio.add(new JLabel("Bem-vindo ao Sistema", SwingConstants.CENTER));
+        
+        painelLogin = new PainelLogin();
         painelCadastroAlunos = new PainelCadastroAlunos();
         painelCadastroProfessor = new PainelCadastroProfessor();
         painelGerenciamentoProfessor = new PainelGerenciamentoProfessor();
         painelCadastroDisciplina = new PainelCadastroDisciplina();
         painelGerenciamentoDisciplina = new PainelGerenciamentoDisciplina();
+        painelCadastroAnoEscolar = new PainelCadastroAnoEscolar();
 
-        painelPrincipal.add(painelInicio, "inicio");
+        //painelPrincipal.add(painelInicio, "inicio");
+        painelPrincipal.add(painelLogin);
+        btnAdministrador = painelLogin.getBtnAdministrador();
+        btnAluno = painelLogin.getBtnAluno();
+        btnProfessor = painelLogin.getBtnProfessor();
+
         painelPrincipal.add(painelCadastroAlunos, "cadastroAlunos");
         painelPrincipal.add(painelCadastroProfessor, "cadastroProfessor");
         painelPrincipal.add(painelGerenciamentoProfessor, "gerenciamentoProfessor");
         painelPrincipal.add(painelCadastroDisciplina, "cadastroDisciplina");
         painelPrincipal.add(painelGerenciamentoDisciplina, "gerenciamentoDisciplina");
+        painelPrincipal.add(painelCadastroAnoEscolar, "cadastroAnoEscolar");
 
         getContentPane().add(painelPrincipal);
     }
@@ -122,9 +142,11 @@ public class JanelaSistema extends JFrame {
         itemCadastroAlunos = criarItemMenu("Alunos");
         itemCadastroProfessores = criarItemMenu("Professores");
         itemCadastroDisciplinas = criarItemMenu("Disciplinas");
+        itemCadastroAnoEscolar = criarItemMenu("Ano Escolar");
         menuCadastros.add(itemCadastroAlunos);
         menuCadastros.add(itemCadastroProfessores);
         menuCadastros.add(itemCadastroDisciplinas);
+        menuCadastros.add(itemCadastroAnoEscolar);
         menuBarPrincipal.add(menuCadastros);
 
         // ------------------- MENU FINANCEIRO -------------------
@@ -192,6 +214,16 @@ public class JanelaSistema extends JFrame {
         itemGerenciamentoProfessores.addActionListener(e -> abrirPainel("gerenciamentoProfessor"));
         itemCadastroDisciplinas.addActionListener(e -> abrirPainel("cadastroDisciplina"));
         itemGerenciamentoDisciplinas.addActionListener(e -> abrirPainel("gerenciamentoDisciplina"));
+        itemCadastroAnoEscolar.addActionListener(e -> abrirPainel("cadastroAnoEscolar"));
+        btnAdministrador.addActionListener(e -> {
+            System.out.println("adm");
+        });
+        btnAluno.addActionListener(e -> {
+            System.out.println("alun");
+        });
+        btnProfessor.addActionListener(e -> {
+            System.out.println("prof");
+        });
     }
 
     private void abrirPainel(String nomePainel) {
