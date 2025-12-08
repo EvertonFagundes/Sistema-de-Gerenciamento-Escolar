@@ -1,0 +1,20 @@
+Professor :{
+    nome: Everton,
+    cpf: 021.521.651-26,
+    rg: 65.165.165-19,
+    matricula: 20250002,
+    email: evertonfagundes1510@gmail.com,
+    diaNasc: 18,
+    mesNasc: 2,
+    anoNasc: 2007,
+    nomeRua: São Sebastião,
+    nomeBairro: Curral Novo,
+    nomeCidade: Jequié,
+    numeroCasa: 35,
+    complemento: Portão Cinza,
+    numeroTelefone: (73) 98865-9878,
+    senha: senhaPadrao,
+    formacaoAcademica: Mestrado e Matemática,
+    disciplinasLeciona: [],
+    turmasLeciona: []
+}

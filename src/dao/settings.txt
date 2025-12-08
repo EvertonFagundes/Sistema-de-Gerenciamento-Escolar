@@ -1,4 +1,4 @@
-numeroMatricula: 1,
-codigoDisciplina: 3,
-codigoTurma: 0,
+numeroMatricula: 2 codigoDisciplina: 4 codigoTurma: 0,
+codigoDisciplina: 0,
+codigoTurma: null,
 codigoAnoEscolar: 4

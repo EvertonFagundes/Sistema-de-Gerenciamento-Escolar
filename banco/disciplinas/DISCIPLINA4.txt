@@ -1,0 +1,7 @@
+Disciplina :{
+    nome: Matemtica,
+    codigo: 4,
+    descricao: Melhor matéria possível não existe melhor.,
+    cargaHoraria: 75,
+    lecionadaPor: []
+}

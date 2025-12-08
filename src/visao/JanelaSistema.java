@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import visao.PainelLogin;
 import visao.PainelCadastroAnoEscolar;
+import visao.PainelGerenciamentoAluno;
+import visao.PainelGerenciamentoAnoEscolar;
 
 public class JanelaSistema extends JFrame {
 
@@ -28,9 +30,14 @@ public class JanelaSistema extends JFrame {
     private JPanel painelCadastroDisciplina;
     private JPanel painelGerenciamentoDisciplina;
     private PainelCadastroAnoEscolar painelCadastroAnoEscolar;
+    private PainelGerenciamentoAluno painelGerenciamentoAluno;
+    private PainelGerenciamentoAnoEscolar painelGerenciamentoAnoEscolar;
 
     // Menus principais
     private JMenuBar menuBarPrincipal;
+    private JMenuBar menuBarAdministrador;
+    private JMenuBar menuBarProfessor;
+    private JMenuBar menuBarAluno;
     private JMenu menuCadastros;
     private JMenu menuFinanceiro;
     private JMenu menuGerenciamento;
@@ -52,6 +59,7 @@ public class JanelaSistema extends JFrame {
     private JMenuItem itemGerenciamentoAlunos;
     private JMenuItem itemGerenciamentoProfessores;
     private JMenuItem itemGerenciamentoDisciplinas;
+    private JMenuItem itemGerenciamentoAnoEscolar;
 
     // Itens de menu - Matrículas e Turmas
     private JMenuItem itemMatriculaAlunoSerie;
@@ -111,6 +119,8 @@ public class JanelaSistema extends JFrame {
         painelCadastroDisciplina = new PainelCadastroDisciplina();
         painelGerenciamentoDisciplina = new PainelGerenciamentoDisciplina();
         painelCadastroAnoEscolar = new PainelCadastroAnoEscolar();
+        painelGerenciamentoAluno = new PainelGerenciamentoAluno();
+        painelGerenciamentoAnoEscolar = new PainelGerenciamentoAnoEscolar();
 
         //painelPrincipal.add(painelInicio, "inicio");
         painelPrincipal.add(painelLogin);
@@ -124,6 +134,8 @@ public class JanelaSistema extends JFrame {
         painelPrincipal.add(painelCadastroDisciplina, "cadastroDisciplina");
         painelPrincipal.add(painelGerenciamentoDisciplina, "gerenciamentoDisciplina");
         painelPrincipal.add(painelCadastroAnoEscolar, "cadastroAnoEscolar");
+        painelPrincipal.add(painelGerenciamentoAluno, "gerenciamentoAluno");
+        painelPrincipal.add(painelGerenciamentoAnoEscolar, "gerenciamentoAnoEscolar");
 
         getContentPane().add(painelPrincipal);
     }
@@ -134,8 +146,14 @@ public class JanelaSistema extends JFrame {
     private void inicializarMenu() {
         // Barra de menu
         menuBarPrincipal = new JMenuBar();
+        menuBarAdministrador = new JMenuBar();
+        menuBarProfessor = new JMenuBar();
+        menuBarAluno = new JMenuBar();
+        menuBarAdministrador.setBackground(new Color(255, 247, 221));
+        menuBarProfessor.setBackground(new Color(255, 247, 221));
+        menuBarAluno.setBackground(new Color(255, 247, 221));
         menuBarPrincipal.setBackground(new Color(255, 247, 221));
-        setJMenuBar(menuBarPrincipal);
+        //setJMenuBar(menuBarPrincipal);
 
         // ------------------- MENU CADASTROS -------------------
         menuCadastros = criarMenu("Cadastros");
@@ -162,9 +180,11 @@ public class JanelaSistema extends JFrame {
         itemGerenciamentoAlunos = criarItemMenu("Alunos");
         itemGerenciamentoProfessores = criarItemMenu("Professores");
         itemGerenciamentoDisciplinas = criarItemMenu("Disciplinas");
+        itemGerenciamentoAnoEscolar = criarItemMenu("Ano Escolar");
         menuGerenciamento.add(itemGerenciamentoAlunos);
         menuGerenciamento.add(itemGerenciamentoProfessores);
         menuGerenciamento.add(itemGerenciamentoDisciplinas);
+        menuGerenciamento.add(itemGerenciamentoAnoEscolar);
         menuBarPrincipal.add(menuGerenciamento);
 
         // ------------------- MENU MATRÍCULAS -------------------
@@ -215,14 +235,25 @@ public class JanelaSistema extends JFrame {
         itemCadastroDisciplinas.addActionListener(e -> abrirPainel("cadastroDisciplina"));
         itemGerenciamentoDisciplinas.addActionListener(e -> abrirPainel("gerenciamentoDisciplina"));
         itemCadastroAnoEscolar.addActionListener(e -> abrirPainel("cadastroAnoEscolar"));
+        itemGerenciamentoAlunos.addActionListener(e -> abrirPainel("gerenciamentoAluno"));
+        itemGerenciamentoAnoEscolar.addActionListener(e -> abrirPainel("gerenciamentoAnoEscolar"));
         btnAdministrador.addActionListener(e -> {
-            System.out.println("adm");
-        });
-        btnAluno.addActionListener(e -> {
-            System.out.println("alun");
+            menuBarPrincipal.setVisible(true);
+            setJMenuBar(menuBarPrincipal);
+            revalidate();
+            repaint();
         });
         btnProfessor.addActionListener(e -> {
-            System.out.println("prof");
+            menuBarProfessor.setVisible(true);
+            setJMenuBar(menuBarProfessor);
+            revalidate();
+            repaint();
+        });
+        btnAluno.addActionListener(e -> {
+            menuBarAluno.setVisible(true);
+            setJMenuBar(menuBarAluno);
+            revalidate();
+            repaint();
         });
     }
 

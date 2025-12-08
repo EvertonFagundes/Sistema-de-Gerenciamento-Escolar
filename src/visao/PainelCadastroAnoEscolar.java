@@ -16,6 +16,7 @@ import modelo.AnoEscolar;
 import modelo.PeriodoLetivo;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PainelCadastroAnoEscolar extends JPanel {
 
@@ -99,23 +100,25 @@ public class PainelCadastroAnoEscolar extends JPanel {
                 JOptionPane.showMessageDialog(null, "O ano é obrigatório!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
+            
             int ano = Integer.parseInt(anoStr);
-
+            
             String tipoPeriodo = comboPeriodo.getSelectedItem().toString();
             ArrayList<PeriodoLetivo> periodos = gerarPeriodos(tipoPeriodo);
-
+            
             // Criar AnoEscolar compatível com o DAO
             AnoEscolar novoAno = new AnoEscolar();
             novoAno.setAno(ano);
             novoAno.setPeriodoLetivo(periodos);
             novoAno.setSituacao(true);
-            novoAno.setCodigo(Services.criarCodigoAnoEscolar());  
-
+            novoAno.setCodigo(Services.criarCodigoAnoEscolar());
+            
             // CHAMADA DO DAO
             AnoEscolarDAO.criarAnoEscolar(novoAno);
-
-            JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+            Map<String,String> dados = Services.lerDados("banco/AnosEscolares/ANOESCOLAR" + anoStr + ".txt");
+            novoAno.setCodigo(dados.get("codigo"));
+            AnoEscolarDAO.atualizarAnoEscolar(novoAno);  
 
             txtAno.setText("");
             comboPeriodo.setSelectedIndex(0);

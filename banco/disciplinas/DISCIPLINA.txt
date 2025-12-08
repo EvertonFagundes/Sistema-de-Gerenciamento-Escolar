@@ -1,0 +1,7 @@
+Disciplina :{
+    nome: Matemática,
+    codigo: ,
+    descricao: Disciplina matemática.,
+    cargaHoraria: 20,
+    lecionadaPor: []
+}
