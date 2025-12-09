@@ -10,6 +10,7 @@ public class Turma extends AnoEscolar{
     private String codigo;
     private ArrayList<String>alunosTurma = new ArrayList<>();
     private ArrayList<String>professoresLeciona = new ArrayList<>();
+    private Serie serie;
 
     public Turma(){
     }
@@ -55,6 +56,14 @@ public class Turma extends AnoEscolar{
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
     
     @Override

@@ -3,12 +3,19 @@ package visao;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
-import javax.swing.text.MaskFormatter; 
+import javax.swing.text.MaskFormatter;
+
+import dao.AlunoDAO;
+import modelo.Aluno;
+
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class PainelCadastroAlunos extends JPanel {
 
@@ -202,5 +209,97 @@ public class PainelCadastroAlunos extends JPanel {
 		btnCadastrarAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnCadastrarAluno.setBounds(508, 461, 96, 25);
 		add(btnCadastrarAluno);
+		btnCadastrarAluno.addActionListener(e -> salvarAluno());
+
 	}
+
+	private void salvarAluno() {
+		try {
+			AlunoDAO alunoDAO = new AlunoDAO();
+			ArrayList<Aluno> listaAlunos = alunoDAO.getAlunos();
+			boolean cpfIgual = false;
+
+			String nome = txtNomeAluno.getText();
+			String dataNasc = formattedtxtDataNascimentoAluno.getText();
+			String cpf = formattedtxtCpfAluno.getText();
+			String rg = formattedtxtRgAluno.getText();
+			String rua = txtRuaAluno.getText();
+			String bairro = txtBairroAluno.getText();
+			String numero = formattedtxtNumeroCasaAluno.getText();
+			String cidade = txtCidadeAluno.getText();
+			String complemento = txtComplementoAluno.getText();
+			String telefone = formattedtxtTelefoneAluno.getText();
+			String email = txtEmailAluno.getText();
+			String nomeResponsavel = txtNomeResponsavel.getText();
+			String telefoneResponsavel = formattedtxtTelefoneResponsavel.getText();
+			String emailResponsavel = txtEmailResponsavel.getText();
+
+			// Separar data
+			String[] dataSplit = dataNasc.split("/");
+			int dia = Integer.parseInt(dataSplit[0]);
+			int mes = Integer.parseInt(dataSplit[1]);
+			int ano = Integer.parseInt(dataSplit[2]);
+
+			// Verificar CPF duplicado
+			for(Aluno a : listaAlunos){
+				if(a.getCpf().equals(cpf)){
+					cpfIgual = true;
+					break;
+				}
+			}
+
+			if(cpfIgual){
+				JOptionPane.showMessageDialog(null, "Já existe um aluno com este CPF", "Erro", JOptionPane.ERROR_MESSAGE);
+			} else {
+				Aluno aluno = new Aluno(
+					nome,
+					cpf,
+					rg,
+					"",             // matricula vazia, será gerada depois
+					email,
+					dia,
+					mes,
+					ano,
+					rua,
+					bairro,
+					cidade,
+					Integer.parseInt(numero),
+					complemento,
+					telefone,       // telefone do aluno
+					"senhaPadrao",  // senha padrão
+					"Ativo",        // situação do aluno
+					nomeResponsavel,
+					telefoneResponsavel, // só números
+					emailResponsavel
+				);
+
+
+				alunoDAO.cadastrarAluno(aluno);
+				JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso!");
+				limparCampos();
+			}
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Erro ao cadastrar aluno: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
+		}
+	}
+
+	private void limparCampos() {
+		txtNomeAluno.setText("");
+		formattedtxtDataNascimentoAluno.setText("");
+		formattedtxtCpfAluno.setText("");
+		formattedtxtRgAluno.setText("");
+		txtRuaAluno.setText("");
+		txtBairroAluno.setText("");
+		formattedtxtNumeroCasaAluno.setText("");
+		txtCidadeAluno.setText("");
+		txtComplementoAluno.setText("");
+		formattedtxtTelefoneAluno.setText("");
+		txtEmailAluno.setText("");
+		txtNomeResponsavel.setText("");
+		formattedtxtTelefoneResponsavel.setText("");
+		txtEmailResponsavel.setText("");
+	}
+
+
 }

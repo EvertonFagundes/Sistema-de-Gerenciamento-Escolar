@@ -272,104 +272,78 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
         return retorno;
     }*/
 
-    public static String criarCodigoDisciplina(){
+    public static void criarArquivoSettingsPadrao() {
+        try {
+            FileWriter escritor = new FileWriter("src/dao/settings.txt");
+            escritor.write("numeroMatricula: 0,\n");
+            escritor.write("codigoDisciplina: 0,\n");
+            escritor.write("codigoTurma: 0,\n");
+            escritor.write("codigoAnoEscolar: 0,\n");
+            escritor.write("codigoPDT: 0,\n");
+            escritor.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao criar arquivo settings.txt: " + e.getMessage());
+        }
+    }
+
+    public static String criarCodigoDisciplina() {
         Map<String, String> dados = lerDados("src/dao/settings.txt");
         String codigo = "";
-        if(dados.get("codigoDisciplina") == null){
-            try {
-                FileWriter escritor = new FileWriter("src/dao/settings.txt");
-                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
-                escritor.write("codigoDisciplina: 0");
-                escritor.close();
-            } catch (Exception e) {
-                System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());
-            }
-        }else{
+        if (dados == null || dados.get("codigoDisciplina") == null) {
+            criarArquivoSettingsPadrao();
+            codigo = "0";
+        } else {
             int ultimoCodigo = Integer.parseInt(dados.get("codigoDisciplina"));
-            ultimoCodigo += 1;
-             codigo = String.valueOf(ultimoCodigo);
-            
+            ultimoCodigo++;
+            codigo = String.valueOf(ultimoCodigo);
             modificarDado("src/dao/settings.txt", "codigoDisciplina", codigo);
         }
-        
         return codigo;
-        
     }
 
-    public static String criarCodigoTurma(){
+    public static String criarCodigoTurma() {
         Map<String, String> dados = lerDados("src/dao/settings.txt");
         String codigo = "";
-        if(dados.get("codigoTurma") == null){
-            try {
-                FileWriter escritor = new FileWriter("src/dao/settings.txt");
-                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
-                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
-                escritor.write("codigoTurma: 0,\n");
-                escritor.write("codigoAnoEscolar: 0");
-                escritor.close();
-            } catch (Exception e) {
-                System.out.println("Erro em criar campo codigoDisciplina on settings.txt" + e.getMessage());
-            }
-        }else{
+        if (dados == null || dados.get("codigoTurma") == null) {
+            criarArquivoSettingsPadrao();
+            codigo = "0";
+        } else {
             int ultimoCodigo = Integer.parseInt(dados.get("codigoTurma"));
-            ultimoCodigo += 1;
-             codigo = String.valueOf(ultimoCodigo);
-            
+            ultimoCodigo++;
+            codigo = String.valueOf(ultimoCodigo);
             modificarDado("src/dao/settings.txt", "codigoTurma", codigo);
         }
-        
         return codigo;
     }
 
-    public static String criarCodigoAnoEscolar(){
+    public static String criarCodigoAnoEscolar() {
         Map<String, String> dados = lerDados("src/dao/settings.txt");
         String codigo = "";
-        if(dados.get("codigoAnoEscolar") == null){
-            try {
-                FileWriter escritor = new FileWriter("src/dao/settings.txt");
-                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
-                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
-                escritor.write("codigoTurma: " + dados.get("codigoTurma") + ",\n");
-                escritor.write("codigoAnoEscolar: 0");
-                escritor.close();
-            } catch (Exception e) {
-                System.out.println("Erro em criar campo codigoTurma on settings.txt" + e.getMessage());
-            }
-        }else{
+        if (dados == null || dados.get("codigoAnoEscolar") == null) {
+            criarArquivoSettingsPadrao();
+            codigo = "0";
+        } else {
             int ultimoCodigo = Integer.parseInt(dados.get("codigoAnoEscolar"));
-            ultimoCodigo += 1;
+            ultimoCodigo++;
             codigo = String.valueOf(ultimoCodigo);
-            
             modificarDado("src/dao/settings.txt", "codigoAnoEscolar", codigo);
         }
-        
         return codigo;
     }
 
-    public static int criarCodigoProfessorDisciplinaTurma(){
+    public static int criarCodigoProfessorDisciplinaTurma() {
         Map<String, String> dados = lerDados("src/dao/settings.txt");
         String codigo = "";
-        if(dados.get("codigoPDT") == null){
-            try {
-                FileWriter escritor = new FileWriter("src/dao/settings.txt");
-                escritor.write("numeroMatricula: " + dados.get("numeroMatricula") + ",\n");
-                escritor.write("codigoDisciplina: " + dados.get("codigoDisciplina") + ",\n");
-                escritor.write("codigoTurma: " + dados.get("codigoTurma") + ",\n");
-                escritor.write("codigoPDT: 0");
-                escritor.close();
-            } catch (Exception e) {
-                System.out.println("Erro em criar campo codigoPDT on settings.txt" + e.getMessage());
-            }
-        }else{
+        if (dados == null || dados.get("codigoPDT") == null) {
+            criarArquivoSettingsPadrao();
+            codigo = "0";
+        } else {
             int ultimoCodigo = Integer.parseInt(dados.get("codigoPDT"));
-            ultimoCodigo += 1;
+            ultimoCodigo++;
             codigo = String.valueOf(ultimoCodigo);
-            
             modificarDado("src/dao/settings.txt", "codigoPDT", codigo);
         }
-
-        int cod = Integer.parseInt(codigo);
-        
-        return cod;
+        return Integer.parseInt(codigo);
     }
+
 }

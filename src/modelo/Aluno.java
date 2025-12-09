@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Aluno extends Usuario {
     private String situacao;
     private String nomeResponsavel;
-    private int telefoneResponsavel;
+    private String telefoneResponsavel;
     private String emailResponsavel;
 
-    public Aluno(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, String numeroTelefone, String senha, String situacao, String nomeResponsavel, int telefoneResponsavel, String emailResponsavel){
+    public Aluno(String nome, String cpf, String rg, String matricula, String email, int diaNasc, int mesNasc, int anoNasc,String nomeRua, String nomeBairro, String nomeCidade, int numeroCasa, String complemento, String numeroTelefone, String senha, String situacao, String nomeResponsavel, String telefoneResponsavel, String emailResponsavel){
     super(nome, cpf, rg, matricula, email, diaNasc, mesNasc, anoNasc, nomeRua, nomeBairro, nomeCidade, numeroCasa, complemento, numeroTelefone, senha);
 
-    setPerfil("ALUNO");
+    //setPerfil("ALUNO");
     this.situacao = situacao;
     this.nomeResponsavel = nomeResponsavel;
     this.telefoneResponsavel = telefoneResponsavel;
@@ -34,11 +34,11 @@ public class Aluno extends Usuario {
         this.nomeResponsavel = nomeResponsavel;
     }
 
-    public int getTelefoneResponsavel() {
+    public String getTelefoneResponsavel() {
         return telefoneResponsavel;
     }
 
-    public void setTelefoneResponsavel(int telefoneResponsavel) {
+    public void setTelefoneResponsavel(String telefoneResponsavel) {
         this.telefoneResponsavel = telefoneResponsavel;
     }
 

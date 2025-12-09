@@ -10,6 +10,7 @@ import modelo.Turma;
 import dao.Services;
 import modelo.Aluno;
 import modelo.Professor;
+import modelo.Serie;
 import dao.AlunoDAO;
 
 public class TurmaDAO {
@@ -45,6 +46,11 @@ public class TurmaDAO {
                 }
             }
             escritor.write("]\n");
+            if (turma.getSerie() != null) {
+                escritor.write("    serieNome: " + turma.getSerie().getNome() + ",\n");
+            } else {
+                escritor.write("    serieNome: ,\n");
+            }
             escritor.write("}");
             escritor.close();
             JOptionPane.showMessageDialog(null, "Turma criada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -64,6 +70,7 @@ public class TurmaDAO {
         try {
             Map<String, String> dados = Services.lerDados(nomeArquivo);
             String letra = dados.getOrDefault("identificador", "");
+            String serieNome = dados.getOrDefault("serieNome", "").trim();
             turma = new Turma(ano, letra);
             String codigo = dados.get("codigo");
             turma.setCodigo(codigo);
@@ -95,6 +102,11 @@ public class TurmaDAO {
             }
 
             turma.setProfessoresLeciona(matriculasProfessoresLeciona);
+
+            if (!serieNome.isEmpty()) {
+                Serie serie = SerieDAO.getSerie(serieNome);
+                turma.setSerie(serie);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,6 +143,11 @@ public class TurmaDAO {
                 }
             }
             escritor.write("]\n");
+            if (turma.getSerie() != null) {
+                escritor.write("    serieNome: " + turma.getSerie().getNome() + ",\n");
+            } else {
+                escritor.write("    serieNome: ,\n");
+            }
             escritor.write("}");
             escritor.close();
             System.out.println("Arquivo sobrescrito com sucesso!!!");
@@ -181,4 +198,38 @@ public class TurmaDAO {
                 System.out.println("Matricula não encontrada!");
             }
     }
+
+    public static ArrayList<Turma> listarTodasTurmas() {
+    ArrayList<Turma> lista = new ArrayList<>();
+
+    File pasta = new File("banco/turmas/");
+    File[] arquivos = pasta.listFiles();
+
+    if (arquivos == null) return lista;
+
+    for (File f : arquivos) {
+        if (f.getName().startsWith("TURMA") && f.getName().endsWith(".txt")) {
+
+            // Extrair ano e identificador do arquivo
+            String nome = f.getName(); // TURMA2025A.txt
+            String parte = nome.replace("TURMA", "").replace(".txt", "");
+            
+            // Ano = tudo exceto a última letra
+            int ano = Integer.parseInt(parte.substring(0, parte.length() - 1));
+
+            // Identificador = última letra
+            String identificador = parte.substring(parte.length() - 1);
+
+            Turma t = getTurma(ano, identificador);
+            if (t != null) {
+                lista.add(t);
+            }
+        }
+    }
+
+    return lista;
+}
+
+    
+
 }
