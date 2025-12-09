@@ -16,32 +16,39 @@ public class AnoEscolarDAO {
         if(!diretorio.isDirectory()){
             diretorio.mkdirs();
         }
+
         File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + anoEscolar.getAno() + ".txt");
+
         if(arquivo.isFile()){
             JOptionPane.showMessageDialog(null, "Ano escolar já existente!", "Erro ao criar Ano escolar", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             try(FileWriter escritor = new FileWriter(arquivo.getPath(), false)){
-            escritor.write("AnoEscolar :{\n");
-            escritor.write("    ano: " + anoEscolar.getAno() + ",\n");
-            escritor.write("    periodoLetivo: [");
 
-            for(int i=0; i<anoEscolar.getPeriodoLetivo().size(); i++){
-                if(i == 0){
-                    escritor.write(anoEscolar.getPeriodoLetivo().get(i).getNome());
-                }else{
-                    escritor.write(", " + anoEscolar.getPeriodoLetivo().get(i).getNome());
+                escritor.write("AnoEscolar :{\n");
+                escritor.write("    ano: " + anoEscolar.getAno() + ",\n");
+
+                escritor.write("    periodoLetivo: [");
+                for(int i=0; i<anoEscolar.getPeriodoLetivo().size(); i++){
+                    if(i == 0){
+                        escritor.write(anoEscolar.getPeriodoLetivo().get(i).getNome());
+                    } else {
+                        escritor.write(", " + anoEscolar.getPeriodoLetivo().get(i).getNome());
+                    }
                 }
-            }
-            escritor.write("],\n");
-            escritor.write("    codigo: " + anoEscolar.getCodigo() + "\n");
-            escritor.write("}");
-            escritor.close();
-            JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            }catch(Exception e){
+                escritor.write("],\n");
+
+                escritor.write("    codigo: " + anoEscolar.getCodigo() + ",\n");
+                escritor.write("    situacao: " + anoEscolar.getSituacao() + "\n");
+                escritor.write("}");
+
+                JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Exceção ao tentar criar Ano Escolar", "Erro ao criar Ano escolar", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+
 
     public static AnoEscolar getAnoEscolar(String ano){
         AnoEscolar anoEscolar = new AnoEscolar();
@@ -51,6 +58,8 @@ public class AnoEscolarDAO {
         try{
             Map<String, String> dados = Services.lerDados("banco/AnosEscolares/ANOESCOLAR" + ano + ".txt");
 
+            anoEscolar.setAno(Integer.parseInt(dados.get("ano")));
+
             periodoLetivoTxt = dados.get("periodoLetivo").replace("[", "").replace("]", "");
 
             String[] periodoLetivoPartes = periodoLetivoTxt.split(",");
@@ -59,15 +68,13 @@ public class AnoEscolarDAO {
                 PeriodoLetivo p = new PeriodoLetivo();
                 p.setNome(periodoLetivo.trim());
                 periodosLetivos.add(p);
-                System.out.println("Periodo letivo: " + p.getNome());
             }
 
             String codigo = dados.get("codigo");
-            System.out.println("codigo: " + codigo);
 
             anoEscolar.setPeriodoLetivo(periodosLetivos);
             anoEscolar.setCodigo(codigo);
-            
+            anoEscolar.setSituacao(Boolean.parseBoolean(dados.get("situacao")));
 
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Erro ao ler professor", "Erro ao ler professor", JOptionPane.WARNING_MESSAGE);
@@ -75,6 +82,7 @@ public class AnoEscolarDAO {
 
         return anoEscolar;
     }
+
 
     public static boolean verificaAnoEscolar(String ano){
         File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + ano + ".txt");
@@ -100,27 +108,35 @@ public class AnoEscolarDAO {
         try(FileWriter escritor = new FileWriter(arquivo.getPath(), false)){
             escritor.write("AnoEscolar :{\n");
             escritor.write("    ano: " + anoEscolar.getAno() + ",\n");
+
             escritor.write("    periodoLetivo: [");
             for(int i=0; i<anoEscolar.getPeriodoLetivo().size(); i++){
                 if(i == 0){
                     escritor.write(anoEscolar.getPeriodoLetivo().get(i).getNome());
-                }else{
+                } else {
                     escritor.write(", " + anoEscolar.getPeriodoLetivo().get(i).getNome());
                 }
             }
             escritor.write("],\n");
-            escritor.write("    codigo: " + anoEscolar.getCodigo() + "\n");
+
+            escritor.write("    codigo: " + anoEscolar.getCodigo() + ",\n");
+            escritor.write("    situacao: " + anoEscolar.getSituacao() + "\n");
             escritor.write("}");
-            escritor.close();
-            // JOptionPane.showMessageDialog(null, "Ano Escolar criado com sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Exceção ao tentar atualizar Ano Escolar", "Erro ao criar Ano escolar", JOptionPane.ERROR_MESSAGE);
         }
-    
     }
-    public static void excluirAnoEscolar(String codigo){
 
+    public static boolean excluirAnoEscolar(int ano) {
+        File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + ano + ".txt");
+        if (arquivo.exists() && arquivo.isFile()) {
+            return arquivo.delete();
+        }
+        return false;
     }
+
+
+
     public static ArrayList<AnoEscolar> listarTodos(){
         ArrayList<AnoEscolar> lista = new ArrayList<>();
 

@@ -15,7 +15,7 @@ public class AnoEscolar {
     
     public AnoEscolar(int ano, ArrayList<PeriodoLetivo> periodoLetivo){
         this.ano = ano;
-        this.periodos = periodos;
+        this.periodos = periodoLetivo;
         this.situacao = true;
     }
 

@@ -2,9 +2,12 @@ package visao;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 import dao.AnoEscolarDAO;
+import dao.Services;
 import modelo.AnoEscolar;
 import modelo.PeriodoLetivo;
 
@@ -151,11 +154,30 @@ public class PainelGerenciamentoAnoEscolar extends JPanel {
         int idx = listaAnos.getSelectedIndex();
         if (idx == -1) return;
 
-        AnoEscolar a = listaObjetos.get(idx);
+        AnoEscolar selecionado = listaObjetos.get(idx);
 
-        a.setSituacao(!a.getSituacao());
-        AnoEscolarDAO.atualizarAnoEscolar(a);
+        // Se estiver desativando, pode desativar normalmente
+        if (selecionado.getSituacao()) {
+            selecionado.setSituacao(false);
+            AnoEscolarDAO.atualizarAnoEscolar(selecionado);
+            mostrarDadosSelecionado();
+            return;
+        }
 
+        // Se estiver tentando ativar:
+        // Verifica se já existe algum ano letivo ativo
+        for (AnoEscolar a : listaObjetos) {
+            if (a.getSituacao()) {
+                JOptionPane.showMessageDialog(null,
+                    "Já existe um ano escolar ativo: " + a.getAno() +
+                    "\nSomente um ano letivo pode ficar ativo por vez.");
+                return;
+            }
+        }
+
+        // Nenhum ativo → pode ativar
+        selecionado.setSituacao(true);
+        AnoEscolarDAO.atualizarAnoEscolar(selecionado);
         mostrarDadosSelecionado();
     }
 
@@ -165,13 +187,25 @@ public class PainelGerenciamentoAnoEscolar extends JPanel {
 
         AnoEscolar a = listaObjetos.get(idx);
 
-        int opc = JOptionPane.showConfirmDialog(null,
-                "Excluir este ano escolar?", "Confirmação",
-                JOptionPane.YES_NO_OPTION);
+        int opc = JOptionPane.showConfirmDialog(
+                null,
+                "Excluir este ano escolar?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION
+        );
 
         if (opc == JOptionPane.YES_OPTION) {
-            AnoEscolarDAO.excluirAnoEscolar(a.getCodigo());
+            boolean excluiu = AnoEscolarDAO.excluirAnoEscolar(a.getAno());
+            if (excluiu) {
+                JOptionPane.showMessageDialog(null, "Arquivo excluído com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível localizar ou excluir o arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
             carregarLista();
         }
     }
+
+
+
+
 }

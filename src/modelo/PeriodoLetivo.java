@@ -15,6 +15,10 @@ public class PeriodoLetivo {
         this.fim = fim;
     }
 
+    public PeriodoLetivo(String nome) {
+        this.nome = nome;
+    }
+
     public String getNome() {
         return nome;
     }

@@ -1,3 +1,0 @@
-AnoEscolar :{
-    ano: 2027,
-    periodoLetivo: [
