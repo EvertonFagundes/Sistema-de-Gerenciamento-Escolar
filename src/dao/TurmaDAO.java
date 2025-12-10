@@ -71,42 +71,38 @@ public class TurmaDAO {
             Map<String, String> dados = Services.lerDados(nomeArquivo);
             String letra = dados.getOrDefault("identificador", "");
             String serieNome = dados.getOrDefault("serieNome", "").trim();
-            turma = new Turma(ano, letra);
             String codigo = dados.get("codigo");
+
+            turma = new Turma(ano, letra);
             turma.setCodigo(codigo);
 
-            ArrayList <String> matriculasAlunosTurma = new ArrayList<>();
-            String alunosTexto = dados.getOrDefault("alunosTurma", "[]").replace("[", "").replace("]", "").trim();
-
-            if(!alunosTexto.isEmpty()){
-                String[] partes = alunosTexto.split(",");
-
-                for(String parte : partes){
-                    parte = parte.trim();
-                    matriculasAlunosTurma.add(parte);
-                }
-            }
-
-            turma.setAlunosTurma(matriculasAlunosTurma);
-
-            ArrayList <String> matriculasProfessoresLeciona = new ArrayList<>();
-            String professoresTexto = dados.getOrDefault("professoresLeciona", "[]").replace("[", "").replace("]", "").trim();
-
-            if(!professoresTexto.isEmpty()){
-                String[] partes = professoresTexto.split(",");
-
-                for(String parte : partes){
-                    parte = parte.trim();
-                    matriculasProfessoresLeciona.add(parte);
-                }
-            }
-
-            turma.setProfessoresLeciona(matriculasProfessoresLeciona);
-
+            // Setar série
             if (!serieNome.isEmpty()) {
                 Serie serie = SerieDAO.getSerie(serieNome);
                 turma.setSerie(serie);
             }
+
+            // Setar alunos
+            ArrayList<String> matriculasAlunosTurma = new ArrayList<>();
+            String alunosTexto = dados.getOrDefault("alunosTurma", "[]").replace("[", "").replace("]", "").trim();
+            if (!alunosTexto.isEmpty()) {
+                String[] partes = alunosTexto.split(",");
+                for (String parte : partes) {
+                    matriculasAlunosTurma.add(parte.trim());
+                }
+            }
+            turma.setAlunosTurma(matriculasAlunosTurma);
+
+            // Setar professores
+            ArrayList<String> matriculasProfessoresLeciona = new ArrayList<>();
+            String professoresTexto = dados.getOrDefault("professoresLeciona", "[]").replace("[", "").replace("]", "").trim();
+            if (!professoresTexto.isEmpty()) {
+                String[] partes = professoresTexto.split(",");
+                for (String parte : partes) {
+                    matriculasProfessoresLeciona.add(parte.trim());
+                }
+            }
+            turma.setProfessoresLeciona(matriculasProfessoresLeciona);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,6 +110,7 @@ public class TurmaDAO {
 
         return turma;
     }
+
 
     public static void sobrescreverArquivoTurma(Turma turma){
         try(FileWriter escritor = new FileWriter("banco/turmas/TURMA" + turma.getAno() + turma.getIdentificador() + ".txt", false)){
@@ -200,35 +197,58 @@ public class TurmaDAO {
     }
 
     public static ArrayList<Turma> listarTodasTurmas() {
-    ArrayList<Turma> lista = new ArrayList<>();
+        ArrayList<Turma> lista = new ArrayList<>();
 
-    File pasta = new File("banco/turmas/");
-    File[] arquivos = pasta.listFiles();
+        File pasta = new File("banco/turmas/");
+        File[] arquivos = pasta.listFiles();
 
-    if (arquivos == null) return lista;
+        if (arquivos == null) return lista;
 
-    for (File f : arquivos) {
-        if (f.getName().startsWith("TURMA") && f.getName().endsWith(".txt")) {
+        for (File f : arquivos) {
+            if (f.getName().startsWith("TURMA") && f.getName().endsWith(".txt")) {
 
-            // Extrair ano e identificador do arquivo
-            String nome = f.getName(); // TURMA2025A.txt
-            String parte = nome.replace("TURMA", "").replace(".txt", "");
-            
-            // Ano = tudo exceto a última letra
-            int ano = Integer.parseInt(parte.substring(0, parte.length() - 1));
+                // Extrair ano e identificador do arquivo
+                String nome = f.getName(); // TURMA2025A.txt
+                String parte = nome.replace("TURMA", "").replace(".txt", "");
+                
+                // Ano = tudo exceto a última letra
+                int ano = Integer.parseInt(parte.substring(0, parte.length() - 1));
 
-            // Identificador = última letra
-            String identificador = parte.substring(parte.length() - 1);
+                // Identificador = última letra
+                String identificador = parte.substring(parte.length() - 1);
 
-            Turma t = getTurma(ano, identificador);
-            if (t != null) {
-                lista.add(t);
+                Turma t = getTurma(ano, identificador);
+                if (t != null) {
+                    lista.add(t);
+                }
             }
         }
+
+        return lista;
     }
 
-    return lista;
-}
+    public static boolean excluirTurma(String numeroSerie, String identificador) {
+        String codigo = numeroSerie + identificador; // ex: "1A"
+        File arquivo = new File("banco/turmas/TURMA" + codigo + ".txt");
+
+        if (!arquivo.exists()) {
+            JOptionPane.showMessageDialog(null, "Arquivo da turma não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        boolean excluiu = arquivo.delete();
+
+        if (excluiu) {
+            JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir a turma.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return excluiu;
+    }
+
+
+
 
     
 

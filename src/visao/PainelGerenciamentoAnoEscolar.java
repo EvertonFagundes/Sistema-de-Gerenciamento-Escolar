@@ -26,7 +26,7 @@ public class PainelGerenciamentoAnoEscolar extends JPanel {
     public PainelGerenciamentoAnoEscolar() {
 
         setLayout(null);
-        setBackground(new Color(180, 210, 210));
+        setBackground(new Color(145, 196, 195));
 
         JLabel lblTitulo = new JLabel("Gerenciamento de Ano Escolar");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));

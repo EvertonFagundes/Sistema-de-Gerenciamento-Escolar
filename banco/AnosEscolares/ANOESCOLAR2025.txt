@@ -1,6 +1,6 @@
 AnoEscolar :{
     ano: 2025,
-    periodoLetivo: [1º Semestre, 2º Semestre],
-    codigo: 12,
+    periodoLetivo: [1 semestre, 2 semestre],
+    codigo: 0,,
     situacao: true
 }

@@ -62,12 +62,19 @@ public class AlunoDAO {
 
     // ----------- CADASTRAR ALUNO -----------
     public void cadastrarAluno(Aluno aluno) {
-
-        if (!verificarAluno(aluno.getMatricula())) {
+        File diretorio = new File("banco/alunos/");
+        if(!diretorio.isDirectory()){
+            diretorio.mkdirs();
+        }
+        LocalDate dataAtual = LocalDate.now();
+        int ano = dataAtual.getYear();
+        String matriculaGerada = Services.criarMatricula(ano, "ALUNO");
+        File arquivo = new File("banco/disciplinas/DISCIPLINA" + matriculaGerada + ".txt");
+        if(arquivo.isFile()){
+            JOptionPane.showMessageDialog(null, "Aluno já existente!", "Erro ao criar aluno", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if (!verificarAluno(aluno.getMatricula())) {
             try {
-                LocalDate dataAtual = LocalDate.now();
-                int ano = dataAtual.getYear();
-                String matriculaGerada = Services.criarMatricula(ano, "ALUNO");
 
                 FileWriter escritor = new FileWriter("banco/alunos/ALUNO" + matriculaGerada + ".txt", false);
 
@@ -105,8 +112,9 @@ public class AlunoDAO {
                 System.err.println("Erro ao cadastrar aluno: " + e.getMessage());
             }
 
-        } else {
-            System.out.println("Aluno já cadastrado no sistema.");
+            } else {
+                System.out.println("Aluno já cadastrado no sistema.");
+            }
         }
     }
 
@@ -124,7 +132,7 @@ public class AlunoDAO {
     public ArrayList<Aluno> getAlunos() {
         ArrayList<Aluno> lista = new ArrayList<>();
 
-        File pasta = new File("banco/");
+        File pasta = new File("banco/alunos");
         File[] arquivos = pasta.listFiles();
 
         if (arquivos == null) return lista;

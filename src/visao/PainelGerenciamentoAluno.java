@@ -3,12 +3,22 @@ package visao;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.text.MaskFormatter;
+
+import dao.AlunoDAO;
+import dao.MatriculaAlunoDAO;
+import modelo.Aluno;
+import modelo.MatriculaAluno;
+
 import java.text.ParseException;
+import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
@@ -69,6 +79,7 @@ public class PainelGerenciamentoAluno extends JPanel {
 		btnBuscar.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnBuscar.setBounds(620, 98, 90, 21);
 		add(btnBuscar);
+		btnBuscar.addActionListener(e -> acaoBuscarAluno());
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(100, 135, 800, 2);
@@ -256,16 +267,19 @@ public class PainelGerenciamentoAluno extends JPanel {
 		btnEditar.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnEditar.setBounds(280, 461, 120, 25);
 		add(btnEditar);
+		btnEditar.addActionListener(e -> acaoAtivarEdicao());
 		
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnExcluir.setBounds(420, 461, 120, 25);
 		add(btnExcluir);
+		btnExcluir.addActionListener(e -> acaoExcluirAluno());
 		
 		btnSalvarEdicao = new JButton("Salvar Alterações");
 		btnSalvarEdicao.setFont(new Font("Century Gothic", Font.BOLD, 12));
 		btnSalvarEdicao.setBounds(560, 461, 150, 25);
 		add(btnSalvarEdicao);
+		btnSalvarEdicao.addActionListener(e -> acaoSalvarEdicao());
 	}
 
 	public JComboBox<String> getComboFiltroBusca() {
@@ -347,4 +361,388 @@ public class PainelGerenciamentoAluno extends JPanel {
 	public JButton getBtnSalvarEdicao() {
 		return btnSalvarEdicao;
 	}
+
+	public void preencherCampos(Aluno aluno) {
+		txtNomeAluno.setText(aluno.getNome());
+		formattedtxtCpfAluno.setText(aluno.getCpf());
+		formattedtxtRgAluno.setText(aluno.getRg());
+		
+		String data = aluno.getDiaNasc() + "/" + aluno.getMesNasc() + "/" + aluno.getAnoNasc();
+		formattedtxtDataNascimentoAluno.setText(data);
+
+		txtRuaAluno.setText(aluno.getNomeRua());
+		txtBairroAluno.setText(aluno.getNomeBairro());
+		formattedtxtNumeroCasaAluno.setText(String.valueOf(aluno.getNumeroCasa()));
+		txtCidadeAluno.setText(aluno.getNomeCidade());
+		txtComplementoAluno.setText(aluno.getComplemento());
+		formattedtxtTelefoneAluno.setText(aluno.getNumeroTelefone());
+		txtEmailAluno.setText(aluno.getEmail());
+
+		txtNomeResponsavel.setText(aluno.getNomeResponsavel());
+		txtEmailResponsavel.setText(aluno.getEmailResponsavel());
+		formattedtxtTelefoneResponsavel.setText(aluno.getTelefoneResponsavel());
+	}
+
+	public void habilitarEdicao(boolean status) {
+		txtNomeAluno.setEditable(status);
+		formattedtxtDataNascimentoAluno.setEditable(status);
+		formattedtxtCpfAluno.setEditable(status);
+		formattedtxtRgAluno.setEditable(status);
+
+		txtRuaAluno.setEditable(status);
+		txtBairroAluno.setEditable(status);
+		formattedtxtNumeroCasaAluno.setEditable(status);
+		txtCidadeAluno.setEditable(status);
+		txtComplementoAluno.setEditable(status);
+		formattedtxtTelefoneAluno.setEditable(status);
+		txtEmailAluno.setEditable(status);
+
+		txtNomeResponsavel.setEditable(status);
+		txtEmailResponsavel.setEditable(status);
+		formattedtxtTelefoneResponsavel.setEditable(status);
+	}
+
+	public void limparCampos() {
+		txtNomeAluno.setText("");
+		formattedtxtCpfAluno.setText("");
+		formattedtxtRgAluno.setText("");
+		formattedtxtDataNascimentoAluno.setText("");
+
+		txtRuaAluno.setText("");
+		txtBairroAluno.setText("");
+		formattedtxtNumeroCasaAluno.setText("");
+		txtCidadeAluno.setText("");
+		txtComplementoAluno.setText("");
+		formattedtxtTelefoneAluno.setText("");
+		txtEmailAluno.setText("");
+
+		txtNomeResponsavel.setText("");
+		txtEmailResponsavel.setText("");
+		formattedtxtTelefoneResponsavel.setText("");
+	}
+
+	private void acaoAtivarEdicao() {
+		setCamposEditaveis(true);
+		btnSalvarEdicao.setEnabled(true);
+		btnEditar.setEnabled(false);
+		System.out.println("Edição ativada.");
+	}
+
+	public void acaoBuscarAluno() {
+		String termo = txtTermoBusca.getText().trim();
+		if (termo.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Digite algo para buscar.");
+			return;
+		}
+
+		AlunoDAO dao = new AlunoDAO();
+		Aluno aluno = null;
+		MatriculaAluno matricula = null;
+
+		String filtro = (String) comboFiltroBusca.getSelectedItem();
+
+		if (filtro.equals("Nome")) {
+			aluno = dao.getAlunoNome(termo);
+		} else if (filtro.equals("CPF")) {
+			aluno = dao.getAlunoCpf(termo);
+		} else if (filtro.equals("Série")) {
+			ArrayList<Aluno> lista = dao.getAlunosPorSerie(termo);
+			if (!lista.isEmpty()) {
+				aluno = lista.get(0);
+			}
+		} else if (filtro.equals("Ano Escolar")) {
+			try {
+				int ano = parseIntSeguro(termo);
+				ArrayList<Aluno> lista = dao.getAlunosPorAnoEscolar(ano);
+				if (!lista.isEmpty()) {
+					aluno = lista.get(0);
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Ano inválido!");
+				return;
+			}
+		}
+
+		if (aluno == null) {
+			JOptionPane.showMessageDialog(null, "Aluno não encontrado.");
+			return;
+		}
+
+		// Agora pega a matrícula para preencher série, turma e ano escolar
+		if (MatriculaAlunoDAO.existe(aluno.getMatricula())) {
+			matricula = MatriculaAlunoDAO.getMatricula(aluno.getMatricula());
+		}
+
+		// Preenche os campos do painel
+		preencherCamposAluno(aluno, matricula);
+
+		setCamposEditaveis(false);
+	}
+
+
+	private void acaoExcluirAluno() {
+		String cpf = formattedtxtCpfAluno.getText().trim();
+
+		if (cpf.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nenhum aluno selecionado para excluir.");
+			return;
+		}
+
+		int opc = JOptionPane.showConfirmDialog(
+			null,
+			"Deseja realmente excluir este aluno?",
+			"Confirmar exclusão",
+			JOptionPane.YES_NO_OPTION
+		);
+
+		if (opc == JOptionPane.YES_OPTION) {
+			AlunoDAO dao = new AlunoDAO();
+			Aluno aluno = dao.getAlunoCpf(cpf);
+
+			if (aluno != null) {
+				dao.removerAluno(aluno.getMatricula());
+				limparCampos();
+				JOptionPane.showMessageDialog(null, "Aluno excluído com sucesso!");
+			} else {
+				JOptionPane.showMessageDialog(null, "Aluno não encontrado.");
+			}
+		}
+	}
+
+	private void acaoSalvarEdicao() {
+		String cpf = formattedtxtCpfAluno.getText().trim();
+
+		if (cpf.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nenhum aluno carregado para edição.");
+			return;
+		}
+
+		AlunoDAO dao = new AlunoDAO();
+		Aluno aluno = dao.getAlunoCpf(cpf);
+
+		if (aluno == null) {
+			JOptionPane.showMessageDialog(null, "Aluno não encontrado.");
+			return;
+		}
+
+		aluno.setNome(txtNomeAluno.getText());
+		aluno.setEmail(txtEmailAluno.getText());
+		aluno.setRg(formattedtxtRgAluno.getText());
+		aluno.setNomeRua(txtRuaAluno.getText());
+		aluno.setNomeBairro(txtBairroAluno.getText());
+		aluno.setNumeroCasa(parseIntSeguro(formattedtxtNumeroCasaAluno.getText()));
+		aluno.setNomeCidade(txtCidadeAluno.getText());
+		aluno.setComplemento(txtComplementoAluno.getText());
+		aluno.setNumeroTelefone(formattedtxtTelefoneAluno.getText());
+		aluno.setNomeResponsavel(txtNomeResponsavel.getText());
+		aluno.setTelefoneResponsavel(formattedtxtTelefoneResponsavel.getText());
+		aluno.setEmailResponsavel(txtEmailResponsavel.getText());
+
+		dao.sobrescreverArquivo(aluno);
+
+		JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+
+		setCamposEditaveis(false);
+		btnSalvarEdicao.setEnabled(false);
+		btnEditar.setEnabled(true);
+
+		System.out.println("Edição salva.");
+	}
+
+	public static int parseIntSeguro(String texto) {
+		if (texto == null || texto.trim().isEmpty()) {
+			return 0;
+		}
+		try {
+			return Integer.parseInt(texto.trim());
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	private void setCamposEditaveis(boolean ativo) {
+		txtNomeAluno.setEditable(ativo);
+		formattedtxtDataNascimentoAluno.setEditable(ativo);
+		formattedtxtCpfAluno.setEditable(ativo);
+		formattedtxtRgAluno.setEditable(ativo);
+		txtRuaAluno.setEditable(ativo);
+		txtBairroAluno.setEditable(ativo);
+		formattedtxtNumeroCasaAluno.setEditable(ativo);
+		txtCidadeAluno.setEditable(ativo);
+		txtComplementoAluno.setEditable(ativo);
+		formattedtxtTelefoneAluno.setEditable(ativo);
+		txtEmailAluno.setEditable(ativo);
+		txtNomeResponsavel.setEditable(ativo);
+		formattedtxtTelefoneResponsavel.setEditable(ativo);
+		txtEmailResponsavel.setEditable(ativo);
+	}
+	
+	private void preencherCamposAluno(Aluno aluno, MatriculaAluno matricula) {
+		txtNomeAluno.setText(aluno.getNome());
+		formattedtxtCpfAluno.setText(aluno.getCpf());
+		formattedtxtRgAluno.setText(aluno.getRg());
+		formattedtxtDataNascimentoAluno.setText(
+			String.format("%02d/%02d/%04d", aluno.getDiaNasc(), aluno.getMesNasc(), aluno.getAnoNasc())
+		);
+		txtRuaAluno.setText(aluno.getNomeRua());
+		txtBairroAluno.setText(aluno.getNomeBairro());
+		txtCidadeAluno.setText(aluno.getNomeCidade());
+		formattedtxtNumeroCasaAluno.setText(String.valueOf(aluno.getNumeroCasa()));
+		txtComplementoAluno.setText(aluno.getComplemento());
+		formattedtxtTelefoneAluno.setText(aluno.getNumeroTelefone());
+		txtEmailAluno.setText(aluno.getEmail());
+		txtNomeResponsavel.setText(aluno.getNomeResponsavel());
+		txtEmailResponsavel.setText(aluno.getEmailResponsavel());
+		formattedtxtTelefoneResponsavel.setText(aluno.getTelefoneResponsavel());
+
+		// Preenche os campos da matrícula (série, turma e ano escolar)
+		if (matricula != null) {
+			JLabel lblSerieAluno = new JLabel("Série: " + matricula.getSerie());
+			lblSerieAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
+			lblSerieAluno.setBounds(100, 420, 150, 18);
+			add(lblSerieAluno);
+
+			JLabel lblTurmaAluno = new JLabel("Turma: " + matricula.getTurma());
+			lblTurmaAluno.setFont(new Font("Century Gothic", Font.BOLD, 12));
+			lblTurmaAluno.setBounds(260, 420, 150, 18);
+			add(lblTurmaAluno);
+
+			JLabel lblAnoEscolar = new JLabel("Ano Escolar: " + matricula.getAnoEscolar());
+			lblAnoEscolar.setFont(new Font("Century Gothic", Font.BOLD, 12));
+			lblAnoEscolar.setBounds(420, 420, 150, 18);
+			add(lblAnoEscolar);
+		}
+	}
+
+	 public void buscar(String filtro, String termo) {
+		Aluno aluno = buscarAluno(filtro, termo);
+		if (aluno == null) return;
+
+		// Preenche os campos do aluno
+		txtNomeAluno.setText(aluno.getNome());
+		formattedtxtCpfAluno.setText(aluno.getCpf());
+		formattedtxtRgAluno.setText(aluno.getRg());
+		formattedtxtDataNascimentoAluno.setText(
+			String.format("%02d/%02d/%04d", aluno.getDiaNasc(), aluno.getMesNasc(), aluno.getAnoNasc())
+		);
+		formattedtxtTelefoneAluno.setText(aluno.getNumeroTelefone());
+		formattedtxtNumeroCasaAluno.setText(String.format("%03d", aluno.getNumeroCasa()));
+		txtRuaAluno.setText(aluno.getNomeRua());
+		txtBairroAluno.setText(aluno.getNomeBairro());
+		txtCidadeAluno.setText(aluno.getNomeCidade());
+		txtComplementoAluno.setText(aluno.getComplemento());
+		//txtInativoAluno.setText(aluno.getSituacao().equalsIgnoreCase("Inativo") ? "Sim" : "Não");
+
+		// Pega os dados da matrícula
+		MatriculaAluno m = MatriculaAlunoDAO.getMatricula(aluno.getMatricula());
+		if (m != null) {
+			//txtSerieAluno.setText(m.getSerie());
+			//txtTurmaAluno.setText(m.getTurma());
+			//txtAnoEscolarAluno.setText(m.getAnoEscolar());
+		}
+
+		// Deixa os campos editáveis
+		txtNomeAluno.setEditable(true);
+		formattedtxtCpfAluno.setEditable(true);
+		formattedtxtRgAluno.setEditable(true);
+		formattedtxtDataNascimentoAluno.setEditable(true);
+		formattedtxtTelefoneAluno.setEditable(true);
+		formattedtxtNumeroCasaAluno.setEditable(true);
+		txtRuaAluno.setEditable(true);
+		txtBairroAluno.setEditable(true);
+		txtCidadeAluno.setEditable(true);
+		txtComplementoAluno.setEditable(true);
+		//txtSerieAluno.setEditable(true);
+		//txtTurmaAluno.setEditable(true);
+		//txtAnoEscolarAluno.setEditable(true);
+		//txtInativoAluno.setEditable(true);
+	}
+
+
+    public Aluno buscarAluno(String filtro, String termo) {
+        AlunoDAO dao = new AlunoDAO();
+        ArrayList<Aluno> alunos = dao.getAlunos();
+        Aluno encontrado = null;
+
+        switch (filtro) {
+            case "CPF":
+                for (Aluno a : alunos) {
+                    if (a.getCpf().equals(termo.trim())) {
+                        encontrado = a;
+                        break;
+                    }
+                }
+                break;
+            case "Nome":
+                for (Aluno a : alunos) {
+                    if (a.getNome().equalsIgnoreCase(termo.trim())) {
+                        encontrado = a;
+                        break;
+                    }
+                }
+                break;
+            case "Matrícula":
+                for (Aluno a : alunos) {
+                    if (a.getMatricula().equals(termo.trim())) {
+                        encontrado = a;
+                        break;
+                    }
+                }
+                break;
+        }
+
+        if (encontrado == null) {
+            JOptionPane.showMessageDialog(null, "Aluno não encontrado", "Erro ao procurar Aluno", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return encontrado;
+    }
+
+    public void excluirAluno(String filtro, String termo) {
+        Aluno aluno = buscarAluno(filtro, termo);
+        if (aluno == null) return;
+
+        AlunoDAO dao = new AlunoDAO();
+        dao.removerAluno(aluno.getMatricula());
+        JOptionPane.showMessageDialog(null, "Aluno excluído com sucesso!");
+    }
+
+    public void editarAluno(String filtro, String termo) {
+		AlunoDAO alunoDAO = new AlunoDAO();
+		Aluno aluno = buscarAluno(filtro, termo);
+		if (aluno == null) return;
+
+		// Atualiza dados do aluno
+		aluno.setNome(txtNomeAluno.getText());
+		aluno.setCpf(formattedtxtCpfAluno.getText());
+		aluno.setRg(formattedtxtRgAluno.getText());
+		aluno.setNumeroTelefone(formattedtxtTelefoneAluno.getText());
+		aluno.setNumeroCasa(Integer.parseInt(formattedtxtNumeroCasaAluno.getText()));
+		String[] data = formattedtxtDataNascimentoAluno.getText().split("/");
+		aluno.setDiaNasc(Integer.parseInt(data[0]));
+		aluno.setMesNasc(Integer.parseInt(data[1]));
+		aluno.setAnoNasc(Integer.parseInt(data[2]));
+		aluno.setNomeRua(txtRuaAluno.getText());
+		aluno.setNomeBairro(txtBairroAluno.getText());
+		aluno.setNomeCidade(txtCidadeAluno.getText());
+		aluno.setComplemento(txtComplementoAluno.getText());
+		// Define "Ativo" ou "Inativo" de acordo com o texto do campo
+		//aluno.setSituacao(txtInativoAluno.getText().equalsIgnoreCase("Sim") ? "Inativo" : "Ativo");
+
+		// Atualiza matrícula
+		MatriculaAluno matricula = MatriculaAlunoDAO.getMatricula(aluno.getMatricula());
+		if (matricula != null) {
+			//matricula.setSerie(txtSerieAluno.getText());
+			//matricula.setTurma(txtTurmaAluno.getText());
+			//matricula.setAnoEscolar(txtAnoEscolarAluno.getText());
+
+			MatriculaAlunoDAO.atualizar(matricula);
+		}
+
+		// Salva aluno
+		alunoDAO.editarAluno(aluno, aluno.getMatricula());
+		JOptionPane.showMessageDialog(null, "Aluno alterado com sucesso!");
+	}
+
+
 }

@@ -1,5 +1,6 @@
 package dao;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -214,27 +215,10 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
     }
 
    public static String criarMatricula(int anoAtual, String tipoUsuario) {
-    // Define prefixo baseado no tipo
-    /*String prefixo;
-    switch (tipoUsuario.toUpperCase()) {
-        case "ALUNO":
-            prefixo = "AL";
-            break;
-        case "PROFESSOR":
-            prefixo = "PR";
-            break;
-        case "ADMIN":
-            prefixo = "AD";
-            break;
-        default:
-            prefixo = "US"; // usuário genérico
-            break;
-    }*/
 
     // Lê dados do arquivo
     Map<String, String> dados = lerDados("src/dao/settings.txt");
 
-    // Cada tipo de usuário pode ter seu próprio contador!
     String chaveContador = "numeroMatricula";
     int contador = 1;
 
@@ -280,70 +264,157 @@ public static Map<String, String> lerDados(String caminhoArquivo) {
             escritor.write("codigoTurma: 0,\n");
             escritor.write("codigoAnoEscolar: 0,\n");
             escritor.write("codigoPDT: 0,\n");
+            escritor.write("codigoSerie: 0,\n");
             escritor.close();
         } catch (IOException e) {
             System.out.println("Erro ao criar arquivo settings.txt: " + e.getMessage());
         }
     }
 
-    public static String criarCodigoDisciplina() {
-        Map<String, String> dados = lerDados("src/dao/settings.txt");
-        String codigo = "";
-        if (dados == null || dados.get("codigoDisciplina") == null) {
-            criarArquivoSettingsPadrao();
-            codigo = "0";
-        } else {
-            int ultimoCodigo = Integer.parseInt(dados.get("codigoDisciplina"));
-            ultimoCodigo++;
-            codigo = String.valueOf(ultimoCodigo);
-            modificarDado("src/dao/settings.txt", "codigoDisciplina", codigo);
+   public static String criarCodigoDisciplina() {
+        String caminho = "src/dao/settings.txt";
+        File settings = new File(caminho);
+        if (!settings.exists()) {
+            try {
+                settings.getParentFile().mkdirs();
+                settings.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return codigo;
+
+        Map<String, String> dados = lerDados(caminho);
+        if (dados == null) dados = new HashMap<>();
+
+        String codigo;
+        if (!dados.containsKey("codigoDisciplina")) {
+            codigo = "0,"; // primeiro código com vírgula
+        } else {
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoDisciplina").replace(",", ""));
+            codigo = (ultimoCodigo + 1) + ","; // incrementa e adiciona vírgula
+        }
+
+        modificarDado(caminho, "codigoDisciplina", codigo);
+
+        return codigo.replace(",", ""); // retorna apenas o número
     }
+
 
     public static String criarCodigoTurma() {
-        Map<String, String> dados = lerDados("src/dao/settings.txt");
-        String codigo = "";
-        if (dados == null || dados.get("codigoTurma") == null) {
-            criarArquivoSettingsPadrao();
-            codigo = "0";
-        } else {
-            int ultimoCodigo = Integer.parseInt(dados.get("codigoTurma"));
-            ultimoCodigo++;
-            codigo = String.valueOf(ultimoCodigo);
-            modificarDado("src/dao/settings.txt", "codigoTurma", codigo);
+        String caminho = "src/dao/settings.txt";
+        File settings = new File(caminho);
+        if (!settings.exists()) {
+            try {
+                settings.getParentFile().mkdirs();
+                settings.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return codigo;
+
+        Map<String, String> dados = lerDados(caminho);
+        if (dados == null) dados = new HashMap<>();
+
+        String codigo;
+        if (!dados.containsKey("codigoTurma")) {
+            codigo = "0,"; // primeiro código com vírgula
+        } else {
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoTurma").replace(",", ""));
+            codigo = (ultimoCodigo + 1) + ","; // incrementa e adiciona vírgula
+        }
+
+        modificarDado(caminho, "codigoTurma", codigo);
+
+        return codigo.replace(",", ""); // retorna apenas o número
     }
+
 
     public static String criarCodigoAnoEscolar() {
-        Map<String, String> dados = lerDados("src/dao/settings.txt");
-        String codigo = "";
-        if (dados == null || dados.get("codigoAnoEscolar") == null) {
-            criarArquivoSettingsPadrao();
-            codigo = "0";
-        } else {
-            int ultimoCodigo = Integer.parseInt(dados.get("codigoAnoEscolar"));
-            ultimoCodigo++;
-            codigo = String.valueOf(ultimoCodigo);
-            modificarDado("src/dao/settings.txt", "codigoAnoEscolar", codigo);
+        String caminho = "src/dao/settings.txt";
+        File settings = new File(caminho);
+        if (!settings.exists()) {
+            try {
+                settings.getParentFile().mkdirs();
+                settings.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+        Map<String, String> dados = lerDados(caminho);
+        if (dados == null) dados = new HashMap<>();
+
+        String codigo;
+        if (!dados.containsKey("codigoAnoEscolar")) {
+            codigo = "0,"; // primeiro código com vírgula
+        } else {
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoAnoEscolar").replace(",", ""));
+            codigo = (ultimoCodigo + 1) + ","; // incrementa e adiciona vírgula
+        }
+
+        modificarDado(caminho, "codigoAnoEscolar", codigo);
+
+        return codigo.replace(",", ""); // retorna apenas o número
+    }
+
+
+    public static int criarCodigoProfessorDisciplinaTurma() {
+        String caminho = "src/dao/settings.txt";
+        File settings = new File(caminho);
+        if (!settings.exists()) {
+            try {
+                settings.getParentFile().mkdirs();
+                settings.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Map<String, String> dados = lerDados(caminho);
+        if (dados == null) dados = new HashMap<>();
+
+        String codigo;
+        if (!dados.containsKey("codigoPDT")) {
+            codigo = "0,"; // primeiro código com vírgula
+        } else {
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoPDT").replace(",", ""));
+            codigo = (ultimoCodigo + 1) + ","; // incrementa e adiciona vírgula
+        }
+
+        modificarDado(caminho, "codigoPDT", codigo);
+
+        return Integer.parseInt(codigo.replace(",", ""));
+    }
+
+
+    public static String criarCodigoSerie() {
+        String caminho = "src/dao/settings.txt";
+        File settings = new File(caminho);
+        if (!settings.exists()) {
+            try {
+                settings.getParentFile().mkdirs();
+                settings.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Map<String, String> dados = lerDados(caminho);
+        if (dados == null) dados = new HashMap<>();
+
+        String codigo;
+        if (!dados.containsKey("codigoSerie")) {
+            codigo = "0,"; // primeiro código com vírgula
+        } else {
+            int ultimoCodigo = Integer.parseInt(dados.get("codigoSerie").replace(",", ""));
+            codigo = (ultimoCodigo + 1) + ","; // incrementa e adiciona vírgula
+        }
+
+        // Atualiza o arquivo com o novo código
+        modificarDado(caminho, "codigoSerie", codigo);
+
         return codigo;
     }
 
-    public static int criarCodigoProfessorDisciplinaTurma() {
-        Map<String, String> dados = lerDados("src/dao/settings.txt");
-        String codigo = "";
-        if (dados == null || dados.get("codigoPDT") == null) {
-            criarArquivoSettingsPadrao();
-            codigo = "0";
-        } else {
-            int ultimoCodigo = Integer.parseInt(dados.get("codigoPDT"));
-            ultimoCodigo++;
-            codigo = String.valueOf(ultimoCodigo);
-            modificarDado("src/dao/settings.txt", "codigoPDT", codigo);
-        }
-        return Integer.parseInt(codigo);
-    }
 
 }

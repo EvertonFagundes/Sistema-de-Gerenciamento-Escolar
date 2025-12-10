@@ -1,4 +1,2 @@
-numeroMatricula: 3,
-codigoDisciplina: 4,
-codigoTurma: 0,
-codigoAnoEscolar: 12
+codigoSerie: 2,
+codigoTurma: 10,

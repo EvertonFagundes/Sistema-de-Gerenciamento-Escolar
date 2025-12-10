@@ -2,6 +2,7 @@ package dao;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import modelo.PeriodoLetivo;
 import modelo.Professor;
 
 public class AnoEscolarDAO {
+    private static final String CAMINHO = "banco/AnosEscolares/";
+
     public static void criarAnoEscolar(AnoEscolar anoEscolar){
         File diretorio = new File("banco/AnosEscolares/");
         if(!diretorio.isDirectory()){
@@ -49,7 +52,6 @@ public class AnoEscolarDAO {
         }
     }
 
-
     public static AnoEscolar getAnoEscolar(String ano){
         AnoEscolar anoEscolar = new AnoEscolar();
         String periodoLetivoTxt;
@@ -83,7 +85,6 @@ public class AnoEscolarDAO {
         return anoEscolar;
     }
 
-
     public static boolean verificaAnoEscolar(String ano){
         File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + ano + ".txt");
         if(arquivo.isFile()){
@@ -103,6 +104,7 @@ public class AnoEscolarDAO {
         }
         return anoEscolar;
     }
+    
     public static void atualizarAnoEscolar(AnoEscolar anoEscolar){
         File arquivo = new File("banco/AnosEscolares/ANOESCOLAR" + anoEscolar.getAno() + ".txt");
         try(FileWriter escritor = new FileWriter(arquivo.getPath(), false)){
@@ -135,8 +137,6 @@ public class AnoEscolarDAO {
         return false;
     }
 
-
-
     public static ArrayList<AnoEscolar> listarTodos(){
         ArrayList<AnoEscolar> lista = new ArrayList<>();
 
@@ -162,5 +162,50 @@ public class AnoEscolarDAO {
 
         return lista;
     }
+    
+    public static AnoEscolar getAnoEscolarAtivo() {
+        File pasta = new File("banco/AnosEscolares/");
+        if (!pasta.exists()) pasta.mkdirs();
+
+        File[] arquivos = pasta.listFiles();
+
+        if (arquivos != null) {
+            for (File f : arquivos) {
+                try {
+                    Map<String, String> dados = Services.lerDados(f.getPath());
+                    String inativo = dados.get("inativo");
+                    if (inativo == null || inativo.equalsIgnoreCase("false")) {
+                        AnoEscolar anoEscolar = new AnoEscolar();
+                        anoEscolar.setAno(Integer.parseInt(dados.get("ano")));
+                        anoEscolar.setCodigo(dados.get("codigo"));
+                        return anoEscolar;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Nenhum ano escolar ativo encontrado, cria padrão
+        AnoEscolar anoPadrao = new AnoEscolar();
+        ArrayList<PeriodoLetivo> periodoLetivos = new ArrayList<>();
+        periodoLetivos.add(new PeriodoLetivo("1 semestre"));
+        periodoLetivos.add(new PeriodoLetivo("2 semestre"));
+        anoPadrao.setAno(LocalDate.now().getYear());
+        anoPadrao.setSituacao(true);
+        anoPadrao.setPeriodoLetivo(periodoLetivos);
+
+        String codigoGerado = Services.criarCodigoAnoEscolar();
+        anoPadrao.setCodigo(codigoGerado);
+
+        // Atualiza settings.txt usando o método que você mostrou
+        Services.modificarDado("src/dao/settings.txt", "codigoAnoEscolar", codigoGerado);
+
+        criarAnoEscolar(anoPadrao); // salva automaticamente
+        return anoPadrao;
+    }
+
+
+
 
 }
